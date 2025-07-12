@@ -1,50 +1,40 @@
-#!/bin/zsh
+#!/bin/bash
 
-# Exit if anything fails
+# Exit on error
 set -e
 
-# Don't allow running from gh-pages
-if [ "$(git branch --show-current)" = "gh-pages" ]; then
-  echo "🚫 Don't run this script from gh-pages. Switch to main first."
-  exit 1
-fi
-
 echo "🔨 Rendering site with R..."
-Rscript -e "rmarkdown::render_site()"
+Rscript -e "rmarkdown::render_site('Stats-Notebook-Seaman')"
 
-echo "🚀 Deploying to gh-pages..."
+echo "🧹 Cleaning up old .html files from main..."
+find Stats-Notebook-Seaman -name "*.html" -delete
 
-# Save current branch
-CURRENT_BRANCH=$(git branch --show-current)
+echo "📦 Stashing HTML output before switching branches..."
+git stash push --include-untracked -- Stats-Notebook-Seaman/*.html
 
-# Create or switch to gh-pages branch
-if git show-ref --quiet refs/heads/gh-pages; then
-  git switch gh-pages
-else
-  git checkout --orphan gh-pages
-  git reset --hard
-fi
+echo "🔄 Switching to gh-pages branch..."
+git checkout gh-pages
 
-# Clear everything in gh-pages branch
+echo "🧹 Clearing old gh-pages contents..."
 git rm -rf . > /dev/null 2>&1 || true
 
-# Copy from root folder since output_dir: "." is set
-cp -r . ../site-temp
-rm -rf ./*
-cp -r ../site-temp/* .
-rm -rf ../site-temp
+echo "📂 Restoring HTML from stash..."
+git checkout stash -- Stats-Notebook-Seaman
 
-# Remove files we don’t want to deploy
-rm -f deploy_rmd_site.sh
-rm -f _site.yml
-find . -name "*.Rmd" -delete
+echo "📄 Moving HTML files to root (optional: adjust path)..."
+mv Stats-Notebook-Seaman/*.html .
 
-# Stage and commit
+echo "🗑️ Cleaning up working copy..."
+rm -rf Stats-Notebook-Seaman
+
+echo "✅ Committing changes to gh-pages..."
 git add .
-git commit -m "Deploy site update: $(date '+%Y-%m-%d %H:%M:%S')"
-git push origin gh-pages --force
+git commit -m "Deploy site"
 
-# Switch back to original branch
-git switch "$CURRENT_BRANCH"
+echo "🚀 Pushing to origin/gh-pages..."
+git push origin gh-pages
 
-echo "✅ Deployment complete. Back on $CURRENT_BRANCH."
+echo "🔙 Switching back to main..."
+git checkout main
+
+echo "✅ Deployment complete."
