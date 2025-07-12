@@ -1,0 +1,297 @@
+---
+title: "Rent"
+output: 
+  html_document:
+    theme: spacelab
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+```{=html}
+<!-- 
+Welcome to the first Analysis for Math 325! 
+The goal of this first assignment is to have you produce a graphical summary and a numerical summary of the "Rent" data set. The fun part is that you get to decide what type of graph and what type of numerical summary to create! 
+
+You will need to read through the "green text" instructions of this document to find the places where you are supposed to enter R-code in order to complete the assignment. 
+-->
+```
+
+**Week 1 Analysis**
+<hr style="border: 1px solid black;">
+
+```{r, message=FALSE, warning=FALSE}
+# This gray area is called an "R-chunk". 
+# These library commands install some powerful functions for your use later on.
+library(mosaic)
+library(pander)
+library(tidyverse)
+library(DT) 
+library(ggplot2)
+library(tidyr)
+library(corrplot)
+
+# This read_csv command reads in the "Rent" data set into an object called "Rent"
+Rent <- read_csv("../Data/Rent.csv")
+
+# To load this data set into your R-Console do the following:
+#  1. From your top file menu select "Session -> Set Working Directory -> To Source File Location"
+#  2. Press the green "play button" in the top right corner of this gray box (which is called an "R-chunk").
+#  3. Then in your "Console" window of 
+```
+
+# Background
+Here is a data table showing the available approved housing apartment options at BYU-Idaho for single students. There are 110 entries comprising 54 female and 56 male apartment options.
+
+```{r, warning=FALSE}
+# Code to get you started. 
+# View(...) works great in the Console, but datatable(...) must be
+# used instead within an R-chunk.
+
+datatable(Rent, options=list(lengthMenu = c(3,10,30)), extensions="Responsive")
+```
+
+# Filtered Data
+A researcher on the team has personally lived in these three apartment complexes. As a starting point, and by no means with the intent to provide a final determination, by looking at select data for these complexes perhaps a potential trend worth further research may arise. 
+
+Note: the team member aforementioned is male, however for consistency both male and female residents are counted especially given that the parking spaces are provided without distinction related to gender.
+```{r}
+# Filtered variables
+
+## New Apartment Names (3)
+names_LIST <- c("NORTHPOINT", "SUNDANCE", "WINDSOR MANOR")
+
+#m <- " - MEN"
+#w <- " - WOMEN"
+
+## Name (3)
+name_1_M <- "NORTHPOINT - MEN"
+name_1_W <- "NORTHPOINT - WOMEN"
+NORTHPOINT <- c(name_1_M, name_1_W)
+
+name_2_M <- "SUNDANCE - MEN"
+name_2_W <- "SUNDANCE - WOMEN"
+SUNDANCE <- c(name_2_M, name_2_W)
+
+name_3_M <- "WINDSOR MANOR - MEN"
+name_3_W <- "WINDSOR MANOR- WOMEN"
+WINDSOR <- c(name_3_M, name_3_W)
+
+
+
+## Resident
+residents_LIST <- c(
+  residents_1 <- sum(Rent$Residents[Rent$Name %in% NORTHPOINT]),
+  residents_2 <- sum(Rent$Residents[Rent$Name %in% SUNDANCE]),
+  residents_3 <- sum(Rent$Residents[Rent$Name %in% WINDSOR])
+)
+
+## Parking Spaces
+ParkingSpaces_LIST <- c(
+  sum(Rent$ParkingSpaces[Rent$Name == name_1_M]),
+  sum(Rent$ParkingSpaces[Rent$Name == name_2_M]),
+  sum(Rent$ParkingSpaces[Rent$Name == name_3_M])
+)
+
+## Avg of AvgFloorPlanCost
+AvgFloorPlanCost_LIST <- c(
+  AvgFloorPlanCost_1 <- round(mean(Rent$AvgFloorPlanCost[Rent$Name %in% NORTHPOINT]), digits=0),
+  AvgFloorPlanCost_2 <- round(mean(Rent$AvgFloorPlanCost[Rent$Name %in% SUNDANCE]), digits=0),
+  AvgFloorPlanCost_3 <- round(mean(Rent$AvgFloorPlanCost[Rent$Name %in% WINDSOR]), digits=0)
+)
+## Avg MaxFloorPlanCost
+AvgMaxFloorPlanCost_LIST <- c(
+  MaxFloorPlanCost_1 <- round(mean(Rent$MaxFloorPlanCost[Rent$Name %in% NORTHPOINT]), digits=0),
+  MaxFloorPlanCost_2 <- round(mean(Rent$MaxFloorPlanCost[Rent$Name %in% SUNDANCE]), digits=0),
+  MaxFloorPlanCost_3 <- round(mean(Rent$MaxFloorPlanCost[Rent$Name %in% WINDSOR]), digits=0)
+)
+
+
+# Construct custom DataFrame
+Rent_2 <- data.frame(
+  Apartment = names_LIST,
+  TotalResidents = residents_LIST,
+  ParkingSpaces = ParkingSpaces_LIST,
+  AvgFloorPlanCost = AvgFloorPlanCost_LIST,
+  MaxFloorPlanCost = AvgMaxFloorPlanCost_LIST
+)
+
+
+# Display table of selected apartments
+datatable(Rent_2, options=list(lengthMenu = c(3,2,1)), extensions="Responsive")
+```
+
+</br>
+
+# Graphics
+Below are two graphics which aim to illicit potential relationships between the selected variables included in the filtered data.
+
+<!-- Present an interesting graphic using the Rent data set. Do not create the same graphics that are shown in the [Good Example Analysis](./Analyses/StudentHousing.html), but you can certainly use those graphics as a guide to inspire you on what to do yourself. -->
+
+</br>
+
+## Graphic 1
+```{r}
+# Use this R-chunk to...
+# ...Create an interesting graphic using the Rent data set.
+
+
+##————————————————————————————————————————————————————————————————————
+## Graphic 2:
+##————————————————————————————————————————————————————————————————————
+
+# Scatter plot with separate legends
+ggplot(Rent_2, aes(x = ParkingSpaces, y = TotalResidents)) +
+  geom_point(aes(size = ParkingSpaces, color = Apartment)) +
+  theme_minimal() +
+  labs(
+    title = "Residents and Parking Spaces by Apartment",
+    x = "Parking Spaces",
+    y = "Number of Residents",
+    size = "Parking Spaces",
+    color = "Apartment"
+  ) +
+  guides(
+    size = guide_legend(order = 1, position = "top"),               # Parking Spaces legend stays on top
+    color = guide_legend(order = 2, position = "right")  # Apartment legend moves to the right
+  )
+```
+
+
+<!-- Write a few statements here that explain your graphic and what it shows. -->
+
+From the perspective of a given party certain accommodations or amenities given a select price point seem reasonable such as adequate parking spaces by total residents. However, perhaps despite these accommodations seeming reasonable, circumstances may not allow for their availability. For example, after an apartment complex is constructed and other buildings crowd the area increasing resident or parking capacity becomes limited.
+
+Two concurrent shortages exist in Rexburg: housing and parking. Two things may be of interest to students. First, the correlation between parking availability and total residents at a given apartment complex. Second, possible further correlation with rent pricing.
+
+In Graphic 1, it appears total residents and parking spaces share a negative exponential relationship in this case where fewer parking spaces are available per resident. The next question to answer however is what might be the resulting relationship this potential correlation has with rent prices?
+
+</br>
+
+## Graphic 2
+```{r}
+##————————————————————————————————————————————————————————————————————
+## Graphic 2:
+##————————————————————————————————————————————————————————————————————
+
+### Reshape the data to a long format for AvgFloorPlanCost and MaxFloorPlanCost
+Rent_2_long <- Rent_2 %>%
+  pivot_longer(
+    cols = c(AvgFloorPlanCost, MaxFloorPlanCost),
+    names_to = "CostType",
+    values_to = "Cost"
+  )
+
+### Bar chart for AvgFloorPlanCost and MaxFloorPlanCost by Apartment
+ggplot(Rent_2_long, aes(x = Apartment, y = Cost, fill = CostType)) +
+  geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
+  geom_text(data = Rent_2_long, 
+            aes(x = Apartment, y = 1670, label = paste0("$", Cost)), 
+            position = position_dodge(width = 0.9), 
+            size = 4, color = "black", fontface = "bold") + # Adds values at y=1650
+  theme_minimal() +
+  labs(
+    title = "Floor Plan Costs by Apartment",
+    x = "Apartment Name",
+    y = "Floor Plan Cost",
+    fill = "Cost Type"
+  ) +
+  coord_cartesian(ylim = c(1500, NA)) +
+  theme(legend.position = "top")
+```
+
+
+<!-- Write a few statements here that explain your graphic (1) and what it shows. -->
+
+Unexpectedly, despite Northpoint and Sundance having more resident and more parking spaces than Windsor manor the average floor plan cost is lower for the pair by approximately \$106. Then again, unexpectedly, the average maximum floor plan cost for Sundance remains very close to the average floor plan cost being just \$30 more expensive, yet approximately \$87 less than either Northpoint or Windsor Manor which is odd being that Sundance has middling values for both total residents and parking spaces when the three complexes are compared. Lastly, as we might have expected Northpoint has the highest average max floor plan cost of the three but one would need to take into account how many of the max priced contracts are being sold on average per semester. That figure is not included in this dataset.
+
+</br>
+
+# Numerical Summaries
+
+```{r}
+# Use this R-chunk to...
+# ...compute and display a meaningful table of numerical summaries supporting your above graphic.
+
+
+# Create the Rent data frame (as an example, replace with your actual data)
+Rent <- data.frame(
+  Apartment = c("NORTHPOINT", "SUNDANCE", "WINDSOR MANOR"),
+  AvgFloorPlanCost = c(Rent_2$AvgFloorPlanCost),
+  MaxFloorPlanCost = c(Rent_2$MaxFloorPlanCost),
+  Residents = c(Rent_2$TotalResidents),
+  ParkingSpaces = c(Rent_2$ParkingSpaces)
+)
+
+# Step 1: Calculate averages for the selected columns
+columns <- c("AvgFloorPlanCost", "MaxFloorPlanCost", "Residents", 
+             "ParkingSpaces")
+averages <- sapply(columns, function(col) round(mean(Rent[[col]], na.rm = TRUE), digits = 0))
+
+# Create a data frame for averages
+tableOfAverages <- data.frame(
+  Variable = names(averages),
+  Average = averages,
+  row.names = NULL
+)
+
+# Step 2: Add columns for each apartment complex
+apartment_names <- Rent$Apartment
+
+# Add the columns dynamically
+for (apartment in apartment_names) {
+  # Get the values for the current apartment
+  apartment_values <- Rent[Rent$Apartment == apartment, columns]
+  # Align with the rows of the averages
+  tableOfAverages[[apartment]] <- unlist(apartment_values[1, , drop = TRUE]) # Use `unlist` to flatten to a vector
+}
+
+# Step 3: Fill blanks for missing data (if any column had no data)
+tableOfAverages[is.na(tableOfAverages)] <- ""
+
+# Step 4: Pipe in calculated deviation from the average by apartment
+tableOfAverages_2 <- tableOfAverages %>%
+  mutate(
+    Deviation_NORTHPOINT = NORTHPOINT - Average,
+    Deviation_SUNDANCE = SUNDANCE - Average,
+    Deviation_WINDSOR_MANOR = `WINDSOR MANOR` - Average
+  )
+
+datatable(
+  tableOfAverages_2, 
+  options = list(
+    lengthMenu = c(4,3,2,1),
+    scrollX = TRUE,        # Enable horizontal scrolling
+    fixedColumns = TRUE,   # Enable fixed columns
+    columnDefs = list(
+      list(className = 'dt-left', targets = 0) # Align the first column to the left
+    )
+  )
+)
+```
+
+<!-- Write a few statements here that introduce your table of numerical summaries and what they show. -->
+
+Now, comparing select variables from the original data on average against the averages calculated for the three apartment complexes we can then see just how much each apartment deviates from the total average to get a sense of it's relative holistic position.
+
+Regarding the *AvgFloorPlanCost*, Northpoint and Sundance are unsuprisingly below the total average whereas Windsor Manor is above at twice the deviation amount.
+
+Regarding the *MaxFloorPlanCost*—taken as an average of mens' and women's housing at the same complex—Northpoint unsuprisingly sits above the average but so does Windsor Manor despite housing only 29% of Northpoint's total resident capacity and 44% of Sundance's total resident capacity. In contract, Sundance is below the total average and more than twice the deviation of Windsor Manor.
+
+Regarding *Residents* as shown in *Graphic 1*, of the three focus apartment complexes Northpoint has the most followed by Sundance and trailed by Windsor Manor. However, the value of each contract at Windsor manor appears to not be worth quite as much when considering quality of life accomodations such as parking spaces.
+
+Regarding *ParkingSpaces*, 
+
+</br>
+
+# Conclusion
+
+```{r}
+# Move on
+```
+
+</br>
+
+# Disclosures
+**The Role of Large Language Models** </br> </br>
+<a href="https://openai.com">Chat GPT 4.0</a> was used in the development of the code involved in this report. However, the written content is of the authorship of the research team.

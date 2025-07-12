@@ -1,0 +1,364 @@
+---
+title: "High School Seniors t Test"
+author: "Andrew Seaman"
+date: "2025-05-18"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+# SETUP
+
+<!-- ============================= -->
+<!--            SETUP              -->
+<!-- ============================= -->
+
+<!-- . -->
+
+<!-- CHUNK #1 -->
+<!-- Library and data imports -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Library imports
+library(tidyverse)
+library(DT)
+library(pander)
+library(readr)
+
+# Data import
+HSS <- read_csv("../../Data/HighSchoolSeniors.csv")
+```
+
+<!-- SECTION END: SETUP -->
+<!-- .................. -->
+
+
+
+
+
+# INSTRUCTIONS
+
+<!-- ============================= -->
+<!--          INSTRUCTIONS         -->
+<!-- ============================= -->
+
+<!-- . -->
+
+<!--CHUNK #1 -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Instructions:
+
+# 1. Use the HSS dataset in R to come up with a question that can be answered with a t Test. 
+# 
+# Here is a link to the survey given to the students that participated in the study:
+# https://ww2.amstat.org/censusatschool/pdfs/C@SQuestionnaire.pdf
+# (Use the link to learn about what each column of data in the data set represents.)
+# 
+# 2. Establish why your question is interesting and rephrase the question using a statistical "null" and "alternative" hypothesis. (Hint: see the "Math 325 Notebook -> R Help -> R-Markdown Hints" page of your textbook for instructions on how to write mathematical hypotheses.)
+# 
+# 3. Clearly answer your question using statistics. Be sure to compute a p-value and provide supporting numerical and graphical summaries. If your conclusions don't have numbers in them, they likely are not detailed enough to be meaningful conclusions.
+# 
+# Note: you can create "groups" from the data in many ways. For example, suppose you wanted to create a variable that grouped people according to whether they thought recycling was more important than conserving water. You could do this by:
+# 
+# ```{r}
+# HSS <- HSS %>%
+#   mutate(recycling_than_water = ifelse(Importance_recycling_rubbish >	Importance_conserving_water, "Recycling More Important", "Water Conservation More Important"))
+# ```
+# 
+# 4. Include Q-Q Plots checking the normality of the data and discuss if the requirements of the test are satisfied for your data or not. Note that Q-Q Plots are not graphics, they are diagnostic plots diagnosing the normality of the data.
+```
+
+<!-- SECTION END: INSTRUCTIONS -->
+<!-- ......................... -->
+
+
+
+
+
+# DATA EXPLORATION
+
+<!-- ============================= -->
+<!--        DATA EXPLORATION       -->
+<!-- ============================= -->
+
+<!-- . -->
+
+<!-- CHUNK #1 -->
+<!-- Column names by category -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Column names (60) by category (9):
+
+# -----------------------------
+# Demographic Information
+# -----------------------------
+# Country
+# Region
+# DataYear
+# ClassGrade
+# Gender
+# Ageyears
+# Birth_month
+
+# -----------------------------
+# Physical Characteristics
+# -----------------------------
+# Handed
+# Height_cm
+# Footlength_cm
+# Left_Footlength_cm
+# Longer_foot
+# Armspan_cm
+# Index_Fingerlength_mm
+# Ring_Fingerlength_mm
+# Longer_Finger_Lefthand
+
+# -----------------------------
+# Language & Travel
+# -----------------------------
+# Languages_spoken
+# Travel_to_School
+# Travel_time_to_School
+
+# -----------------------------
+# Cognitive Skills & Preferences
+# -----------------------------
+# Reaction_time
+# Score_in_memory_game
+# Favourite_physical_activity
+# Favorite_School_Subject
+# Favorite_Season
+# Favorite_Food
+# Beverage
+# Favorite_Music
+# Superpower
+# Preferred_Status
+# Role_Model_Type
+
+# -----------------------------
+# Environmental Awareness
+# -----------------------------
+# Importance_reducing_pollution
+# Importance_recycling_rubbish
+# Importance_conserving_water
+# Importance_saving_energy
+# Importance_owning_computer
+# Importance_Internet_access
+
+# -----------------------------
+# Lifestyle & Health
+# -----------------------------
+# Allergies
+# Vegetarian
+# Sleep_Hours_Schoolnight
+# Sleep_Hours_Non_Schoolnight
+# Home_Occupants
+# Home_Internet_Access
+
+# -----------------------------
+# Social & Communication
+# -----------------------------
+# Communication_With_Friends
+# Text_Messages_Sent_Yesterday
+# Text_Messages_Received_Yesterday
+# Hanging_Out_With_Friends_Hours
+# Talking_On_Phone_Hours
+# Texting_Messaging_Hours
+# Social_Websites_Hours
+
+# -----------------------------
+# Daily Activities (Hours)
+# -----------------------------
+# Doing_Homework_Hours
+# Doing_Things_With_Family_Hours
+# Outdoor_Activities_Hours
+# Video_Games_Hours
+# Computer_Use_Hours
+# Watching_TV_Hours
+# Paid_Work_Hours
+# Work_At_Home_Hours
+
+# -----------------------------
+# Academic & Aspirations
+# -----------------------------
+# Schoolwork_Pressure
+# Planned_Education_Level
+# Charity_Donation     
+```
+
+<!-- CHUNK #2 -->
+<!-- Focus Columns (2) -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Focus columns:
+#     1. Categorical Variable: 'Favourite_physical_activity'
+#     2. Quantitative Variable: 'Score_in_memory_game'
+```
+
+<!-- CHUNK #3 -->
+<!-- New dataframe: focus columns (2) alone -->
+```{r, echo=FALSE}
+# New dataframe: focus columns (2) alone
+# Select and rename two columns for later graphing.
+HSS2 <- HSS %>%
+  select(
+    memory = Score_in_memory_game,
+    activity = Favourite_physical_activity
+  )
+```
+
+<!-- CHUNK #4 -->
+<!-- Scatterplot: focus columns (all activities: 'Favourite_physical_activity') -->
+```{r, echo=FALSE}
+# Scatterplot: focus columns (all activities: 'Favourite_physical_activity')
+(
+  ggplot(HSS2, aes(y = activity, x = memory, color = activity))
+    + geom_point()
+    + theme(
+      legend.position = "none"
+    )
+)
+```
+
+<!-- CHUNK #5 -->
+<!-- Boxplot: focus columns (all activities: 'Favourite_physical_activity') -->
+```{r, echo=FALSE}
+# Boxplot:
+#   - All activities from 'Favourite_physical_activity'
+(
+  ggplot(HSS2, aes(y = activity, x = memory, color = activity))
+    + geom_boxplot()
+    + theme(
+      legend.position = "none"
+    )
+)
+```
+
+<!-- CHUNK #6 -->
+<!-- . -->
+```{r, echo=FALSE}
+# 
+
+```
+
+<!-- CHUNK #7 -->
+<!-- . -->
+```{r, echo=FALSE}
+# 
+
+```
+
+<!-- CHUNK #8 -->
+<!-- . -->
+```{r, echo=FALSE}
+# 
+
+```
+
+<!-- CHUNK #9 -->
+<!-- . -->
+```{r, echo=FALSE}
+# 
+
+```
+
+<!-- CHUNK #10 -->
+<!-- . -->
+```{r, echo=FALSE}
+# 
+
+```
+
+<!-- SECTION END: DATA EXPLORATION -->
+<!-- ............................. -->
+
+
+
+
+
+<!-- ============================= -->
+<!--            ANALYSIS           -->
+<!-- ============================= -->
+
+<!-- . -->
+
+# ANALYSIS
+
+<!-- CHUNK #1 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #2 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #3 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #4 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #5 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #6 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #7 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #8 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #9 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #10 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- SECTION END: ANALYSIS -->
+<!-- ..................... -->
+
+
+
+
+
+<!-- .......................................... -->
+<!-- DOCUMENT END: 'High School Seniors t Test' -->
+<!-- .......................................... -->

@@ -1,0 +1,153 @@
+---
+title: "External Links"
+author: "Andrew Seaman"
+date: "2025-Feb-05"
+output:
+  html_document:
+    theme: cerulean
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+----
+
+<!-- Page explanation -->
+These resources lead to additional information for further education related to development in R with RStudio as well in understanding Statistics deeply through model demonstrations and useful interactive tools.
+
+
+
+
+
+<!-- Tabset Buttons: 'All', 'BYU—Idaho', 'R & RStudio', 'Packages' -->
+## {.tabset .tabset-pills .tabset-fade}
+<!-- ============================================================ -->
+<!-- ALL -->
+<!-- ============================================================ -->
+### All
+
+----
+
+<!-- ———————————————————————————————————————————————————————————— -->
+<!--    Level 2.1 -->
+#### BYU—Idaho
+
+<!--       Text 2.1.1 -->
+1. **Demos**
+<!--       Object 2.1.1.1 -->
+
+   * [Stats Class Demos](https://shiny.byui.edu/StatClass/)
+
+<!--       Text 2.1.2 -->
+2. **Interactive Tools**
+<!--       Object 2.1.2.1 -->
+
+   * [Normal Probability Applet](https://byuimath.com/apps/normprob.html)
+
+<!--       Text 2.1.3 -->
+3. **Course Sites**
+<!--       Object 2.1.3.1 -->
+   * [ Introduction to Statistics (MATH 221)](https://byuistats.github.io/BYUI_M221_Book/)
+
+----
+
+<!--    Level 2.2 -->
+#### R & RStudio 
+
+<!--       Text 2.2.1 -->
+1. **R Sites**
+<!--          Object 2.2.1.1 -->
+    
+   * [R Markdown Websites](https://rmarkdown.rstudio.com/lesson-13.html)
+   
+----
+
+<!--    Level 2.3 -->
+#### Packages
+
+<!--       Text 2.3.1 -->
+1. **ggplot2**
+<!--          Object 2.3.1.1 -->
+      
+   * [Henry Wang](https://henrywang.nl/ggplot2-theme-elements-demonstration/)
+
+<!-- ———————————————————————————————————————————————————————————— -->   
+
+
+
+
+
+<!-- ============================================================ -->
+<!-- BYU—Idaho -->
+<!-- ============================================================ -->
+### BYU—Idaho
+
+----
+
+<!--    Level 2.1 -->
+#### BYU—Idaho
+
+<!--       Text 2.1.1 -->
+1. **Demos**
+<!--       Object 2.1.1.1 -->
+
+   * [Stats Class Demos](https://shiny.byui.edu/StatClass/)
+
+<!--       Text 2.1.2 -->
+2. **Interactive Tools**
+<!--       Object 2.1.2.1 -->
+
+   * [Normal Probability Applet](https://byuimath.com/apps/normprob.html)
+
+<!--       Text 2.1.3 -->
+3. **Course Sites**
+<!--       Object 2.1.3.1 -->
+   * [Introduction to Statistics (MATH 221)](https://byuistats.github.io/BYUI_M221_Book/)
+
+
+
+
+
+<!-- ============================================================ -->
+<!-- R & RStudio -->
+<!-- ============================================================ -->
+### R & RStudio
+
+----
+
+<!--    Level 2.2 -->
+#### R & RStudio
+
+<!--       Text 2.2.1 -->
+1. **R Sites**
+<!--          Object 2.2.1.1 -->
+    
+   * [R Markdown Websites](https://rmarkdown.rstudio.com/lesson-13.html)
+
+
+
+
+
+<!-- ============================================================ -->
+<!-- Packages -->
+<!-- ============================================================ -->
+### Packages
+
+----
+
+<!--    Level 2.3 -->
+#### Packages
+
+<!--       Text 2.3.1 -->
+1. **ggplot2**
+<!--          Object 2.3.1.1 -->
+      
+   * [Henry Wang](https://henrywang.nl/ggplot2-theme-elements-demonstration/)
+
+
+
+##
+
+
+

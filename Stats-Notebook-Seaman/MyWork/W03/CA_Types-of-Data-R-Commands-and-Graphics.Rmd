@@ -1,0 +1,718 @@
+---
+title: "Types of Data, R Commands, and Graphics"
+subtitle: "Class Activity"
+author: "Andrew Seaman"
+date: "2025-Jan-23"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(tidyverse)
+library(pander)
+library(DT)
+library(dplyr)
+library(ggplot2)
+
+# Load data
+KidsFeet <- KidsFeet
+```
+
+----
+
+## Useful with Numerical or Categorical Data?
+*Consider each of the following R Commands and explain if they would best be used with Quantitative data or Categorical data.*
+
+----
+
+<!-- ===================================================================== -->
+<BR />
+
+#### a. table(...)
+Best used with categorical data to see quantitative data ordered.
+
+###### Example: 
+```{r}
+# Example:
+
+table(KidsFeet$birthmonth)
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### b. group_by(...)
+Best used on numerical data using categorical data to apply the aggregate function to distinct groups.
+
+###### Example: 
+```{r}
+# Example:
+
+df_group_by <- KidsFeet %>% 
+  group_by(sex) %>% 
+  summarise(
+    calculation = mean(width)
+  )
+
+pander(df_group_by)
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### c. summarise(...)
+Best used on numerical data.
+
+###### Example: 
+```{r}
+# Example:
+
+df_summarize <- KidsFeet %>% 
+  group_by(sex) %>% 
+  summarize(
+    MedianLength = median(length, na.rm = TRUE), 
+    MedianWidth = median(width, na.rm = TRUE)
+  ) 
+
+pander(df_summarize)
+```
+
+<BR />
+<BR />
+
+
+
+
+
+## Which Data for Which Chart?
+*Consider each of the following Graphics and explain which use Quantitative data, which use Categorical data, and which use both data.*
+
+----
+
+<!-- ===================================================================== -->
+<BR />
+
+#### a. Histogram
+* **Data:** Numerical Only
+
+###### Example:
+```{r}
+# Example:
+
+KidsFeet %>% 
+  ggplot(aes(x=birthmonth))+
+  geom_histogram(binwidth = 1, color = "white", fill = "forestgreen") +
+  labs(
+    title = "Histogram",
+    x = "Birthmonth",
+    y = "Count"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 30
+    ),
+    axis.title.x = element_text(
+      size  = 13
+    ),
+    axis.title.y = element_text(
+      size = 13
+    ),
+    axis.text = element_text(
+      size = 13
+    )
+  )
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### b. Boxplot
+* **Data:** Numerical & Categorical
+
+
+###### Example:
+```{r}
+# Example:
+
+KidsFeet %>% 
+  ggplot(aes(x = biggerfoot, y = length, fill = biggerfoot)) +
+  geom_boxplot(width = 0.5) +
+  scale_fill_manual(values = c("L" = "blueviolet", "R" = "goldenrod")) +
+  scale_x_discrete(labels = c("L" = "Left", "R" = "Right")) + 
+  labs(
+    title = "Boxplot", 
+    x = "Bigger Foot",
+    y = "Foot Length"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 30
+    ),
+    axis.title.x = element_text(
+      size  = 17
+    ),
+    axis.title.y = element_text(
+      size = 17
+    ),
+    axis.text = element_text(
+      size = 17
+    )
+  )
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### c. Dot plot
+* **Data:** Numerical & Categorical
+
+###### Example:
+```{r, message=FALSE}
+# Example:
+
+KidsFeet %>% 
+  ggplot(aes(x = length, y = biggerfoot, fill = biggerfoot)) +
+  geom_dotplot(dotsize = .5) +
+  scale_fill_manual(values = c("L" = "tomato2", "R" = "springgreen")) +
+  scale_y_discrete(labels = c("L" = "Left", "R" = "Right")) +
+  labs(
+    title = "Dot Plot",
+    x = "Foot Length",
+    y = "Bigger Foot"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 30
+    ),
+    axis.title.x = element_text(
+      size  = 17
+    ),
+    axis.title.y = element_text(
+      size = 17
+    ),
+    axis.text = element_text(
+      size = 17
+    )
+  )
+
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### d. Scatterplot
+* **Data:** Numerical Only
+
+###### Example:
+```{r, message = FALSE}
+# Example:
+
+KidsFeet %>% 
+  ggplot(aes(x = length, y = width)) +
+  geom_point(pch = 1, color = "red", size = 2, stroke = 1.5) +
+  geom_smooth(method = "lm", linetype = "dashed", color = "gold3", alpha = .1) +
+  labs(
+    title = "Scatterplot",
+    x = "Foot Length",
+    y = "Foot Width"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 30
+    ),
+    axis.title.x = element_text(
+      size  = 17
+    ),
+    axis.title.y = element_text(
+      size = 17
+    ),
+    axis.text = element_text(
+      size = 17
+    )
+  )
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### e. Bar plot
+* **Data:** 
+  * <u>e1.</u> Categorical & Numerical (for bar height); or
+  * <u>e2.</u> Categorical only (if showing frequency)
+
+###### Example e1:
+```{r}
+# Example e1:
+
+KidsFeet %>% 
+  group_by(domhand) %>% 
+  summarise(Average_Width = mean(width, na.rm = TRUE)) %>% 
+  ggplot(aes(x = domhand, y = Average_Width, fill = domhand)) +
+  geom_col(width = .2) +
+  scale_fill_manual(values  = c("L" = "violet", "R" = "turquoise")) +
+  scale_x_discrete(labels = c("L" = "Left", "R" = "Right")) +
+  labs(
+    title = "Bar Plot (Categorical & Numerical)",
+    x = "Dominant Hand",
+    y = "Average Foot Width"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 25
+    ),
+    axis.title.x = element_text(
+      size  = 17
+    ),
+    axis.title.y = element_text(
+      size = 17
+    ),
+    axis.text = element_text(
+      size = 17
+    )
+  )
+
+```
+
+###### Example e2:
+```{r}
+# Example e2:
+
+KidsFeet %>% 
+  ggplot(aes(x = domhand, fill = domhand)) +
+  geom_bar(width = .2) +
+  scale_x_discrete(labels = c("L" = "Left", "R" = "Right")) + 
+  labs(
+    title = "Bar Plot (Categorical Only)",
+    x = "Dominant Hand",
+    y = "Count"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 30,
+      color = "white"
+    ),
+    axis.title.x = element_text(
+      size  = 17,
+      color = "white"
+    ),
+    axis.title.y = element_text(
+      size = 17,
+      color = "white"
+    ),
+    axis.text = element_text(
+      size = 13,
+      color = "white"
+    ),
+    legend.position = "none",
+    plot.background = element_rect(
+      # color = "black",
+      # linewidth = 0.2,
+      # fill = "lightgray",
+      alpha("black", alpha = 0.9)
+    )
+  #   plot.margin = margin(20, 20, 20, 20)  # Top, Right, Bottom, Left padding
+  )
+```
+
+<BR />
+<BR />
+
+
+
+
+
+## Answer the Question with Data and Graphics
+
+*Identify the (1) type of data, (2) R Commands, and (3) Graphic that could be used to answer each of the following questions.*
+
+----
+
+<!-- ===================================================================== -->
+<BR />
+
+#### a. Does the width of a child's foot predict whether or not they are right-handed?
+* **Data:** Numerical and Categorical
+* **Graphic:** Boxplot
+
+###### Example:
+```{r}
+# Example:
+
+KidsFeet %>% 
+  ggplot(aes(x = domhand, y = width, fill = domhand)) +
+  geom_boxplot(width = .5) +
+  scale_fill_manual(values = c("L" = "darkorange2", "R" = "deepskyblue")) +
+  scale_x_discrete(labels = c("L" = "Left", "R" = "Right")) +
+  labs(
+    title = "Does Foot Width Predict Handedness?",
+    x = "Dominant Hand",
+    y = "Foot Width"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 20
+    ),
+    axis.title.x = element_text(
+      size  = 17
+    ),
+    axis.title.y = element_text(
+      size = 17
+    ),
+    axis.text = element_text(
+      size = 13
+    )
+  )
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### b. Is one gender more likely to be born in certain seasons of the year?
+* **Data:** Categorical & Numerical
+* **Graphic:** Bargraph
+
+###### Example:
+```{r}
+# Example:
+
+KidsFeet %>% 
+  mutate(
+    season = case_when(
+      birthmonth %in% c(12, 1, 2) ~ "Winter",
+      birthmonth %in% c(3, 4, 5) ~ "Spring",
+      birthmonth %in% c(6, 7, 8) ~ "Summer",
+      birthmonth %in% c(9, 10, 11) ~ "Fall"
+    )
+  ) %>% 
+  ggplot(aes(x = season, fill = sex)) +
+  geom_bar(position = "dodge", width = 0.6) +
+  scale_y_continuous(limits = c(0, 8)) +
+  geom_text(
+    stat = "count",
+    aes(label = after_stat(count)),
+    position = position_dodge(width = 0.6),
+    vjust = - 0.7,
+    size = 4
+  ) +
+  scale_fill_manual(values = c("B" = "skyblue", "G" = "pink")) + # Correct way to assign colors
+  labs(
+    title = "Birth Season Distribution",
+    x = "Season",
+    y = "Count",
+    fill = "Sex"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 30
+    ),
+    axis.title.x = element_text(
+      size  = 17
+    ),
+    axis.title.y = element_text(
+      size = 17
+    ),
+    axis.text = element_text(
+      size = 13
+    )
+  )
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### c.  How many boys (B) and how many girls (G) are in the KidsFeet dataset?
+* **Data:** Categorical
+* **Graphic:** Bargraph
+
+###### Example:
+```{r, warning=FALSE}
+# Example:
+
+KidsFeet %>%
+  ggplot(aes(x = sex, fill = sex)) +
+  geom_bar(position = "dodge", width = .2) +
+  scale_fill_manual(values = c("B" = "skyblue", "G" = "pink")) +
+  labs(
+    title = "Count of Boys and Girls",
+    x = "Sex",
+    y = "Count"
+  ) +
+  scale_x_discrete(
+    labels = c("B" = "Boy", "G" = "Girl")
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 30
+    ),
+    axis.title.x = element_text(
+      size = 17
+    ),
+    axis.title.y = element_text(
+      size = 17
+    ),
+    axis.text = element_text(
+      size = 13
+    ),
+    axis.text.x = element_text(
+      face = "bold",
+      color = c("Boy" = "skyblue", "Girl" = "pink"),
+      size = 20
+    ),
+    legend.position = "none"
+  )
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### d. What is the average length of feet in the KidsFeet dataset?
+* **Data:** Numeric
+* **Graphic:** Boxplot
+
+###### Example:
+```{r}
+# Example:
+
+KidsFeet %>% 
+  ggplot(aes(x = "", y = length)) +  # Add x aesthetic to avoid errors
+  geom_boxplot(fill = "maroon") +
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    shape = 21,
+    size = 3, 
+    fill = "yellow"
+  ) +
+  stat_summary(
+    fun = mean,
+    geom = "text",
+    aes(label = round(after_stat(y), 1)),
+    vjust = -1.5,
+    color = "black"
+  ) +
+  labs(
+    title = "Average Length of Feet",
+    y = "Length",
+    x = NULL  # Remove unnecessary x-axis label
+  ) +
+  theme_minimal() +  # Apply minimal theme first
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,  # Center title properly
+      size = 30
+    ),
+    axis.title.y = element_text(
+      size = 17
+    )
+  )
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### e. Do boys (B) or girls (G) have longer feet, on average, in the KidsFeet dataset?
+* **Data:** 
+* **Graphic:** 
+
+###### Example:
+```{r, warning=FALSE}
+# Example:
+KidsFeet %>% 
+  ggplot(aes(x = sex, y = length, fill = sex)) +
+  geom_boxplot(position = "dodge") +
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    shape = 21,
+    size = 3, 
+    fill = "yellow"
+  ) +
+  stat_summary(
+    fun = mean,
+    geom = "text",
+    aes(label = round(after_stat(y), 1)),
+    vjust = -1.5,
+    color = "black"
+  ) +
+  scale_fill_manual(values = c("B" = "skyblue", "G" = "pink")) +
+  labs(
+    title = "Average Foot Length by Sex",
+    x = "Sex",
+    Y = "Length"
+  ) +
+  scale_x_discrete(
+    labels = c("B" = "Boy", "G" = "Girl")
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 30
+    ),
+    axis.title.x = element_text(
+      size  = 17
+    ),
+    axis.title.y = element_text(
+      size = 17
+    ),
+    axis.text = element_text(
+      size = 13
+    ),
+    axis.text.x = element_text(
+      face = "bold",
+      color = c("Boy" = "skyblue", "Girl" = "pink"),
+      size = 20
+    ),
+    legend.position = "none"
+  )
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### f. Are there certain months of the year that are associated with children having longer feet, on average, than others?
+* **Data:** Categorical
+* **Graphic:** Bar Graph
+
+###### Example:
+```{r}
+# Example:
+
+KidsFeet %>% 
+  group_by(birthmonth) %>% 
+  summarise(mean_length = mean(length, na.rm = TRUE)) %>% 
+  ggplot(aes(x = birthmonth, y = mean_length, fill = birthmonth)) +
+  geom_col() +
+  scale_x_continuous(
+    breaks = 1:12,
+    labels = c(
+      "1" = "JAN",
+      "2" = "FEB",
+      "3" = "MAR",
+      "4" = "APR",
+      "5" = "MAY",
+      "6" = "JUN",
+      "7" = "JUL",
+      "8" = "AUG",
+      "9" = "SEP",
+      "10" = "OCT",
+      "11" = "NOV",
+      "12" = "DEC"
+    )
+  ) +
+  coord_cartesian(ylim = c(20, NA)) +
+  labs(
+    title = "Average Foot Length by Month",
+    x = "Birthmonth",
+    y = "Average Foot Length",
+    fill = "Birthmonth"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 25
+    ),
+    axis.title.x = element_text(
+      size  = 13
+    ),
+    axis.title.y = element_text(
+      size = 13
+    ),
+    axis.text = element_text(
+      size = 8
+    )
+  )
+```
+
+<!-- ===================================================================== -->
+<BR />
+
+#### g. Is there a relationship between the length of children\'s feet and the width of their foot?
+* **Data:** Numerical
+* **Graphic:** Scatterplot
+
+###### Example:
+```{r, message=FALSE}
+# Example:
+
+KidsFeet %>% 
+  ggplot(aes(x = length, y = width)) +
+  geom_point(pch = 1, color = "blue", size = 3) +
+  geom_smooth(method = "lm", color = "red", linetype = "dashed", linewidth = 1.2, alpha = .1) +
+  labs(
+    title = "Relationship of Foot Length to Width",
+    x = "Length",
+    y = "Width"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 17
+    ),
+    axis.title.x = element_text(
+      size  = 13
+    ),
+    axis.title.y = element_text(
+      size = 13
+    ),
+    axis.text = element_text(
+      size = 13
+    )
+  )
+
+```
+
+
+
+
+

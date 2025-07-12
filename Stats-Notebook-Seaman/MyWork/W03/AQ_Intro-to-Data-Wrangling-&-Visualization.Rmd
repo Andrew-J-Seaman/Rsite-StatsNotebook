@@ -1,0 +1,86 @@
+---
+title: "Intro to Data Wrangling & Visualization"
+subtitle: "Assessment Quiz"
+author: "Andrew Seaman"
+date: "2025-Jan-25"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(pander)
+library(DT)
+library(ggplot2)
+library(tidyverse)
+```
+
+<!-- START: All -->
+
+## Q1
+Use the mtcars dataset in R to compute the mean "Gross horsepower" of both automatic and manual transmission 1974 Motor Trend vehicles.
+```{r}
+# a.
+mtcars %>% 
+  group_by(am) %>% 
+  summarise(
+    "Transmission" = first(ifelse(am == 0, "Automatic", "Manual")),  # Convert numeric to text
+    "Mean Gross Horsepower" = mean(hp, na.rm = TRUE),  # Ensure NA values are handled
+    .groups = "drop"  # Prevent grouped output warning
+  ) %>%  
+  pander()
+```
+
+## Q2
+Use the mtcars dataset in R to make a graph that allows you to see how the quarter mile time (qsec) of 1974 Motor Trend vehicles is effected by the number of carburetors (carb) in the vehicle.
+
+Select the statement below that correctly describes this relationship.
+```{r}
+# a.
+mtcars %>% 
+  ggplot(aes(x = factor(carb), y = qsec, fill = factor(am))) +
+  geom_boxplot(position = position_dodge(width = 0.75)) + # Dodge by transmission type
+  labs(
+    title = "Effect of Number of Carburetors on Quarter Mile Time",
+    x = "Number of Carburetors",
+    y = "Quarter Mile Time (seconds)",
+    fill = "Transmission (0 = Auto, 1 = Manual)"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    axis.title = element_text(
+      hjust = 
+    )
+  )
+```
+
+## Q3
+Run the following codes in R. Then select the statement that most appropriately interprets the resulting graph.
+```{r}
+# a.
+palette(c("skyblue","firebrick"))
+
+  plot(mpg ~ qsec, data=mtcars, col=as.factor(am), pch=16, xlab="Quarter Mile Time (seconds)", ylab="Miles per Gallon", main="1974 Motor Trend Vehicles")
+  legend("topright", pch=16, legend=c("automatic","manual"), title="Transmission", bty='n', col=palette())
+
+```
+
+**Correct Answer:** 
+The graph suggests that if you want a vehicle that gets really good gas mileage, you should go with a manual transmission that has a really slow quarter mile time. 
+
+**Explanation:** 
+The graph produced by the code given shows gas mileage on the y-axis and quarter mile times on the x-axis. Also, as indicated by the legend, the color of the points is determined by whether the vehicle is automatic or manual transmission.
+
+Since both transmission types show positive moderate correlations, we can conclude that higher quarter mile times (which means slower vehicles) correlate with higher gas mileages.
+
+<!-- END: All -->

@@ -1,0 +1,444 @@
+---
+title: "t-Tests"
+subtitle: "Class Activity"
+author: "Andrew Seaman"
+date: "2025-May-14"
+output: 
+  html_document:
+    css: ../myWork.css
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+<!-- ------ -->
+<!-- SETUP: -->
+<!-- ------ -->
+
+<!-- Format HTML Output -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- Libraries -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load
+library(mosaic)
+library(pander)
+library(DT)
+library(tidyverse)
+```
+
+<!-- Data -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load data
+KidsFeet = KidsFeet
+```
+
+<!-- Setup End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ---------- -->
+<!-- QUESTIONS: -->
+<!-- ---------- -->
+# Questions:
+
+---
+
+## Q1.
+> _Explain to a peer what information you can find under the "Overview", "R Instructions", and "Explanation" tabs for each of the three t-tests on the <a href="../../tTests.html">t-Tests</a> page._
+
+<u>t-Tests:</u>
+
+1. __One Sample t Test__
+2. __Paired Samples t Test__
+3. __Independent Samples t Test__
+
+<u>Tab content description:</u>
+
+* __Overview:__ Questions, requirements, and hypotheses.
+* __R Instructions:__ Test function and parameters.
+* __Explanation:__ Summary of how to interpret test results.
+    
+<!-- Q1. End -->
+
+---
+
+</BR>
+
+
+
+
+
+
+
+
+
+
+## Q2.
+> _Use the R Instructions to perform a <u>One Sample t-Test</u> of the following hypotheses using the KidsFeet data set. You should get a test statistic of t = -15.532._
+
+<!-- Hypothesis -->
+$$
+H_0 : \mu_{\text{length of kids' feet}} = 28 \text{ cm}
+$$
+<!-- Null Hypothesis -->
+$$
+H_a : \mu_{\text{length of kids' feet}} \neq 28 cm
+$$
+
+Yes, I can. Below are the results of a One Sample t test
+
+<!-- t-test -->
+```{r}
+# a. One sample t test
+pander(t.test(KidsFeet$length, mu = 28, alternative="two.sided", conf.level=.95))
+```
+
+<!-- Q2. End -->
+
+---
+
+</BR>
+
+
+
+
+
+
+
+
+
+
+## Q3.
+> _Use the R Instructions to perform a <u>Paired-Samples t-Test</u> of the following hypotheses using the KidsFeet data set. You should get a test statistic of t = -11.529._
+
+<!-- Hypothesis -->
+$$
+H_0: \mu_{\text{length} - 3 \cdot \text{width}} = 0
+$$
+<!-- Null Hypothesis -->
+$$
+H_a: \mu_{\text{length} - 3 \cdot \text{width}} \neq 0
+$$
+
+Yes, I can. Below are the results of a Paired Samples t Test.
+<!-- t-test -->
+```{r}
+# a. Paired samples t test
+pander(t.test(KidsFeet$length - 3 * KidsFeet$width, mu = 0))
+```
+
+<!-- Q3. End -->
+
+---
+
+</BR>
+
+
+
+
+
+
+
+
+
+
+## Q4.
+> _Use the R Instructions to perform an <u>Independent Samples t-Test</u> of the following hypotheses using the KidsFeet data set. You should get a test statistic of t = 1.9174._
+
+<!-- Hypothesis -->
+$$
+H_0: \mu_\text{Boys foot length} - \mu_\text{Girls foot length} = 0
+$$
+<!-- Null Hypothesis -->
+$$
+H_a: \mu_\text{Boys foot length} - \mu_\text{Girls foot length} \neq 0
+$$
+
+Yes, I can. Below are the results of a Independent Samples t-Test.
+
+```{r}
+# a. Independent samples t test (assume variance)
+pander(t.test(length ~ sex, data = KidsFeet, var.equal = FALSE))
+```
+
+<!-- Q4. End -->
+
+---
+
+</BR>
+
+
+
+
+
+
+
+
+
+
+## Q5.
+> _Discuss with a peer why we create Q-Q Plots and check sample sizes when performing t Tests._
+
+There are certain requirements that must be met to use a t test.
+
+1. __One Sample t Test__
+    * The sample is representative of the population. (Having a simple random sample is the best way to do this.)
+    * The sampling distribution of the sample mean 𝑥¯ can be assumed to be normal. This is a safe assumption when either (a) the population data can be assumed to be normally distributed using a Q-Q Plot or (b) the size of the sample (n) that was taken from the population is large (at least n > 30, but “large” really depends on how badly the data is skewed).
+
+2. __Paired Samples t Test__
+    * The sample of differences is representative of the population differences.
+    * The sampling distribution of the sample mean of the differences 𝑑¯(𝑥¯ of the differences) can be assumed to be normal. (This second requirement can be assumed to be satisfied when (a) the differences themselves can be assumed to be normal from a Q-Q Plot, or (b) when the sample size 𝑛of the differences is large.)
+
+3. __Independent Samples t Test__
+    * Both samples are representative of the population. (Simple random samples are the best way to do this.)
+
+    * The sampling distribution of the difference of the sample means (𝑥¯1−𝑥¯2) can be assumed to be normal. (This is a safe assumption when the sample size of each group is 30 or greater or when the population data from each group can be assumed to be normal with a Q-Q Plot.)
+
+<!-- Q5. End -->
+
+---
+
+</BR>
+
+
+
+
+
+
+
+
+
+
+## Q6.
+> _Discuss with a peer what an appropriate graphic would be for each of the three t tests you performed above._
+
+### {.tabset .tabset-pills .tabset-fade}
+
+<!-- 1. One Sample t Test -->
+#### One Sample t-Test
+
+* *Best graphic:* Histogram or dotplot with reference line (population mean)
+
+<!-- Hypothesis -->
+$$
+H_0 : \mu_{\text{length of kids' feet}} = 28 \text{ cm}
+$$
+<!-- Null Hypothesis -->
+$$
+H_a : \mu_{\text{length of kids' feet}} \neq 28 cm
+$$
+
+<!-- Histogram -->
+```{r}
+(
+  ggplot(KidsFeet)
+    + geom_histogram(aes(x=length), fill="gray", color="black", binwidth=.6)
+    + geom_vline(xintercept=28, color="red",  linetype="dashed", linewidth=2)
+    + geom_vline(xintercept=mean(KidsFeet$length), color="forestgreen", linetype="dashed", linewidth=2)
+    + labs(
+        title="Histogram of foot length",
+        subtitle="One Sample t-Test (bin = .6cm)",
+        caption="(µ = 28cm)",
+        x="Length (cm)",
+        y="Count"
+    )
+    + theme_classic()
+    + theme(
+        plot.title = element_text(hjust=.5, face="bold"),
+        plot.subtitle = element_text(hjust=.5, face="bold", color="darkgray"),
+        plot.caption = element_text(color="red", size=12)
+    ) 
+)
+```
+
+<!-- QQ Plot -->
+```{r message=FALSE, warning=FALSE}
+# a. QQ plot for One Sample t Test
+
+# Compute theoretical quantiles & confidence band manually
+qq_data <- KidsFeet %>%
+  mutate(sample_quantiles = sort(length),
+         theoretical_quantiles = qnorm(ppoints(length), mean(length), sd(length))) %>%
+  arrange(theoretical_quantiles)
+
+# Plot QQ plot with shaded confidence band
+ggplot(qq_data, aes(x = theoretical_quantiles, y = sample_quantiles)) +
+  geom_point() +  # QQ points
+  geom_smooth(method = "lm", se = TRUE, color = "black", fill = "forestgreen") +  # Shaded confidence band
+  labs(title = "QQ Plot of Foot Lengths in KidsFeet Dataset",
+       x = "Theoretical Quantiles",
+       y = "Sample Quantiles") +
+  theme_minimal()
+```
+
+
+
+<!-- 2. Paired Samples t Test -->
+#### Paired Samples t-Test
+
+* *Best graphic:* Dot-and-line plot (paired differences) or histogram of the differences
+
+<!-- Hypothesis -->
+$$
+H_0: \mu_{\text{length} - 3 \cdot \text{width}} = 0
+$$
+<!-- Null Hypothesis -->
+$$
+H_a: \mu_{\text{length} - 3 \cdot \text{width}} \neq 0
+$$
+
+<!-- Histogram of the differences -->
+```{r}
+# Data: add calculated column
+kf = KidsFeet %>% 
+  mutate(
+    "width3" = width * 3,
+    "diff" = round(length - width3, 2)
+  )
+
+# Plot: Histogram of the differences
+(
+  ggplot(kf)
+    + geom_histogram(aes(x=diff), binwidth=.7, color="black", fill="gray")
+    + geom_vline(xintercept=mean(kf$diff), color="forestgreen", linetype="dashed", linewidth=2)
+    + geom_vline(xintercept=0, color="red", linetype="dashed", linewidth=2)
+    + labs(
+        title="Histogram of the Differences ",
+        subtitle="Two Sample t-Test (bin = .7cm)",
+        caption="(µ = 0cm)",
+        x="Difference (cm)\n(Length - (Width * 3))",
+        y="Count"
+    )
+    + theme_classic()
+    + theme(
+        plot.title = element_text(hjust=.5, face="bold"),
+        plot.subtitle = element_text(hjust=.5, face="bold", color="darkgray"),
+        plot.caption = element_text(color="red", size=12)
+    ) 
+)
+```
+
+<!--  Dot-and-line plot -->
+```{r}
+# Convert the kf dataframe to long format
+kf_long <- kf %>% 
+  mutate( id = row_number()) %>% 
+  select(id, length, width3) %>% 
+  pivot_longer(cols=c(length, width3), names_to = "condition", values_to = "value")
+
+# Plot: Dot-and-line plot
+(
+  ggplot(kf_long, aes(x=condition, y=value, group=id, color=condition))
+    + geom_point(size=2)
+    + geom_line(color="gray")
+    
+    + labs(
+        title = "Dot-and-Line Plot of Paired Differences",
+        subtitle = "Paired Sample t-Test",
+        caption = "(width3 = width * 3)",
+        x = "Condition",
+        y = "Measurement (cm)"
+      )
+    + theme_light()
+    + theme(
+        plot.title = element_text(hjust=.5, face="bold"),
+        plot.subtitle = element_text(hjust=.5, color = "darkgray"),
+        plot.caption = element_text(color = "darkgray"),
+        legend.position = "none"
+      )
+)
+
+
+```
+
+
+
+<!-- 3. Independent Samples t Test -->
+#### Independent Samples t-Test
+
+* *Best graphic:* Boxplot or side-by-side dotplot / violin plot
+
+<!-- Hypothesis -->
+$$
+H_0: \mu_\text{Boys foot length} - \mu_\text{Girls foot length} = 0
+$$
+<!-- Null Hypothesis -->
+$$
+H_a: \mu_\text{Boys foot length} - \mu_\text{Girls foot length} \neq 0
+$$
+
+<!-- Box plot -->
+```{r}
+# Colors
+colors_sex <- c("royalblue", "hotpink")
+
+# Plot: Box plot
+(
+  ggplot(KidsFeet, aes(x=sex, y=length))
+    + geom_boxplot(fill=colors_sex)
+    + scale_x_discrete(labels= c("B"="Boy", "G"="Girl"))
+    + theme_gray()
+    + labs(
+        title="Foot Length Comparison by Sex",
+        subtitle="Independent Samples t-Test",
+        x="Sex",
+        y="Length (cm)"
+      )
+    + theme(
+        plot.title = element_text(hjust=.5, face="bold"),
+        plot.subtitle = element_text(hjust=.5, color = "darkgray")
+      )
+)
+```
+
+###
+
+<!-- Q6. End -->
+
+---
+
+</BR>
+
+
+
+
+
+
+
+
+
+
+## Q7.
+> _Discuss with a peer what insights can be made about each of the three t-tests you performed above. _
+
+Below are the three t-tests and one relevant insight per.
+
+```{r}
+insights_df <- data.frame(
+  "t-Test" = c("One Sample", "Paired Samples", "Independent Samples"),
+  Insight = c(
+    "The sample mean was closer to 25cm than 28cm.",
+    "The differences on average were just above 2cm off of 0 in the negative direction.",
+    "The difference in length by gender is not 0.")
+)
+
+pander(insights_df, justify="left", style="grid")
+```
+
+<!-- Q7. End -->
+
+
+<!-- -------- -->
+<!-- FILE END -->
+<!-- -------- -->

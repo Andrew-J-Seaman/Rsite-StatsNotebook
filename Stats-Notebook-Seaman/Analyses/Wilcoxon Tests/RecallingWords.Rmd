@@ -1,0 +1,450 @@
+---
+title: "Recalling Words"
+subtitle: "MATH 325"
+author: "Andrew Seaman"
+date: 2025-6-03
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    toc-level: 3
+    highlight: pygment
+    code_folding: hide
+---
+
+---
+
+<!--******************************************************
+LAST UPDATED: 2025-06-08  |  BY: Andrew Seaman
+*******************************************************-->
+
+<!-------------------------------------------------------
+.                          SETUP                    
+-------------------------------------------------------->
+
+## Setup
+
+<!-- Today's date -->
+```{r, warning=FALSE, echo=FALSE}
+# Utility: copy today's date to clipboard, only when editing
+if (interactive()) {
+  clipr::write_clip(Sys.Date())
+}
+
+# Next, paste after 'LAST UPDATED' above
+```
+
+<!-- Format HTML Output -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- Libraries -->
+#### Libraries
+These libraries provide the tools necessary for this analysis by way of data sourcing, manipulation, and visualization (see chunk):
+```{r, warning=FALSE, message=FALSE}
+library(mosaic)
+library(pander)
+library(car)
+library(DT)
+library(tidyverse)
+```
+
+#### Data
+Direct from the data source documentation, "The Friendly data are from an experiment on subjects' ability to remember words based on the presentation format."
+```{r, eval=FALSE}
+View(Friendly)
+?Friendly
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------------------
+.                          BACKGROUND                    
+-------------------------------------------------------->
+
+## Background 
+
+Many teachers and other educators are interested in understanding how to best deliver new content to students. In general, they have two choices of how to do this.
+
+1. __The Before Approach__
+    * Deliver new content after fully reviewing previously understood content.
+    
+2. __The Meshed Approach__
+    * Deliver new content while simultaneously reviewing previously understood content.
+
+A study was performed to determine whether the _Meshed_ or _Before_ approaches to delivering content had any positive benefits on memory recall. 
+
+
+## {.tabset .tabset-pills}
+
+### Hide
+
+### Show the Experiment Details
+
+Individuals were seated at a computer and shown a list of words. Words appeared on the screen one at a time, for two seconds each, until all words had been shown (40 total). After all words were shown, they were required to perform a few two-digit mathematical additions (like 15 + 25) for 15 seconds to avoid immediate memory recall of the words. They were then asked to write down as many of the 40 words as they could remember. They were given a maximum of 5.3 minutes to recall words.
+
+The process of showing words and recalling words was repeated four times with the same list of words each time (four chances to get it right). The presentation of the first trial was the same for all treatment conditions. However, trials 2, 3, and 4 were slightly different for each treatment condition.
+
+<div style="padding-left:15px;">
+
+The `SFR` group (the control group) stands for Standard Free Recall. In all four trials the same list of 40 words was presented, in a random order each time.
+
+The `Before` group also used the same 40 words during each trial. However, any words that were correctly recalled in a previous trial were presented first, or *before* the words that were not recalled in the last trial. After all the correct words were presented in random order, the non-recalled words were presented in a random order.
+
+The `Meshed` group also used the same 40 words during each trial. However, words that were correctly recalled in a previous trial were alternated with a missed word during the next presentation order. 
+
+</div>
+
+The data records the number of correctly recalled words (out of the 40 possible) from the fourth trial. Results were obtained for 30 students, 10 in each of the three treatment groups: `SFR`, `Before`, and `Meshed`. 
+
+
+
+## {.tabset .tabset-pills}
+
+### Hide
+
+---
+
+### Show the Data
+
+The results from the study can be found in the `Friendly` data set in R after loading `library(car)`. 
+
+Click the "Code" button to see the data.
+
+```{r}
+datatable(Friendly, options=list(lengthMenu = c(3,10,30)))
+```
+
+---
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------------------
+.                          ANALYSIS                    
+-------------------------------------------------------->
+
+<!-- 
+Begin writing your analysis below here.
+
+Notes: 
+
+  1) Your goal is to use the Friendly data to show whether or not the 'Before' or 'Meshed' methods have any positive benefit on memory recall.
+
+  2) Filter the data to <u>meshed vs. before</u> and run a Wilcoxson test to see which one is better.
+-->
+
+## Analysis
+
+The target outcome of this analysis is to discover if there is a superior and inferior method.
+
+---
+
+### Data Preparation
+
+Two of the instructional conditions (methods)—_Before_ and _Meshed_—are to be tested therefore the data will be subsetted to include only those methods. 
+
+<!-- Subset the data -->
+```{r}
+# SUBSETTING
+# ————————————————————————————————————————————————————————————————————————————————————
+# Subset data (meshed vs. before)
+Friendly2 <- Friendly %>% 
+  filter(condition %in% c("Meshed", "Before"))
+```
+
+Below are some reused resources:
+
+```{r}
+# REUSED RESOURCES
+# ————————————————————————————————————————————————————————————————————————————————————
+
+# Colors
+cols_blue <- c("slategray2", "dodgerblue4")
+cols_bw <- c("black", "white")
+label_offset <- 1
+
+# Conditions (i.e methods)
+methods <- unique(Friendly2$condition)
+```
+
+Additionally, some calculated values will be reused throughout the analysis so they will be calculated once upfront and assigned a reusable variable name as a stand-in such as the sample distribution for either method, etc.
+
+```{r}
+# REUSED CALCULATIONS
+# ————————————————————————————————————————————————————————————————————————————————————
+
+# Median dataframe
+median_df <- Friendly2 %>% 
+  group_by(condition) %>% 
+  summarise(
+    correct = median(correct),
+    label = round(correct, 1)  # or any label text you want
+  )
+
+# Median values (alone)
+median_before <- median_df$correct[median_df$condition == methods[1]]
+median_meshed <- median_df$correct[median_df$condition == methods[2]]
+
+median_diff <- median_before - median_meshed
+```
+
+<!-- Allow in-console viewing -->
+```{r, warning=FALSE, include=FALSE, echo=FALSE}
+# View dataset in console
+View(Friendly2)
+```
+
+---
+
+### Hypotheses Test
+
+The goal of this analysis at its bones is to compare two independent samples to see if they vary from each other or not. We'll be doing this by using a Wilcoxon Rank Sum Test which uses the <u>difference of the sample medians</u> as opposed to the sample means because the median as a measure of central tendency is less impacted by non-normal data including outliers or outright skewed distributions.
+
+Therefore, before applying the Rank Sum Test method it is standard to assume the difference of the two sample medians is equal to zero, or in other words the data from either group map onto the same distribution and therefore neither condition of instruction is better nor worse.
+
+Alternatively, we must conclude the two samples do not map onto the same distribution and the difference of sample medians will be non-zero for this and most other samples taken from either distribution.
+
+$$
+H_0: {\text{Median}}_{before} - {\text{Median}}_{meshed} = 0
+\\
+H_a: {\text{Median}}_{before} - {\text{Median}}_{meshed} \neq 0
+$$
+
+<!-- R Codes to use: -->
+
+<!-- * boxplot(correct ~ condition, data = ...) -->
+<!-- * wilcox.test(correct ~ condition, data = ...) -->
+<!-- * favstats(correct ~ condition, data = ...) -->
+
+---
+
+### Graphics
+
+To begin to understand the sample data it is most useful to visualize key statistics for either independent sample using a boxplot.
+
+<!-- Boxplot -->
+```{r, warning=FALSE, fig.align='center'}
+# TITLE IDEAS
+# ———————————————————————————————————————————————————————————————————————————————————————
+  # Original option:
+    # 1. Which style of instruction to students is best for material retention in schools?
+  # Refined options:
+    # 1. Which instructional style best supports student retention of material? <------- Preffered
+    # 2. Which teaching style is most effective for student retention?
+    # 3. Which method of instruction leads to the highest material retention in students?
+    # 4. What instructional approach best promotes student learning retention?
+
+# BOXPLOT
+# ———————————————————————————————————————————————————————————————————————————————————————
+
+# Purpose: Compare instructional conditions (i.e methods) against students' scores from a memory test representing material retention.
+
+# Plot (conditions (i.e methods, or styles): 'Before' & 'Meshed')
+ggplot(Friendly2, aes(x = condition, y = correct, fill = condition)
+  ) +
+# ———————PRIMARY———————
+  # Median markers (horizontal lines)
+  geom_hline(yintercept = median_before, color = cols_blue[1], linetype = "dotted", size = 1) +
+  geom_hline(yintercept = median_meshed, color = cols_blue[2], linetype = "dotted", size = 1) +
+  # Boxplot
+  geom_boxplot( 
+    color = cols_bw[1], 
+    outlier.shape = 21, outlier.color = cols_bw[1], outlier.fill = cols_bw[2], outlier.size = 2
+  ) +
+  # Median markers (data labels). (Note: 'median_df' is defined circa line 140).
+  geom_label(data = median_df, aes(x = condition, y = correct - label_offset, label = label), color = cols_bw, vjust = -0.5) +
+# ———————DETAIL———————
+  # Boxplot error bars at the max and min (outliers excluded)
+  stat_boxplot(geom = "errorbar", aes(ymin = ..ymax..)) +       # Upper error bars
+  stat_boxplot(geom = "errorbar", aes(ymax = ..ymin..)) +       # Lower error bars
+
+  # Axes
+  scale_fill_manual(values = cols_blue) +
+  # Labels
+  labs(
+    title ="No statistically significant difference in student material retention \nbetween instructional methods",
+    x ="Condition of Instruction (method)",
+    y ="Correct Words Recalled (out of 40)"
+  ) +
+  # Theme: default
+  theme_classic() +
+  # Theme: custom
+  theme(
+    plot.title = element_text(size = 14),
+    axis.text.x = element_text(size = 12, face = "bold", color = cols_blue),
+    legend.position = "none",
+    panel.grid.minor = element_blank()
+  )
+```
+
+Observably, the medians (as labeled) for these two particular independent samples are different with the _Before_ method's median of `r median_before` sitting `r median_diff` points higher than the _Meshed_ method's median of `r median_meshed`. 
+
+Additionally, the _Before_ method has at least one outlier more extreme than the _Meshed_ method by more than 5 points, but the _Before_ method has an overall tighter distribution than the latter with less distance between the minimum and maximum values which fall within the IQR Range (IQR = Interquartile Range = Q3 − Q1) which measures the spread of the middle 50% of data.
+
+It may also be useful to view the sample distributions as density plots mapped onto of one another.
+
+<!-- Density Plot -->
+```{r, fig.align='center'}
+# Density plot of independent sample distributions
+ggplot(Friendly2, aes(x = correct, color = condition, fill = condition)) +
+  # Median markers (horizontal lines)
+  geom_vline(xintercept = median_before, color = cols_blue[1], linetype = "dotted", size = 1) +
+  geom_vline(xintercept = median_meshed, color = cols_blue[2], linetype = "dotted", size = 1) +
+  # Density plot
+  geom_density(alpha = 0.4) +
+  # Median markers (data labels). (Note: 'median_df' is defined circa line 140).
+  geom_label(
+    data = median_df, 
+    aes(x = correct, y = .18, label = label), 
+    color = cols_bw, # or pick colors
+    vjust = -0.5,
+    show.legend = FALSE
+  ) +
+  # Axes
+  scale_fill_manual(values = cols_blue) +
+  scale_color_manual(values = cols_blue) +
+  # Labels
+  labs(
+    title = "Distributions of Correct Words Recalled with medians labeled",
+    x = "Correct Words Recalled (out of 40)",
+    y = "Density",
+    fill = "Condition", 
+    color = "Condition"
+  ) +
+  # Theme: default
+  theme_classic()
+  # Theme: custom
+```
+
+---
+
+### Wilcoxon Test
+
+However, to provide greater conclusive power to such observations we must perform a __Wilcoxon Rank Sum Test__ which, as stated before, utilizes the median as opposed to the mean as well as a crafty method for developing a test statistic and an associated distribution which approaches normalcy and therefore allows us to bring greater conclusory power to our analysis despite the data appear skewed.
+
+With α = 0.05, corresponding to a 95% confidence level we can perform this test.
+
+```{r, warning=FALSE}
+# WILCOXON RANK SUM TEST (independent samples)
+# ———————————————————————————————————————————————————————————————————————————————————————
+
+# Purpose:
+  # Test whether the memory test results for either instructional style ('Before' or 'Meshed') come from the same distribution or not by evaluating the magnitide of the difference of their medians.
+
+# Data:
+  # 'Friendly2' which is a subset of Friendly shows memory test scores for only two of the conditions (instructional styles): 'Before' and 'Meshed'.
+df <- Friendly2
+
+# Variables
+alpha = 0.05
+
+# Test:
+result <- wilcox.test(
+  df$correct[df$condition == "Before"],
+  df$correct[df$condition == "Meshed"],
+  mu = 0,
+  alternative = "two.sided",
+  conf.level = alpha,
+  data = df
+)
+
+# Results: variables
+p_value <- round(result$p.value, digits = 3)
+
+# Calcualted values
+pval_alpha_diff <- round(p_value - alpha, digits = 3)
+```
+
+__Test results:__
+
+```{r}
+# Wilcoxon Rank Sum Test results
+pander(result)
+```
+
+<!-- Count ties -->
+```{r, include=FALSE}
+# Count ties
+tie_counts <- table(Friendly2$correct) %>% 
+  as.data.frame() %>% 
+  select(
+    Correct = Var1,
+    Frequency = Freq
+  )
+
+# Variables for text below
+n_ties <- nrow(tie_counts[tie_counts$Frequency > 1, ])
+n_total <- nrow(tie_counts)
+max_ties <- max(tie_counts$Frequency)
+max_correct_most_ties <- tie_counts$Correct[tie_counts$Frequency == max_ties]
+```
+
+In interpreting the test results the <span style="color: red; font-style: italic;">warning message</span> must first be addressed. When the data has many ties an exact p-value cannot be computed thus weakening the reliability of the test results. 
+
+Below we can see __`r n_ties`__ of the __`r n_total`__ unique values in the _Correct_ column have at least one tie with the max ties of __`r max_ties`__ (n_`r max_correct_most_ties`). Furthermore, rank ties reduce the precision of the test statistic’s distribution.
+
+```{r}
+# Display the tie counts
+pander(tie_counts)
+```
+
+However, despite the presence of many ties the test results are still worth interpreting further. We chose an alpha = `r alpha` (confidence level = 95%) and our __p-value (`r p_value`)__ well exceeds our alpha by `r pval_alpha_diff`. 
+
+Thus, we have <u>__insufficient__ evidence and __fail to reject__ the null</u> (difference of sample medians = 0).
+
+---
+
+### Favstats
+
+The following numerical summaries clarify the above hypothesis test conclusion.
+
+```{r}
+# FAVSTATS
+# ———————————————————————————————————————————————————————————————————————————————————————
+
+# Favstats
+favstats_before <- favstats(Friendly2$correct[Friendly2$condition == methods[1]]) %>% pander()
+favstats_meshed <- favstats(Friendly2$correct[Friendly2$condition == methods[2]]) %>% pander()
+```
+
+#### Before
+`r favstats_before`
+
+#### Meshed
+`r favstats_meshed`
+
+Regardless of an observable difference in the medians it is not statistically significant and therefore remains an uncertainty which instructional method is superior.
+
+---
+
+### Future Research
+
+A primary limitation of this study was the high number of tied values in the dataset, which reduced the precision of the Wilcoxon Rank Sum Test and prevented calculation of an exact p-value. While the observed difference in sample medians suggests a potential effect, the current analysis lacks sufficient evidence to support a statistically significant conclusion.
+
+Future research should aim to increase the overall sample size and design the measurement scale to minimize ties, thereby improving the test’s power and reliability. With a larger, more granular dataset, subsequent studies may better detect subtle differences in instructional method effectiveness on student retention.
+
+```{r}
+# FINAL REVISIONS:
+# ———————————————————————————————————————————————————————————————————————————————————————
+
+# - BOXPLOT:
+  # 1. Change the plot title to a conclusory statement, not a question, after the analysis is complete.
+```
+  

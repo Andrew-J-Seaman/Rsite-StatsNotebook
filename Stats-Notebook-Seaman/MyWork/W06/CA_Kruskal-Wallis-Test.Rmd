@@ -1,0 +1,265 @@
+---
+title: "Kruskal-Wallis Test"
+subtitle: "Class Activity"
+author: "Andrew Seaman"
+date: "2025-MM-DD"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+<!-- ------ -->
+<!-- SETUP: -->
+<!-- ------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(DT)
+library(pander)
+library(tidyverse)
+library(car)
+```
+
+<!-- Setup End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ---------- -->
+<!-- QUESTIONS: -->
+<!-- ---------- -->
+
+## Q1.
+> _Open your Statistics Notebook to the "Kruskal-Wallis Test" page._
+
+Done.
+
+<!-- Q1. End -->
+
+
+
+
+
+## Q2.
+> _Open the "Explanation" tab from the "Kruskal-Wallis Test" page and discuss with your neighbor any similarities this test has to the Wilcoxon Rank Sum test. Also discuss any differences._
+
+### Similarities
+```{r}
+similarities <- data.frame(
+  Feature = c(
+    "Nonparametric",
+    "Rank-based",
+    "Test for differences between groups",
+    "Used when assumptions for ANOVA/t-test are violated"
+  ),
+  `Wilcoxon Rank Sum & Kruskal-Wallis` = rep("✅", 4)
+)
+
+pander(similarities)
+```
+
+⸻
+
+### Differences
+```{r}
+differences <- data.frame(
+  Feature = c(
+    "# of groups",
+    "Also known as",
+    "Test statistic",
+    "Post-hoc test needed?",
+    "Pairing"
+  ),
+  `Wilcoxon Rank Sum` = c(
+    "2 groups only",
+    "Mann–Whitney U Test",
+    "U or W",
+    "No (just 2 groups)",
+    "Independent samples"
+  ),
+  `Kruskal-Wallis` = c(
+    "3+ groups",
+    "One-way ANOVA on ranks",
+    "H",
+    "Yes (if H is significant, follow up with pairwise comparisons)",
+    "Multiple independent groups"
+  )
+)
+
+pander(differences)
+```
+
+<!-- Q2. End -->
+
+
+
+
+
+
+
+
+
+
+## Q3.
+> _What can you conclude when the p-value of the Kruskal-Wallis Test is significant?_
+
+When the p-value of the Kruskal-Wallis Test is significant (typically p < 0.05), you can conclude:
+
+⸻
+
+✅ At least one group differs from the others
+
+There is statistical evidence that at least one group’s distribution (usually median) is significantly different from the others.
+
+⸻
+
+🧠 But! You cannot conclude:
+
+* Which specific group(s) are different
+* How many groups are different
+* The direction of the difference (e.g. higher or lower)
+
+<!-- Q3. End -->
+
+
+
+
+
+
+
+
+
+
+## Q4.
+> _What are the hypotheses of the Kruskal-Wallis Test?_
+
+$$
+H_0: \text{All group distributions are equal}
+$$
+
+$$
+H_A: \text{At least one group distribution differs}
+$$
+<!-- Q4. End -->
+
+
+
+
+
+
+
+
+
+
+## Q5.
+> _Use the Friendly dataset from library(car) in R to perform a Kruskal-Wallis Test._
+
+```{r}
+# import data
+df <- Friendly
+```
+
+```{r}
+# Kruskal-Wallis Test
+df %>% 
+  kruskal.test(correct ~ condition, data = .) %>% 
+  pander()
+```
+
+<!-- Q5. End -->
+
+
+
+
+
+
+
+
+
+
+## Q6.
+> _What advantage does the Kruskal-Wallis Test have over the Wilcoxon Test? What advantage does the Wilcoxon Test have over the Kruskal-Wallis Test?_
+
+### Kruskal-Wallis Test
+```{r, echo=FALSE, results='asis'}
+kw_adv <- data.frame(
+  Advantage = c(
+    "Handles 3 or more groups",
+    "Good for detecting broader distributional differences"
+  ),
+  Why_it_matters = c(
+    "Wilcoxon is limited to comparing 2 groups only. Kruskal-Wallis generalizes that to multiple independent groups.",
+    "Useful when testing whether any group differs, not just one pair."
+  )
+)
+
+pander(kw_adv)
+```
+
+⸻
+
+### Wilcoxon Test
+```{r, echo=FALSE, results='asis'}
+wilcoxon_adv <- data.frame(
+  Advantage = c(
+    "More power for 2-group comparisons",
+    "Supports post-hoc comparisons"
+  ),
+  Why_it_matters = c(
+    "When you're only testing two groups, Wilcoxon is typically more sensitive and powerful than Kruskal-Wallis.",
+    "Often used as the follow-up test after Kruskal-Wallis to detect which groups differ."
+  )
+)
+
+pander(wilcoxon_adv)
+```
+
+<!-- Q6. End -->
+
+
+
+
+
+
+
+
+
+
+## Q7.
+> _For your Analysis this week, what three R-codes are needed to complete the analysis?_
+
+__We will need:__
+
+1. `kruskal.test()`
+2. `boxplot()` from the ggplot package
+3. `favstats()` from library Mosaic
+
+<!-- Q7. End -->
+
+
+
+
+
+<!-- Questions End -->
+
+
+
+
+
+<!-- -------- -->
+<!-- FILE END -->
+<!-- -------- -->

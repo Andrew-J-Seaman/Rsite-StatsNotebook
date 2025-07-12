@@ -1,0 +1,123 @@
+---
+title: "Consulting"
+subtitle: "W11 Analysis"
+author: "Andrew Seaman"
+date: "2025-06-09"
+output: html_document
+---
+
+---
+
+<!--******************************************************
+LAST UPDATED: 2025-06-09
+BY: Andrew Seaman
+*******************************************************-->
+
+<!-------------------------------------------------------
+.                          SETUP                    
+-------------------------------------------------------->
+
+<!-- Today's date -->
+```{r, warning=FALSE, echo=FALSE}
+# Utility: copy today's date to clipboard, only when editing
+if (interactive()) {
+  clipr::write_clip(Sys.Date())
+}
+
+# Next, paste after 'LAST UPDATED' above
+```
+
+<!-- Format HTML Output -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- Libraries -->
+```{r}
+# Import libraries
+import(ggplot)
+import(mosaic)
+import(DT)
+import(pander)
+import(tidyverse)
+```
+
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------------------
+.                          PLANNING                    
+-------------------------------------------------------->
+
+<!-- Analysis Ideas -->
+```{r}
+# ============================================================
+#                           INTRO
+# ============================================================
+# From the 'Class Activity - Idea Approval for the Week 11 "Consulting Opportunity or Research Project"' I've complied the following ordered lists for clarify and reference. 
+
+# However, I believe I've already found my analysis idea and client.
+
+# ************************************************************
+
+
+# ————————————————————————————————————————————————————————————
+#                 PAST CLIENT-FOCUSED ANALYSES
+# ————————————————————————————————————————————————————————————
+# 	1.	Identified truck drivers with the best and worst live-beehive delivery performance by analyzing survival rates, delivery times and distances (for a family beekeeping business).
+# 	2.	Assessed weather’s effect on chicken egg-laying rates and recommended climate-control improvements (for a family chicken farm).
+# 	3.	Contributed data analysis to a grant renewal proposal by quantifying improvements in student mental-happiness rates over three years (for a high school).
+# 	4.	Saved a construction company thousands by modeling the optimal number of employees per job (for a family construction business).
+# 	5.	Pinpointed which course assignments most critically impacted student success to guide TA support efforts (as a teaching assistant).
+# 	6.	Measured how an outdoor stand-up sign influenced walk-in customer traffic (for a local retail business).
+# 	7.	Ran a profit analysis to identify top-revenue items and recommend discontinuations or production increases (for a local retailer).
+# 	8.	Performed a cost-benefit study comparing tanning-bed profits versus manicure rooms—leading to a $250/month profit boost after removing the tanning bed (for a neighborhood salon).
+
+# ————————————————————————————————————————————————————————————
+#                 GRADUATE-SCHOOL RESEARCH PROJECTS
+# ————————————————————————————————————————————————————————————
+# 	1.	Mouse example logistic-regression analysis (see textbook walkthrough: https://byuistats.github.io/Statistics-Notebook/Analyses/Logistic%20Regression/Examples/mouseLogisticReg.html).
+# 	2.	NHANES-based study on how depression and poverty affect diabetes diagnosis probability.
+# 	3.	Evaluation of ABiC glaucoma surgery’s impact on intraocular pressure and medication needs (for publication by an Idaho Falls optometrist).
+
+# ————————————————————————————————————————————————————————————
+#                 SELF-DRIVEN ANALYSES
+# ————————————————————————————————————————————————————————————
+# 	1.	Determining which factors most influence acceptance into data-science graduate programs.
+# 	2.	Tracking psychology graduates’ post-degree paths (jobs, further study) and key characteristics linked to employment success.
+# 	3.	Monthly budgeting: spending breakdown and potential cut-back areas.
+# 	4.	Comparative value analysis of baby strollers for cost-effectiveness.
+```
+
+<!-- Chosen Analysis -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

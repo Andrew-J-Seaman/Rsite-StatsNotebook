@@ -1,0 +1,75 @@
+---
+title: "t-Tests"
+subtitle: "Assessment Quiz"
+author: "Andrew Seaman"
+date: "2025-Feb-1"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(tidyverse)
+library(DT)
+library(pander)
+
+df <- Births78
+```
+
+Ensure you have library(mosaic) loaded in RStudio and can View(Births78). This dataset records data for every day of the year. In other words, each row of this dataset repesents a day of the year.
+
+## Q1.
+> In a typical year, there are 52 weeks. However, 52 x 7 = 364, and as most of us know, there are 365 days in a year. This means that every year, at least one day gets to happen more than 52 times.
+</BR></BR>
+> Use appropriate R commands and the Births78 dataset to determine which day of the week in 1978 occurred 53 times.
+
+```{r}
+# a.
+df %>%
+  count(wday) %>% 
+  pander()
+```
+
+## Q2. 
+
+> Let μ represent the average number of births that a occur on a given day of the week, like Wendesday or Thursday.
+</BR></BR>
+> Use the Births78 dataset in RStudio to test the following hypotheses:
+</BR></BR>
+H0:μWednesday−μThursday=0
+</BR>
+Ha:μWednesday−μThursday≠0
+
+```{r}
+# a. List of days to test
+days <- c("Wed", "Thu")
+
+# b. Subset the data by day
+Wednesday <- df$births[df$wday == days[1]]
+Thursday <- df$births[df$wday == days[2]]
+
+# c. Run independent samples t test
+output <- t.test(Wednesday, Thursday, mu = 0, alternative = "two.side", conf.level = 0.95)
+
+# d. Clean output of test results
+pander(output)
+```
+
+## Q3. 
+
+>_What two things are required to compute a p-value?_
+
+A test statistic and a sampling distribution of the test statistic.
+
+
+
+<!-- END QUIZ -->

@@ -1,0 +1,450 @@
+---
+title: "R Cheat Sheets & Notes"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+# Load libraries
+library(tibble)
+library(pander)
+library(readr)
+library(dplyr)
+library(DT)
+```
+
+
+<BR />
+
+
+
+
+
+## Cheat Sheets
+
+
+# {.tabset .tabset-pills .tabset-fade}
+
+## Hide
+
+----
+
+These links are provided by Brother Saunders and serve as good sources to reference on occasion.
+
+## Links
+
+----
+
+* [R Colors](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
+
+* [RStudio Cheat Sheets](https://www.rstudio.com/resources/cheatsheets/)
+
+* [R Base Commands Cheat Sheet](https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf)
+
+* [Keyboard Shortcuts](https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts)
+
+
+
+#
+
+
+<BR />
+
+
+
+
+
+<!-- ====================================================================== -->
+<!-- Notes -->
+<!-- ====================================================================== -->
+## My Work
+
+<!-- ====================================================================== -->
+<!-- TABSET: 'R Commands', 'Skills Quizes', 'Class Activities', 'Assessment Quizzes' -->
+<!-- ====================================================================== -->
+
+# {.tabset .tabset-pills .tabset-fade}
+
+<!-- ====================================================================== -->
+<!-- Hide -->
+<!-- ====================================================================== -->
+## Hide
+
+----
+
+My personal work is categorized by common assignment categories.
+
+
+
+
+
+
+
+
+
+
+<!-- ====================================================================== -->
+<!-- R Commands -->
+<!-- ====================================================================== -->
+## R Commands
+
+----
+
+##### Learned Functions
+
+```{r, echo=FALSE}
+# Define the functions and map them to the correct column
+values_input <- list(
+  Aggregate = c("mean()", "sum()", ""),
+  `String Manipulation` = c("print()", "cat()", "toupper()")
+)
+
+# Create the tibble dynamically
+commands <- tibble(
+  !!names(values_input)[1] := values_input$Aggregate,
+  !!names(values_input)[2] := values_input$`String Manipulation`
+)
+
+# View the result
+pander(commands)
+```
+
+##### W01
+- [Getting Started](./MyWork/W01/RC_Getting-Started.html)
+
+<!-- ##### W02 -->
+<!-- - [link_text](./MyWork/W02/RC_) -->
+
+<!-- ##### W03 -->
+<!-- - [link_text](./MyWork/W03/RC_) -->
+
+<!-- ##### W04 -->
+<!-- - [link_text](./MyWork/W04/RC_) -->
+
+<!-- ##### W05 -->
+<!-- - [link_text](./MyWork/W05/RC_) -->
+
+<!-- ##### W06 -->
+<!-- - [link_text](./MyWork/W06/RC_) -->
+
+<!-- ##### W07 -->
+<!-- - [link_text](./MyWork/W07/RC_) -->
+
+<!-- ##### W08 -->
+<!-- - [link_text](./MyWork/W08/RC_) -->
+
+<!-- ##### W09 -->
+<!-- - [link_text](./MyWork/W09/RC_) -->
+
+<!-- ##### W10 -->
+<!-- - [link_text](./MyWork/W10/RC_) -->
+
+<!-- End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ====================================================================== -->
+<!-- SKILLS QUIZ -->
+<!-- ====================================================================== -->
+## Skills Quizzes
+
+----
+
+##### W01
+- [Intro to R](./MyWork/W01/Skills-Quiz_Intro-to-R.html)
+
+##### W02
+- [Describing Data with R](./MyWork/W02/Skills-Quiz_Describing-Data-with-R.html)
+
+##### W03
+- [Data Wrangling & Visualization](./MyWork/W03/Skills-Quiz_Data-Wrangling-and-Visualization.html)
+
+##### W04
+- [t-Tests](./MyWork/W04/SQ_t-Tests.html)
+
+##### W05
+- [Wilcoxson Tests](./MyWork/W05/SQ_Wilcoxson-Tests.html)
+
+##### W06
+- [Kruskal-Wallis Test](./MyWork/W06/SQ_Kruskal-Wallis-Test.html)
+
+##### W07
+- [ANOVA](./MyWork/W07/SQ_ANOVA.html)
+
+##### W08
+- [Simple Linear Regression](./MyWork/W08/SQ_Simple-Linear-Regression)
+
+##### W09
+- [Multiple Linear Regression](./MyWork/W09/SQ_Multiple-Linear-Regression.html)
+
+##### W10
+- [Logistic Regression](./MyWork/W10/SQ_Logistic-Regression.html)
+
+##### W11
+- [(Optional) Practice Final Exam](./MyWork/W11/SQ_Optional-Practice-Final-Exam.html)
+
+##### W12
+- [Chi Squared Test](./MyWork/W12/SQ_Chi-Squared-Test.html)
+
+##### W13
+- [Randomization Testing](./MyWork/W13/SQ_Randomization-Testing.html)
+
+##### W14
+- [Practice Final Exam](./MyWork/W14/SQ_Practice-Final-Exam.html)
+
+<!-- End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ====================================================================== -->
+<!-- CLASS ACTIVITY -->
+<!-- ====================================================================== -->
+## Class Activities
+
+----
+
+##### W01
+- [Working with Data in R](./MyWork/W01/CA_Working-with-Data-in-R.html)
+
+##### W02
+- [Good Peer Reviewing](./MyWork/W02/CA_Good-Peer-Reviewing.html)
+- [Principles of Good Graphics](./MyWork/W02/CA_Principles-of-Good-Graphics.html)
+
+##### W03
+- [Types of Data, R Commands, and Graphics](./MyWork/W03/CA_Types-of-Data-R-Commands-and-Graphics.html)
+
+##### W04
+- [Making Inference](./MyWork/W04/CA_Making-Inference.html)
+- [t-Tests](./MyWork/W04/CA_t-Tests.html)
+
+##### W05
+- [Wilcoxon Tests](./MyWork/W05/CA_Wilcoxon-Tests.html)
+- [Wilcoxon Tests, Boxplots, and P-Values](./MyWork/W05/CA_Wilcoxon-Tests_Boxplots_P-values.html)
+
+##### W06
+- [Idea Approval for the Week 11 "Consulting Opportunity or Research Project"](./MyWork/W06/CA_Approval-for-W11-Consulting-Opportunity-or-Research-Project.html)
+- [Kruskal-Wallis Test](./MyWork/W06/CA_Kruskal-Wallis-Test.html)
+
+##### W07
+- [One-Way ANOVA](./MyWork/W07/CA_One-Way-ANOVA.html)
+- [Two-Way ANOVA](./MyWork/W07/CA_Two-Way-ANOVA.html)
+
+##### W08
+- [Simple Linear Regression (Part 1)](./MyWork/W08/CA_Simple-Linear-Regression-Pt1.html)
+- [Simple Linear Regression (Part 2)](./MyWork/W08/CA_Simple-Linear-Regression-Pt2.html)
+
+##### W09
+- [Multiple Linear Regression (Part 1)](./MyWork/W09/CA_Multiple-Linear-Regression-Pt1.html)
+- [Multiple Linear Regression (Part 2)](./MyWork/W09/CA_Multiple-Linear-Regression-Pt2.html)
+
+##### W10
+- [Simple Logistic Regression (Part 1)](./MyWork/W10/CA_Simple-Logistic-Regression-Pt1.html)
+- [Simple Logistic Regression (Part 2)](./MyWork/W10/CA_Simple-Logistic-Regression-Pt2.html)
+
+##### W11
+- [Presenting your Findings](./MyWork/W11/CA_Presenting-Your-Findings.html)
+
+##### W12
+- [Chi Squared Test](./MyWork/W12/CA_Chi-Squared-Test.html)
+- [Chi Squared Survey Results](./MyWork/W12/CA_Chi-Squared-Survey-Results.html)
+
+##### W13
+- [Permutation Testing (Part 1)](./MyWork/W13/CA_Permutation-Testing-Pt1.html)
+- [Permutation Testing (Part 2)](./MyWork/W13/CA_Permutation-Testing-Pt2.html)
+
+##### W14
+- [Final Workshop Day](./MyWork/W14/CA_Final-Workshop-Day.html)
+
+<!-- End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ====================================================================== -->
+<!-- ASSESSMENT QUIZ -->
+<!-- ====================================================================== -->
+## Assessment Quizzes
+
+---
+
+##### W01
+ - NA
+
+##### W02
+- [Describing Data with R](./MyWork/W02/AQ_Describing-Data-with-R.html)
+
+##### W03
+- [Intro to Data Wrangling & Visualization](./MyWork/W03/AQ_Intro-to-Data-Wrangling-&-Visualization.html)
+
+##### W04
+- [link_text](./MyWork/W04/AQ_t-Tests.html)
+
+##### W05
+- [Wilcoxson Tests](./MyWork/W05/AQ_Wilcoxon-Tests.html)
+
+##### W06
+- [Kruskal-Wallis Test](./MyWork/W06/AQ_Kruskal-Wallis-Test.html)
+
+##### W07
+- [ANOVA](./MyWork/W07/AQ_ANOVA.html)
+
+##### W08
+- [Simple Linear Regression](./MyWork/W08/AQ_Simple-Linear-Regression)
+
+##### W09
+- [Multiple Linear Regression](./MyWork/W09/AQ_Multiple-Linear-Regression.html)
+
+##### W10
+- [Logistic Regression](./MyWork/W10/AQ_Logistic-Regression.html)
+
+##### W11
+  - NA
+
+##### W12
+- [Chi Squared Test](./MyWork/W12/AQ_Chi-Squared-Test.html)
+
+##### W13
+- [Randomization Testing](./MyWork/W13/AQ_Randomization-Testing.html)
+
+##### W14
+  - NA
+
+
+#
+
+<BR />
+
+<!-- End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ====================================================================== -->
+<!-- Additional -->
+<!-- ====================================================================== -->
+## Additional
+
+# {.tabset .tabset-pills .tabset-fade}
+
+<!-- Tabset Pill: Hide -->
+## Hide
+
+----
+
+
+
+Consider this section the miscellaneous grouping of examples, subjects, and more.
+
+
+
+<!-- Tabset Pill: Scrollable Table Example -->
+## Scrollable Table
+
+----
+
+
+
+### Scrollable Table
+
+The argument flow is `datatable()` > `options = list()` > `scrollX = TRUE`.
+
+<BR />
+
+##### Example:
+```{r, message=FALSE}
+# Import data
+Rent <- read_csv("Data/Rent.csv")
+
+# Rename data frame
+scrollable_table_example_df <- Rent %>%
+  select(-PublicDescription)
+
+# Display table
+datatable(
+  scrollable_table_example_df, 
+  options = list(
+    lengthMenu = c(3,10,30),
+    scrollX = TRUE,        # Enable horizontal scrolling
+    fixedColumns = TRUE,   # Enable fixed columns
+    columnDefs = list(
+      list(className = 'dt-left', targets = 0) # Align the first column to the left
+    )
+  )
+)
+```
+
+
+
+<!-- Tabset Pill: Parametric vs. Nonparametric Distributions -->
+## Parametric vs. Nonparametric
+
+---
+
+#### Parametric distributions mean:
+
+You assume the data follows a known shape (e.g., <u>normal distribution</u>), which allows you to:
+
+* Use a small set of parameters (like <u>mean & standard deviation</u>) to describe the entire population.
+* Make specific statistical inferences (e.g., <u>t-tests, confidence intervals, p-values</u>) based on that shape.
+
+It’s like saying, “I know the rules of this game, so I can make powerful plays with just a little info.”
+
+
+</BR>
+
+
+#### Non-parametric distributions mean:
+
+You don’t assume any specific shape of the data distribution.
+
+* You avoid relying on parameters like the mean or standard deviation.
+* You use <u>rankings, medians, or resampling</u> instead.
+* You sacrifice some statistical power in exchange for robustness and flexibility.
+
+It’s more like saying, “I don’t trust the game’s rules, so I’ll play safe and improvise with what I see.”
+
+
+</BR>
+
+
+#### In context of parametric vs non-parametric:
+
+When we say “parametric” in statistics, we’re not just talking about any parameter — we’re referring to parameters of a specific assumed distribution (usually the normal distribution).
+
+For example:
+
+* __Parametric__: Assumes the data is normal → uses mean and standard deviation.
+* __Non-parametric__: Makes no assumption about the distribution → uses stats like the median because it works even when the data is not symmetric or normal.
+
+---
+
+#
+

@@ -1,0 +1,633 @@
+---
+title: "Data Wrangling & Visualization"
+subtitle: "Skills Quiz"
+author: "Andrew Seaman"
+date: "2025-Jan-23"
+output: 
+  html_document:
+    theme: journal
+    code_folding: hide
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(mosaicData)
+library(DT)
+library(pander)
+library(tidyverse)
+```
+
+----
+
+
+
+
+
+<!-- START: ALL -->
+# Questions
+
+
+
+
+
+<!-- START: Main Tabset -->
+# {.tabset .tabset-pills .tabset-fade}
+
+
+
+
+
+<!-- START: Summary -->
+## Summary
+
+----
+
+### Introduction
+The quiz involves analyzing multiple datasets (KidsFeet, airquality, Riders, and mtcars) using tidyverse and mosaic functions in R. It focuses on key data wrangling and visualization skills, including:
+
+- Summarizing categorical data (e.g., gender distribution, birth month counts).
+- Computing descriptive statistics (e.g., mean, median, quartiles for numerical data).
+- Filtering and grouping data (e.g., monthly temperature trends, weight of vehicles).
+- Comparing values (e.g., largest month-to-month temperature difference, heaviest cars).
+- Using visualization techniques (e.g., histograms, boxplots, stripcharts).
+- Applying functions and pipelines to streamline computations.
+
+The quiz ensures proficiency in data exploration, summarization, and visualization using R, essential for effective data analysis.
+
+<BR />
+
+### Questions (5)
+
+##### Q2
+Analyzes the KidsFeet dataset to determine gender distribution, foot dominance, birth month distribution, and statistical summaries of foot length.
+
+##### Q3
+Examines the airquality dataset to compute monthly temperature averages, identify the coolest month, calculate differences between July and August, and determine the largest month-to-month temperature change.
+
+##### Q4
+Reformats the airquality dataset to display mean temperatures for each month with formatted month labels.
+
+##### Q5
+Aggregates the Riders dataset to compute the total number of riders observed per day of the week, ensuring correct ordering of weekdays.
+
+##### Q6
+Investigates the mtcars dataset, counting variables and records, analyzing cylinder distribution, fuel efficiency, and quarter-mile times, and determining the heaviest 6-cylinder vehicles.
+
+<!-- END: Summary -->
+
+
+
+
+
+<!-- START: Q2 -->
+## Q2
+
+----
+
+#### 2.1
+How many boys and girls are there in this dataset?
+```{r}
+# a. How many boys and girls are there in this dataset?  
+table_var <- function(df, var) {
+  df %>% 
+    pull({{ var }}) %>%  # Convert to a vector
+    table() %>% 
+    pander()
+}
+
+table_var(KidsFeet, sex)
+
+```
+
+#### 2.2
+Which foot is more commonly the bigger foot (happens the most in this dataset)?
+```{r}
+# b. Which foot is more commonly the bigger foot (happens the most in this dataset?
+table_var(KidsFeet, biggerfoot)
+
+```
+
+#### 2.3
+Which birth month is most common among these sampled children?
+```{r}
+# c. Which birth month is most common among these sampled children?
+KidsFeet %>% 
+  mutate(
+    `Birth Month` = factor(
+      month.abb[birthmonth], 
+      levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+    )  # Correctly apply factor() only to `Birth Month`
+  ) %>% 
+  count(`Birth Month`) %>% 
+  pander()
+
+```
+
+#### 2.4
+Note that the table( ) function can also be used with two variables at once. This can help answer questions like, "are girls or boys more likely to be left handed?"
+```{r}
+# d. "Are girls or boys more likely to be left handed?"
+table_vars <- function(df, var1, var2) {
+  df %>% 
+    select({{ var1 }}, {{ var2 }}) %>% 
+    as.data.frame() %>%  # Ensure it's a standard dataframe
+    table() %>% 
+    pander()
+}
+
+table_vars(KidsFeet, domhand, sex)
+```
+
+#### 2.5
+The **group_by( )** and **summarise( )** functions are very useful for computing "our favorite statistics" of quantitative variables. This is demonstrated in your Math 325 Notebook >> Describing Data >> Numerical Summaries >> Five-number Summary as well as in your R Commands page at the bottom under "group_by and summarise".
+
+Be sure library(tidyverse) is loaded, then use group_by( ) and summarise( ) to obtain the values needed to fill in the following table.
+
+```{r}
+# e. Summaries of children's foot lengths according to their gender.
+KidsFeet %>% 
+  group_by(sex) %>% 
+  summarise(
+    min = min(length, na.rm = TRUE),
+    Q1 = quantile(length, 0.25, na.rm = TRUE),
+    median = median(length, na.rm = TRUE),
+    Q3 = quantile(length, 0.75, na.rm = TRUE),
+    max = max(length, na.rm = TRUE),
+    mean = mean(length, na.rm = TRUE),
+    sd = sd(length, na.rm = TRUE),
+    n = n(),
+    missing = sum(is.na(length))
+  ) %>% 
+  pander()
+```
+
+#### 2.6
+For this particular sample of data, which gender has the longest feet on average?
+```{r}
+# f. For this particular sample of data, which gender has the longest feet on average?
+answer <- KidsFeet %>% 
+  group_by(sex) %>% 
+  summarise(mean_length = mean(length, na.rm = TRUE)) %>% 
+  filter(mean_length == max(mean_length)) %>%  # Keep only the max mean
+  mutate(sex = if_else(sex == "B", "Boys", "Girls")) %>% 
+  pull(sex)  # Extract value
+
+cat("Longest feet on average:", answer, "\n")
+```
+
+#### 2.7
+Which gender shows the most consistency in length of feet among children in this sample?
+```{r}
+# g. Which gender shows the most consistency in length of feet among children in this sample?
+answer <- KidsFeet %>% 
+  group_by(sex) %>% 
+  summarise(sd_length = sd(length, na.rm = TRUE)) %>% 
+  filter(sd_length == min(sd_length)) %>%  # Keep only the max mean
+  mutate(sex = if_else(sex == "B", "Boys", "Girls")) %>% 
+  pull(sex)  # Extract value
+
+cat("Most consistent foot length:", answer, "\n")
+```
+
+<!-- END: Q2 -->
+
+
+
+
+
+<!-- START: Q3 -->
+## Q3
+
+----
+
+#### Introduction
+It is often of interest to obtain the mean (or another statistic) of data for several groups. The following questions will help you practice doing this in R.
+
+Your R Code / Numerical Summaries page of your Math 325 Notebook should help you answer the questions on this page.
+
+In your R Console, type the commands:
+
+\> ?airquality <BR />
+\> View(airquality) <BR />
+\> library(mosaic) <BR />
+
+#### 3.1
+Then, run an appropriate command to obtain the mean daily temperature at LaGuardia Airport for each month, separately. What was the average (mean) temperature for each month?
+```{r}
+# a. What was the average (mean) temperature for each month?
+airquality %>% 
+  group_by(Month) %>%
+  summarise(
+    `Month Number` = first(Month),  
+    `Month Name` = first(month.name[Month]),  
+    `Mean Temp` = mean(Temp, na.rm = TRUE)  
+  ) %>% 
+  ungroup() %>%  
+  distinct(`Month Name`, .keep_all = TRUE) %>%
+  arrange(`Month Number`) %>% 
+  select("Month Number", "Month Name", "Mean Temp") %>%
+  pander()
+```
+
+#### 3.2
+Which month experiences the coolest average temperature?
+```{r}
+# b. Which month experiences the coolest average temperature?
+coolest_month <- airquality %>% 
+  group_by(Month) %>%
+  summarise(
+    "Month Number" = first(Month),  
+    "Month Name" = first(month.name[Month]),  
+    "Mean Temp" = mean(Temp, na.rm = TRUE)  
+  ) %>% 
+  ungroup() %>%  
+  filter(`Mean Temp` == min(`Mean Temp`)) %>%  # Find the lowest mean temp
+  pull(`Month Name`)  # Extract the month name
+
+cat(coolest_month, "\n")
+```
+
+#### 3.3
+By how many degrees do the average temperatures of July and August differ?
+```{r}
+# c. By how many degrees do the average temperatures of July and August differ?
+difference_in_temps <- airquality %>% 
+  group_by(Month) %>%
+  summarise(
+    "Month Number" = first(Month),  
+    "Month Name" = first(month.name[Month]),  
+    "Mean Temp" = mean(Temp, na.rm = TRUE)  
+  ) %>% 
+  ungroup() %>%  
+  filter(`Month Name` %in% c("July", "August")) %>%  # Select only July & August
+  pull(`Mean Temp`) %>%  # Extract numeric values
+  diff()  # Compute the difference
+
+cat(abs(difference_in_temps), "degrees\n")
+```
+
+#### 3.4
+Between which two consecutive months is there the largest difference in average temperature?
+```{r}
+# d. Between which two consecutive months is there the largest difference in average temperature?
+max_difference <- airquality %>% 
+  group_by(Month) %>%
+  summarise(
+    `Month Number` = first(Month),  
+    `Month Name` = first(month.name[Month]),  
+    `Mean Temp` = mean(Temp, na.rm = TRUE)  
+  ) %>% 
+  ungroup() %>%  
+  arrange(`Month Number`) %>%  
+  mutate(
+    Previous_Month = lag(`Month Name`),
+    Difference = abs(`Mean Temp` - lag(`Mean Temp`))
+  ) %>%  
+  slice_max(Difference, n = 1)  # Get max difference
+
+cat(max_difference$Previous_Month, "and", max_difference$`Month Name`, "\n")
+```
+
+#### 3.5
+Which of the following graphics would be useful in depicting the above information? (Choose all that apply).
+
+<!-- START: Sub-Tabset 1 -->
+##### {.tabset .tabset-pills .tabset-fade}
+
+###### Hide
+
+###### Potentially Usefull
+```{r}
+# 3.5.1
+hist(airquality$Temp, xlab="Daily Temperature", main="LaGuardia Airport (May to September 1973)", col="slategray")
+
+# 3.5.2
+plot(Temp ~ Month, data=airquality, xlab="Month", ylab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray")
+
+# 3.5.3
+boxplot(Temp ~ Month, data=airquality, xlab="Month", ylab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray")
+
+# 3.5.4
+stripchart(Temp ~ Month, data=airquality, ylab="Month", xlab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray", method="stack")
+
+# 3.5.5
+plot(Temp ~ Day, data=airquality, xlab="Day of the Month", ylab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray")
+```
+
+###### Actually Usefull
+```{r}
+# 3.5.2
+plot(Temp ~ Month, data=airquality, xlab="Month", ylab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray")
+
+# 3.5.3
+boxplot(Temp ~ Month, data=airquality, xlab="Month", ylab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray")
+
+# 3.5.4
+stripchart(Temp ~ Month, data=airquality, ylab="Month", xlab="Temperature", main="LaGuardia Airport (May to September 1973)", pch=16, col="slategray", method="stack")
+```
+
+#####
+
+<!-- END: Sub-Tabset 1 -->
+
+#### 3.6
+In your R Console, type the commands:
+
+\> ?Orange <BR />
+\> View(Orange) <BR />
+
+```{r}
+# f.
+Orange %>% 
+  group_by(age) %>% 
+  summarise(
+    "Age (days)" = first(age),
+    "Trunk Circumference (mm)" = median(circumference, na.rm = TRUE)
+  ) %>% 
+  ungroup() %>% 
+  select("Age (days)", "Trunk Circumference (mm)") %>% 
+  pander()
+```
+
+#### 3.7
+Select all of the following graphics that would be useful for displaying the above data.
+
+Hint: Run the codes in R to see the graph they produce.
+
+<!-- START: Sub-Tabset 2 -->
+##### {.tabset .tabset-pills .tabset-fade}
+
+###### Hide
+
+###### Potentially Usefull
+```{r}
+# g1.
+plot(circumference ~ age, data=Orange, ylab="Trunk Circumference (mm)", xlab="Age of Trees (days)", main="Trunk Circumference of Orange Trees", col="ivory3", pch=15)
+Orange.m <- median(circumference ~ age, data=Orange)
+lines(names(Orange.m), Orange.m, col="ivory3")
+legend("topleft", legend="Median Growth", lty=1, col='ivory3', bty='n')
+
+# g2.
+boxplot(circumference ~ age, data=Orange, ylab="Trunk Circumference (mm)", xlab="Age of Trees (days)", main="Trunk Circumference of Orange Trees", col="ivory3")
+
+# g3.
+stripchart(circumference ~ age, data=Orange, ylab="Trunk Circumference (mm)", xlab="Age of Trees (days)", main="Trunk Circumference of Orange Trees", col="ivory3", pch=15, method="stack", vertical=TRUE)
+
+# g4.
+boxplot(Orange, xlab="Age of Tree (days)", main="Trunk Circumference of Orange Trees", col="ivory3")
+```
+
+###### Actually Usefull
+```{r}
+# g1.
+plot(circumference ~ age, data=Orange, ylab="Trunk Circumference (mm)", xlab="Age of Trees (days)", main="Trunk Circumference of Orange Trees", col="ivory3", pch=15)
+Orange.m <- median(circumference ~ age, data=Orange)
+lines(names(Orange.m), Orange.m, col="ivory3")
+legend("topleft", legend="Median Growth", lty=1, col='ivory3', bty='n')
+
+# g2.
+boxplot(circumference ~ age, data=Orange, ylab="Trunk Circumference (mm)", xlab="Age of Trees (days)", main="Trunk Circumference of Orange Trees", col="ivory3")
+
+# g3.
+stripchart(circumference ~ age, data=Orange, ylab="Trunk Circumference (mm)", xlab="Age of Trees (days)", main="Trunk Circumference of Orange Trees", col="ivory3", pch=15, method="stack", vertical=TRUE)
+```
+
+#####
+
+<!-- END: Sub-Tabset 2 -->
+
+#### 3.8
+During which age interval did the most rapid overall median growth occur (in the circumference of the orange trees that were sampled)?
+```{r}
+# h. During which age interval did the most rapid overall median growth occur (in the circumference of the orange trees that were sampled)?
+result <- Orange %>% 
+  group_by(age) %>% 
+  summarise(
+    "Age (days)" = first(age),  
+    "Median Growth (mm)" = median(circumference, na.rm = TRUE)  
+  ) %>% 
+  ungroup() %>% 
+  arrange(`Age (days)`) %>%  
+  mutate(
+    Previous_Age = lag(`Age (days)`),  # Store previous age before filtering
+    Growth_Difference = `Median Growth (mm)` - lag(`Median Growth (mm)`)  # Compute growth before filtering
+  )
+
+# Identify the row with the maximum growth difference
+max_growth_row <- result %>% 
+  slice_max(Growth_Difference, n = 1)  # Get the row with max difference
+
+# Extract start and end ages from precomputed values
+start_age <- max_growth_row$Previous_Age
+end_age <- max_growth_row$`Age (days)`
+
+cat(start_age, "and", end_age, "days\n")
+```
+
+<!-- END: Q3 -->
+
+
+
+
+
+<!-- START: Q4 -->
+## Q4
+
+----
+
+#### 4.1
+```{r}
+# a.
+airquality %>% 
+  group_by(Month) %>% 
+  mutate(
+    `Month Number` = first(Month),  # Ensure single row per group
+    `Month New` = first(paste0(Month, " (", month.abb[Month], ")")),  # Format month name
+    `Mean Temp` = first(mean(Temp, na.rm = TRUE))  # Compute mean once per group
+  ) %>% 
+  ungroup() %>%  
+  distinct(`Month New`, .keep_all = TRUE) %>%  # Keep only one row per group
+  select(
+    Month = `Month New`,  # Rename for final output
+    `Mean Temperature at La Guardia Airport (degrees Fahrenheit)` = `Mean Temp`
+  ) %>% 
+  arrange(`Month`) %>%  # Arrange correctly
+  pander()
+```
+
+<!-- END: Q4 -->
+
+
+
+
+
+<!-- START: Q5 -->
+## Q5
+
+----
+
+#### Introduction
+Consider the Riders dataset in R. (You may need to load library(mosaicData).)
+
+#### 5.1
+How many total riders were observed on each day of the week? (Hint: the sum() function works the same way as mean()...)
+```{r}
+# a.
+Riders %>% 
+  group_by(day) %>% 
+  summarise(
+    `Day of the Week` = first(day),
+    `Total Number of Riders Observed` = sum(riders)
+  ) %>% 
+  ungroup() %>% 
+  distinct(`Day of the Week`, .keep_all = TRUE) %>% 
+    mutate(
+    `Day of the Week` = factor(
+      paste0(`Day of the Week`, "s"),  # Append "s" to each day
+      levels = paste0(c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"), "s")  # Maintain correct order
+    )
+  ) %>% 
+  arrange(`Day of the Week`) %>%  # Ensure sorting respects new order
+  select(
+    `Day of the Week`,
+    `Total Number of Riders Observed`
+  ) %>% 
+  pander()
+```
+
+<!-- END: Q5 -->
+
+
+
+
+
+<!-- START: Q6 -->
+## Q6
+
+----
+
+#### Introduction
+Use the mtcars dataset in R to answer these questions.
+
+#### 6.1
+Which of the following properly describes the mtcars data set?
+```{r}
+# a.
+cat("It contains data from the 1974 Motor Trend US magazine.")
+```
+
+#### 6.2
+How many variables are in the mtcars data set? 
+```{r}
+# b.
+var_count <- ncol(mtcars)  # Count number of columns
+cat("Variables: ", var_count)
+```
+
+#### 6.3
+How many observations are in the mtcars data set? (Hint: try View(...))
+```{r}
+# c.
+record_count <- nrow(mtcars)  # Count number of columns
+cat("Records: ", record_count)
+```
+
+#### 6.4
+How many vehicles are represented in the dataset for 4, 6, and 8 cylinder vehicles? (Hint: use the table(...) function.)
+```{r}
+# d.
+mtcars %>% 
+  filter(cyl %in% c(4, 6, 8)) %>% 
+  group_by(cyl) %>%  # Group by cylinder type
+  summarise(
+    `Cylinders` = first(cyl),  # Keep only one row per group
+    `Number of Vehicles in the Dataset` = n()  # Count vehicles per cylinder group
+  ) %>% 
+  ungroup() %>% 
+  select(`Cylinders`, `Number of Vehicles in the Dataset`) %>% 
+  pander()
+```
+
+#### 6.5
+According to the mtcars data, on average, vehicles with 4 cylinders get the best (highest) gas mileage. What is the average mpg for automatic and manual transmission vehicles with 4 cylinders? (Round answers to the nearest tenth.)
+```{r}
+# e.
+mtcars %>% 
+  filter(cyl == 4) %>% 
+  group_by(am) %>% 
+  summarise(
+    `Transmission` = first(ifelse(am== 0, "Automatic", "Manual")),
+    `Mean Gas Mileage for 4 Cylinder mtcars Vehicles (mpg)` = first(mean(mpg, na.rm = TRUE))
+  ) %>% 
+  ungroup() %>% 
+  select(`Transmission`, `Mean Gas Mileage for 4 Cylinder mtcars Vehicles (mpg)`) %>% 
+  pander()
+```
+
+#### 6.6
+According to the mtcars data, on average, vehicles with 8 cylinders have the best (fastest) quarter mile time. What is the mean quarter mile time (qsec) for automatic and manual transmission vehicles with 8 cylinders? (Round answers to nearest tenth.)
+```{r}
+# f.
+mtcars %>% 
+  filter(cyl == 8) %>% 
+  group_by(am) %>% 
+  summarise(
+    `Transmission` = first(ifelse(am== 0, "Automatic", "Manual")),
+    `Mean Quarter Mile Time for 8 Cylinder mtcars Vehicles (sec)` = first(mean(qsec, na.rm = TRUE))
+  ) %>% 
+  ungroup() %>% 
+  select(`Transmission`, `Mean Quarter Mile Time for 8 Cylinder mtcars Vehicles (sec)`) %>% 
+  pander()
+```
+
+#### 6.7
+According to the mtcars data, how many thousands of pounds does the heaviest 6 cylinder car with an automatic transmission weigh? (Round to the nearest tenth.)
+```{r}
+# g.
+auto_lbs <- mtcars %>% 
+  filter(cyl == 6, am == 0) %>% 
+  pull(wt) %>% 
+  max(na.rm = TRUE)
+
+round_auto_lbs <- round(auto_lbs, 1)
+
+cat(round_auto_lbs, "k lbs")
+```
+
+#### 6.8
+How many more thousands of pounds does it weigh than the heaviest 6 cylinder car with a manual transmission? (Round to the nearest tenth.)
+```{r}
+# h.
+manual_lbs <- mtcars %>% 
+  filter(cyl == 6, am == 1) %>% 
+  pull(wt) %>% 
+  max(na.rm = TRUE)
+  
+diff <- auto_lbs - manual_lbs
+round_manual_lbs <- round(diff, 1)
+
+cat(round_manual_lbs, "k lbs")
+```
+
+<!-- END: Q6 -->
+
+
+
+
+
+#
+
+<!-- END: Main Tabset -->
+
+
+
+
+
+<!-- END: ALL -->

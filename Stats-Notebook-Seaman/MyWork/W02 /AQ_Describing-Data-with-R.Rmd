@@ -1,0 +1,123 @@
+---
+title: "Describing Data with R"
+subtitle: "Assessment Quiz"
+author: "Andrew Seaman"
+date: "2025-01-19"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+<!-- Format HTML Output -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- Library Imports -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(tidyverse)
+library(DT)
+```
+
+<!-- Data Import -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Use the Utilities data set in RStudio, which records monthly utility costs and details for a certain residence.
+df_u <- Utilities
+```
+
+
+
+
+
+
+
+
+
+<!-- Report START! -->
+## Q1.
+
+---
+
+> Create an appropriate graphic of monthly gas bill costs.
+
+```{r}
+# a. Histogram of monthly gas bill costs
+(
+  ggplot(df_u, aes(x=gasbill))
+    + geom_histogram(fill="forestgreen", color="black", binwidth=30)
+    + theme_minimal()
+    + ggtitle("Gas Bills Show Left Skewedness of a Unimodal Distribution")
+    + xlab("Gas Bill")
+    + ylab("Frequency")
+    + theme(
+      plot.title = element_text(hjust = 0.5, face="bold")
+    )
+)
+```
+
+</BR>
+
+
+
+
+
+## Q2.
+
+---
+
+> Find the mean circumference of orange tree trunks.
+
+```{r}
+# a. Rename data frame
+df_o <- Orange
+
+# b. Filter data frame
+df_o_filtered <- df_o %>% 
+  filter(age == 1004)
+
+# c. Calculate the mean circumference
+result <- mean(df_o_filtered$circumference)
+```
+
+The mean circumference of oranges tree trunk size is `r result` (mm).
+
+</BR>
+
+
+
+
+
+## Q3
+
+---
+
+> Evaluate the circumfrence of orange tree trunks by tree age.
+
+```{r}
+# a.
+(
+  ggplot(df_o, aes(x=age, y=circumference))
+    + geom_point(color="purple")
+    + geom_hline(yintercept=100,  color="forestgreen", linetype="dashed")
+    + geom_vline(xintercept=484,  color="brown",       linetype="dashed")
+    + geom_vline(xintercept=664,  color="brown",       linetype="dashed")
+    + geom_vline(xintercept=1004, color="brown",       linetype="dashed")
+    + geom_vline(xintercept=1231, color="brown",       linetype="dashed")
+    + theme_minimal()
+    + ggtitle("Growth of Orange Tree Trunk Circumference by Age")
+    + xlab("\n Age (days) \n Since Dec 31st, 1968")
+    + ylab("Circumference (mm)")
+    + theme(
+      plot.title = element_text(hjust = 0.5, face="bold")
+    )
+)
+```
+
+
+
+<!-- Report END! -->

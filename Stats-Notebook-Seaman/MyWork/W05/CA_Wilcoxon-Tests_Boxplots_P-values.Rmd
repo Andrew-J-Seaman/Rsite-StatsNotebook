@@ -1,0 +1,223 @@
+---
+title: "Wilcoxon Tests, Boxplots, and P-Values"
+subtitle: "Class Activity"
+author: "Andrew Seaman"
+date: "2025-5-21"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+<!-- ------ -->
+<!-- SETUP: -->
+<!-- ------ -->
+
+<!-- Format HTML Output -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- Libraries -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(DT)
+library(pander)
+library(tidyverse)
+```
+
+<!-- Setup End -->
+
+
+
+
+<!-- Tabset Start -->
+# {.tabset .tabset-pills .tabset-fade}
+
+<!-- ---------- -->
+<!-- QUESTIONS: -->
+<!-- ---------- -->
+
+## Questions
+
+
+
+
+
+### Q1.
+> _Let's review some of the things we have learned so far this semester:_
+
+#### Response
+
+1. __Which function would you use to add a new column to your dataset?__
+    * We would use `mutate()` or `summarize()`.
+
+```{r}
+KidsFeet2 <- KidsFeet %>%
+  
+  mutate(
+    birthseason = case_when(
+      birthmonth %in% c(12, 1, 2) ~ "Winter",
+      birthmonth %in% c(3,4,5) ~ "Spring",
+      birthmonth %in% c(6,7,8) ~ "Summer",
+      birthmonth %in% c(9,10,11) ~ "Fall"
+    )
+  )
+
+  datatable(head(KidsFeet2))
+```
+
+</BR>
+
+2. __Which plots work best to display <u>one quantitative variable</u> that is separated into 2 or more groups?__
+    * Box plots, violin plots, and dot/strip plots work well. They visualize distribution, central tendency, and spread.
+    * From Brother Saunders:
+      * If the sample size is fairly large, a boxplot could be used.
+      * If the sample size is small, a dot plot is best.
+      * If you want to get fancy with medium sample sizes, you could overlay a dotplot on top of a boxplot using either Base R:
+      
+```{r}
+boxplot(length ~ sex, data=KidsFeet)
+
+stripchart(length ~ sex, data=KidsFeet, method="stack", vertical=TRUE, add=TRUE)
+```
+
+OR ggplot2:
+
+```{r}
+ggplot(KidsFeet, aes(x=sex, y=length)) + 
+
+  geom_boxplot() +
+  
+  geom_point()
+```
+
+</BR>
+
+3. __What two things are needed to calculate a p-value?__
+    * A test statistic (e.g., t-score)
+    * The sampling distribution under the null hypothesis
+
+</BR>
+
+4. __When would an independent samples t test be inappropriate to use but a Wilcoxon Rank Sum Test be appropriate?__
+    * When the data are not normally distributed or when the sample sizes are small and unequal with strong outliers — Wilcoxon doesn’t assume normality.
+    * (Brother Saunders): The independent samples t test is appropriate when the sample sizes are large or when the data in each group can be considered to be normal. It is inappropriate to use an independent samples t test when the sample sizes are small AND the data is clearly not normal in either group. This latter situation would still be appropriate for a Wilcoxon Rank Sum Test (as long as there weren't too many "ties" in the data). The Wilcoxon Test can also be used on "ordinal" data, but the t test is not meaningful for such data.
+
+</BR>
+
+5. __What is an appropriate set of hypotheses to use for an independent samples t test? For a Wilcoxon Rank Sum Test?__
+    * __t Test__:
+      * H₀: μ₁ = μ₂ (the means are equal)
+      * H₁: μ₁ ≠ μ₂ (the means are different)
+
+    * __Wilcoxon Rank Sum Test__:
+      * H₀: The distributions of the two groups are equal
+      * H₁: The distributions are not equal (often interpreted as a shift in median)
+
+---
+
+<!-- Q1. End -->
+
+
+
+
+
+
+
+
+
+
+### Q2.
+> _Your instructor will use the following applet for today's class activity. You are welcome to follow along if you wish ([Mann-Whitney / Small Samples](https://shiny.byui.edu/StatClass/))._
+
+#### Response
+
+1. __Explain what it means for the null hypothesis of a Wilcoxon Rank Sum Test to be true.__
+    * It means the two groups come from the same distribution — there’s no systematic difference in ranks between them (i.e., no shift in medians).
+
+</BR>
+
+2. __Explain what it means for the alternative hypothesis of a Wilcoxon Rank Sum Test to be true.__
+    * It means the distributions differ — one group consistently has higher or lower ranks than the other, suggesting a shift in central tendency.
+
+</BR>
+
+3. __Explain how boxplots for small sample sizes can be misleading.__
+    * With small samples, boxplots can exaggerate or hide outliers, skewness, and spread. The quartiles might not represent the underlying distribution well, making patterns appear that aren’t statistically meaningful.
+
+</BR>
+
+4. __Explain how the p-value helps us judge whether or not the null hypothesis or alternative hypothesis is the truth based on the evidence shown in a boxplot.__
+    * The p-value quantifies how likely it is to see a difference as extreme as the one in the plot if the null hypothesis were true. A small p-value suggests the difference isn’t just a fluke and supports the alternative hypothesis.
+
+---
+
+<!-- Q2. End -->
+
+
+
+
+
+
+
+
+
+
+### Q3.
+> _This week's analysis asks you to examine the results from a memory recall study. It is helpful to the success of this analysis if you experience some of the experiment yourself. To do this, open this [link](https://brainconnection.brainhq.com/brain-teasers/word-list-recall). Then, try the "Word List Recall" game and see how you do._
+
+#### Response
+
+1. __How many words did you correctly recall?__
+    * I recalled 4 words.
+
+<!-- Q3. End -->
+
+---
+
+<!-- Questions End -->
+ 
+
+
+
+
+
+
+
+
+
+<!-- ------ -->
+<!-- NOTES: -->
+<!-- ------ -->
+
+## Notes
+
+### Additional Resources
+
+1. [Wilcoxon Tests](../../WilcoxonTests.html)
+
+---
+
+### `Mean()` vs. `Median()`
+
+The __Wilcoxon tests__ are more usefull than t-Tests when the <span style="background-color:yellow;">data cannot be trusted to be normal</span>, so the `mean()` is prone to following the tail of the data whereas the `median()` is far more stationary. 
+
+By using the `median()` we get a better sense for proportions of real or potential data points which belong in the various quantiles.
+
+---
+
+<!-- Notes End -->
+
+#
+
+<!-- Tabset End -->
+
+
+
+<!-- -------- -->
+<!-- FILE END -->
+<!-- -------- -->

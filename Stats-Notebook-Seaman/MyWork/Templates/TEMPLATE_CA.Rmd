@@ -1,0 +1,365 @@
+---
+title: "TEMPLATE"
+subtitle: "Class Activity"
+author: "Andrew Seaman"
+date: "2025-MM-DD"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+
+
+<!--******************************************************
+LAST UPDATED: May 31, 2025
+BY: Andrew Seaman
+*******************************************************-->
+
+
+
+<!-------------------------------------------------------
+.                          SETUP                    
+-------------------------------------------------------->
+
+<!-- Format HTML Output -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- Libraries -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load
+library(mosaic)
+library(pander)
+library(DT)
+library(tidyverse)
+```
+
+<!-- Data -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load data
+
+```
+
+<!-- END: Setup -->
+
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------------------
+.                          QUESTIONS                    
+-------------------------------------------------------->
+
+<!-- START: Q1. -->
+
+## Q1. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q1. -->
+
+
+
+
+
+
+
+
+
+
+<!-- START: Q2. -->
+
+## Q2. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q2. -->
+
+
+
+
+
+
+
+
+
+
+<!-- START: Q3. -->
+
+## Q3. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q3. -->
+
+
+
+
+
+
+
+
+
+
+<!-- START: Q4. -->
+
+## Q4. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q4. -->
+
+
+
+
+
+
+
+
+
+
+<!-- START: Q.5 -->
+
+## Q5. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q5. -->
+
+
+
+
+
+
+
+
+
+
+<!-- START: Q6. -->
+
+## Q6. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q6. -->
+
+
+
+
+
+
+
+
+
+
+<!-- START: Q7. -->
+
+## Q7. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q7. -->
+
+
+
+
+
+
+
+
+
+
+<!-- START: Q8. -->
+
+## Q8. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q8. -->
+
+
+
+
+
+
+
+
+
+
+<!-- START: Q9. -->
+
+## Q9. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q9. -->
+
+
+
+
+
+
+
+
+
+
+<!-- START: Q10. -->
+
+## Q10. Topic
+> _Question_
+
+Response
+
+```{r}
+# 
+
+```
+
+---
+
+<!-- END: Q10. -->
+
+
+<!-- END: Questions -->
+
+
+
+
+<!-- --------- -->
+<!-- END: FILE -->
+<!-- --------- -->
+
+
+
+
+
+
+
+1.
+    *
+    
+</BR>
+
+2.
+    *
+    
+</BR>
+
+3.
+    *
+    
+</BR>
+
+4.
+    *
+    
+</BR>
+
+5.
+    *
+
+</BR>
+
+6.
+    *
+    
+</BR>
+
+7.
+    *
+    
+</BR>
+
+8.
+    *
+    
+</BR>
+
+9.
+    *
+    
+</BR>
+
+10.
+    *

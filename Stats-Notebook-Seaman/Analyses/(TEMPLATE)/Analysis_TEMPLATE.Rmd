@@ -1,0 +1,238 @@
+---
+title: "Analysis_TEMPLATE"
+author: "Andrew Seaman"
+date: "yyyy-mm-dd"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+# SETUP
+
+<!-- ============================= -->
+<!--            SETUP              -->
+<!-- ============================= -->
+
+<!-- . -->
+
+<!-- CHUNK #1 -->
+<!-- Library and data imports -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Library imports
+library(tidyverse)
+library(DT)
+library(pander)
+library(readr)
+
+# Data import 
+# df <- read_csv("../../") # NOTE: uncomment this line and replace 'df' with a data specific name
+```
+
+<!-- CHUNK #2 -->
+<!-- Format HTML Output -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- SECTION END: SETUP -->
+<!-- .................. -->
+
+
+
+
+
+# INSTRUCTIONS
+
+<!-- ============================= -->
+<!--          INSTRUCTIONS         -->
+<!-- ============================= -->
+
+<!-- . -->
+
+<!--CHUNK #1 -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Instructions:
+
+```
+
+<!-- SECTION END: INSTRUCTIONS -->
+<!-- ......................... -->
+
+
+
+
+
+# DATA EXPLORATION
+
+<!-- ============================= -->
+<!--        DATA EXPLORATION       -->
+<!-- ============================= -->
+
+<!-- . -->
+
+<!-- CHUNK #1 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+    
+```
+
+<!-- CHUNK #2 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+
+```
+
+<!-- CHUNK #3 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+
+```
+
+<!-- CHUNK #4 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+
+```
+
+<!-- CHUNK #5 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+
+```
+
+<!-- CHUNK #6 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+
+```
+
+<!-- CHUNK #7 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+
+```
+
+<!-- CHUNK #8 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+
+```
+
+<!-- CHUNK #9 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+
+```
+
+<!-- CHUNK #10 -->
+<!-- . -->
+```{r, include=FALSE}
+# 
+
+```
+
+<!-- SECTION END: DATA EXPLORATION -->
+<!-- ............................. -->
+
+
+
+
+
+<!-- ============================= -->
+<!--            ANALYSIS           -->
+<!-- ============================= -->
+
+<!-- . -->
+
+# ANALYSIS
+
+<!-- CHUNK #1 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #2 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #3 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #4 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #5 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #6 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #7 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #8 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #9 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- CHUNK #10 -->
+<!-- . -->
+```{r}
+# 
+
+```
+
+<!-- SECTION END: ANALYSIS -->
+<!-- ..................... -->
+
+
+
+
+
+<!-- .......................................... -->
+<!-- DOCUMENT END: '[TITLE]' -->
+<!-- .......................................... -->

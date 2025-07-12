@@ -1,0 +1,198 @@
+---
+title: "Principles of Good Graphics"
+subtitle: "Class Activity"
+author: "Andrew Seaman"
+date: "2025-01-19"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(tidyverse)
+library(DT)
+library(dplyr)
+library(ggplot2)
+```
+
+## Q3: Histogram
+```{r}
+# a.
+df <- airquality
+
+ggplot(df, aes(x = Wind)) +
+  geom_histogram(binwidth = 1.78, fill = "steelblue", color = "black") +
+  labs(
+    title = "La Guardia Airport from May to September, 1973",
+    x  = "Daily Average Wind Speeds (mph)",
+    y  = "Frequency"
+  ) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 12
+    ),
+    axis.title.x = element_text(
+      size = 10,
+      margin = margin(t = 20)
+    ),
+    axis.title.y = element_text(
+      size = 10,
+      margin = margin(r = 20)
+    ),
+    axis.ticks = element_line(color = "black"),        # Black tick marks
+    axis.ticks.length = unit(0.3, "cm"),               # Length of outward ticks
+    axis.ticks.direction = NULL                        # Outward-facing ticks
+  )
+```
+
+## Q5: Side-by-Side Boxplot
+```{r}
+# a.
+# Transform the dataset to include full month names
+df <- airquality %>%
+  mutate(
+    MonthName = factor(
+      month.name[Month],          # Map numeric months to full names
+      levels = month.name[5:9]    # Set levels to preserve the order (May to Sep)
+    )
+  )
+
+# Create the boxplot
+ggplot(df, aes(x = MonthName, y = Wind, fill = MonthName)) +
+  geom_boxplot(
+    color = "black", 
+    outlier.shape = 21, 
+    outlier.fill = "white",
+    outlier.color = "black"
+  ) +
+  geom_hline(yintercept = mean(airquality$Wind, na.rm = TRUE), linetype = "dashed", color = "red", linewidth = .8) +
+  annotate(
+    "text",
+    x = 1.5,                                           # X-coordinate of the text
+    y = 4,     # Y-coordinate of the text
+    label = "Mean Wind (≈ 10 mph)",                    # Text label
+    size = 4,                                        # Text size
+    color = "red",                                     # Text color
+    fontface = "bold"                                  # Bold font
+  ) +
+  scale_fill_manual(
+    values = c(
+      "May" = "steelblue1",
+      "June" = "steelblue2",
+      "July" = "steelblue3",
+      "August" = "steelblue3",
+      "September" = "steelblue1"
+    )
+  ) +
+  labs(
+    title = "La Guardia Airport from May to September, 1973",
+    x = "Month",
+    y = "Average Wind Speeds (mph)",
+    fill = "Month"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),                      # Remove grid lines
+    panel.background = element_rect(fill = "white"),   # White background
+    axis.text = element_text(color = "black"),         # Black axis text
+    legend.position = "none",                          # Remove legend
+    axis.ticks.y = element_line(color = "black"),      # Black tick marks
+    axis.ticks.length.y = unit(0.3, "cm"),             # Length of outward ticks
+    axis.ticks.direction = NULL,                       # Outward-facing ticks
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 12,
+      color = "black"
+    ),
+    axis.title.x = element_text(
+      size = 10,
+      margin = margin(t = 20)
+    ),
+    axis.title.y = element_text(
+      size = 10,
+      margin = margin(r = 20)
+    )
+  )
+```
+
+## Q7: Scatter Plot
+```{r}
+# a.
+# Filter out rows with missing values
+df <- airquality %>%
+  filter(!is.na(Ozone))  # Remove rows where Ozone is NA
+
+# Create the scatter plot
+ggplot(df, aes(x = Temp, y = Ozone)) +
+  geom_point(color = "steelblue3") +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red", linewidth = 0.8) +
+  annotate(
+    "text", 
+    x = 70,                    # X-coordinate of the text
+    y = 60,                    # Y-coordinate of the text
+    label = "Threshold: 50 ppb", # Text label
+    size = 4,                  # Text size
+    color = "red",             # Text color
+    fontface = "bold"          # Bold font
+  ) +
+  geom_vline(xintercept = 87, linetype = "dashed", color = "forestgreen", linewidth = 0.8) +
+  annotate(
+    "text", 
+    x = 93,                       # X-coordinate of the text
+    y = 150,                       # Y-coordinate of the text
+    label = "Threshold: > 87 Fº", # Text label
+    size = 4,                     # Text size
+    color = "forestgreen",                # Text color
+    fontface = "bold"             # Bold font
+  ) +
+  labs(
+    title = "Daily Readings of Air Quality for May to September, 1973",
+    subtitle = "Roosevelt Island",
+    x = "Max Temp (Fº)",
+    y = "Mean Ozone (ppb)"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),                      # Remove grid lines
+    panel.background = element_rect(fill = "white"),   # White background
+    axis.text = element_text(color = "black"),         # Black axis text
+    axis.ticks = element_line(color = "black"),        # Black tick marks
+    axis.ticks.length = unit(0.3, "cm"),               # Length of outward ticks
+    axis.ticks.direction = NULL,                       # Outward-facing ticks
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 12,
+      color = "black"
+    ),
+    plot.subtitle = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 9
+    ),
+    axis.title.x = element_text(
+      margin = margin(t = 20)
+    ),
+    axis.title.y = element_text(
+      margin = margin(r = 20)
+    )
+  )
+```
+
+
+
+
+

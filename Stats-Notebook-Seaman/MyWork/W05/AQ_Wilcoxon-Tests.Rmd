@@ -1,0 +1,141 @@
+---
+title: "Wilcoxon Tests"
+subtitle: "Assesment Quiz"
+author: "Andrew Seaman"
+date: "2025-06-04"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+<!-- ------ -->
+<!-- SETUP: -->
+<!-- ------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(DT)
+library(pander)
+library(tidyverse)
+library(car)
+```
+
+<!-- Setup End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ---------- -->
+<!-- QUESTIONS: -->
+<!-- ---------- -->
+
+## Q1.
+> _Use the Salaries dataset in R to find the number of male and female assistant professors in the dataset._
+
+```{r}
+# a.
+Salaries <- Salaries
+
+# b.
+Salaries2 <- Salaries %>% 
+  filter(rank == "AsstProf")
+
+# c.
+count(Salaries2, sex)
+```
+
+<!-- Q1. End -->
+
+
+
+
+
+
+
+
+
+
+## Q2.
+> _Create an appropriate graphic using the Salaries dataset in R that would allow you to compare the distribution of salaries for faculty in discipline A ("theoretical") and discipline B ("applied") departments._
+
+```{r}
+# a.
+ggplot(Salaries, aes(x=discipline, y = salary))+
+  geom_boxplot() +
+  scale_y_continuous(
+    breaks = c(100000, 150000, 200000)
+  ) +
+  labs(
+    title = "Faculty From U.S. Colleges\n",
+    x = "Discipline",
+    y = "Salaries"
+  ) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(face = "bold", hjust = .5),
+    axis.text.y = element_text(angle = 90),
+    grid
+  )
+```
+
+<!-- Q2. End -->
+
+
+
+
+
+
+
+
+
+
+
+
+## Q3.
+> _Perform an appropriate Wilcoxon Test of the following hypotheses using the Salaries dataset in R._
+
+$$
+H0: {\text{median discipline A salaries - median discipline B salaries}} = 0
+\\
+Ha: {\text{median discipline A salaries - median discipline B salaries}} \neq 0
+$$
+
+Select the response below showing the correct test statistic, p-value, and conclusion of the test based on a significance level of 0.05.
+
+```{r}
+# a.
+wilcox.test(Salaries$salary[Salaries$discipline == "A"], 
+            Salaries$salary[Salaries$discipline == "B"], 
+            mu = 0, 
+            alternative = "two.sided", 
+            conf.level = 0.05)
+```
+<!-- Q3. End -->
+
+
+
+
+
+<!-- Questions End -->
+
+
+
+
+
+<!-- -------- -->
+<!-- FILE END -->
+<!-- -------- -->

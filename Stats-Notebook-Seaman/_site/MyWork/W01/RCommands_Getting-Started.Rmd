@@ -1,0 +1,57 @@
+---
+title: "RCommands - Getting Started"
+author: "Andrew Seaman"
+date: "2025-01-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Example 1
+```{r}
+# 1a.
+View(cars)
+
+# 1b.
+data()
+```
+
+
+### Example 2
+```{r}
+# 2a.
+## cars$
+
+# 2b.
+ cars$dist
+
+# 2c.
+mean(cars$dist)
+
+# 2d. (bonus list)
+sd(cars$dist)
+var(cars$dist)
+median(cars$dist)
+min(cars$dist)
+max(cars$dist)
+length(cars$dist)
+sum(cars$dist)
+```
+
+
+### Example 3
+```{r}
+# 3a.
+colors()
+  
+# 3b.
+plot(dist ~ speed, data=cars, col="skyblue", pch=16)
+
+# 3c.
+plot(dist ~ speed, data=cars, col="firebrick", pch=16)
+
+# 3d.
+plot(dist ~ speed, data=cars, col="firebrick", pch=4)
+```

@@ -1,0 +1,25 @@
+---
+title: "Test"
+author: "Andrew Seaman"
+date: "2025-02-15"
+output: 
+  html_document:
+    theme: journal
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+
+
+
+
+
+

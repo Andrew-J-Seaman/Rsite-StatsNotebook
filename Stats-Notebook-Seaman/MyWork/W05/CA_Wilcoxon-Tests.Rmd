@@ -1,0 +1,216 @@
+---
+title: "Wilcoxon Tests"
+subtitle: "Class Activity"
+author: "Andrew Seaman"
+date: "2025-05-19"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+<!-- ------ -->
+<!-- SETUP: -->
+<!-- ------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(tidyverse)
+library(DT)
+library(pander)
+```
+
+<!-- Setup End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ---------- -->
+<!-- QUESTIONS: -->
+<!-- ---------- -->
+
+## Q1.
+> _Describe how a Wilcoxon Test computes a p-value (summarize the five steps as listed in the Explanation tabs of the Wilcoxon Test page)._
+
+__Summarization of steps:__
+
+1. Order all the data by magnitude ignoring the sign (+/-). Ensure the group label is kept with the value.
+2. Rank all values. 
+    * _Singed-Rank_: reassign the sign (+/-) to the rank. 
+    * _Rank Sum_: for identical values (i.e. ties) average their ranks and assign the result as the rank for each identical value. Do this for every set of repeated values. 
+3. Separate the ranks back into their respective groups.
+    * _Signed Rank_: negatives and positives
+    * _Rank Sum_: Group 1 and Group 2 (i.e. A and B, etc.).
+4. Sum the ranks in a group to find the test statistic.
+    * _Signed-Rank_: usually the smaller group (fewer ranks).
+    * _Rank Sum_: either group.
+5. Compute the p-value. 
+    a. Compute the probability of all possible values the test statistic could have (mathematical counting techniques).
+    b. Computing the probabilites of all sums creates a distribution of the test statistic. 
+    c. Then you can compute the p-value and reject of fail to reject the null hypothesis.
+
+<!-- Q1. End -->
+
+
+
+
+
+
+
+
+
+
+## Q2.
+> _Perform the following Wilcoxon Test in R: `wilcox.test(length ~ sex, data=KidsFeet)`._
+
+```{r, warning=FALSE}
+# a. Perform the following Wilcoxon test (Mann-Whitney; i.e. equivalent of independent samples t test) in R.
+pander(wilcox.test(length ~ sex, data=KidsFeet))
+
+# b. Locate W and the p-value in the output of this test in R. 
+W <- 252
+p_value <- 0.0836
+```
+> _Locate W and the p-value in the output of this test in R._
+
+In this Wilcoxon test:
+
+* __W (test statistic)__: `r W`
+* __p-value__: `r p_value`
+
+> _Explain what `W` represents and what the p-value represents with regards to the five steps of a Wilcoxon Test._
+
+The `W` represents the test statistic computed through the first four steps of each test.
+
+<!-- Q2. End -->
+
+
+
+
+
+
+
+
+
+
+## Q3.
+> _From the output in R, explain what this sentence means: "alternative hypothesis: true location shift is not equal to 0."_
+
+$$
+H_a: {\text{true location shift}} \neq 0
+$$
+
+The "location shift" refers to the difference in central tendency (typically the difference of medians).
+
+Therefore, the sentence can be rephrased as, "We're testing if the two groups are different (not equal)."
+
+In conclusion, in this case according to the results (p-value = `r p_value`) we actually must _fail_ to reject the null hypothesis that the "location shift" (difference of medians) is equal to 0.
+
+<!-- Q3. End -->
+
+
+
+
+
+
+
+
+
+
+## Q4.
+> _Explain the various types of hypotheses that can be used (null and alternative) when performing a Wilcoxon Test. How do these hypotheses differ from those of a t Test?_
+
+Below are the two types of Wilcoxon test and the different sets of null and alternative hypotheses one can test based on the type and orignal of data involved. 
+
+The below sets of hypotheses differ from those used in t tests in at least three ways:
+
+1. The _median_ is used as the measure of central tendency instead of the _mean_.
+2. Wilcoxon tests and hypotheses are used to evaluate nonparametric distributions.
+3. The results of Wilcoxon test and nonparametric tests at large are less powerful, or less convincing, than t tests in terms of the results and conclusions.
+
+### Wilcoxon Signed-Rank Test
+
+__One Sample of Data__
+$$
+  H_0: \text{Median} = \text{(Some Number)}
+    \\
+  H_a: \text{Median} \neq \text{(Same Number)}
+$$
+
+__Paired Samples of Data__
+$$
+  H_0: \text{median of differences} = 0
+    \\
+  H_a: \text{median of differences} \neq 0
+$$
+
+
+### WIlcoxon Rank Sum Test
+
+__Independent Samples of Data__
+$$
+  H_0: \text{difference in medians} = 0
+    \\
+  H_a: \text{difference in medians} \neq 0
+$$
+
+Or more generally,"that one distrubution is <u>_stochastically greater_</u> than the other."
+$$
+  H_0: {\text{the distributions are stochastically equal}}
+    \\
+  H_a: {\text{one distribution is stochastically greater than the other}}
+$$
+
+<!-- Q4. End -->
+
+
+
+
+
+
+
+
+
+
+## Q5.
+> _Explain what this error message means: "cannot compute exact p-value with ties" and what the implications are when this message appears while performing a Wilcoxon Test._
+
+__Error message__
+
+* The Wilcoxon Rank Sum Test (and Signed Rank Test) is based on ranks.
+* The test assumes that all values can be uniquely ranked — meaning no ties (no identical values).
+* If there are ties (duplicate values), the algorithm can’t compute an exact p-value (which is based on all possible permutations of the ranks).
+  * _Why that blocks “exact p-value”_:
+    * The exact distribution of the test statistic relies on counting all possible distinct arrangements of ranks.
+    * Ties create __ambiguity__ → the exact enumeration formula doesn’t apply anymore → R falls back to an approximation.
+
+__It's implications__
+
+* R switches to an __approximate__ p-value: usually a __normal approximation__ (with or without continuity correction).
+* The result is still __valid__: but less precise than an "exact" sample result.
+* Common when data has __rounding__ or __discrete values__: ex. Likert scales, counts, rounded measures.
+
+<!-- Q5. End -->
+
+
+
+<!-- Questions End -->
+
+
+
+<!-- -------- -->
+<!-- FILE END -->
+<!-- -------- -->

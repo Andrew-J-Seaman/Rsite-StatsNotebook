@@ -1,0 +1,219 @@
+---
+title: "Making Inference & t-Tests"
+subtitle: "Class Activity"
+author: "Andrew Seaman"
+date: "2025-Jan-28"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+
+<!-- Render Settings -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+<!-- Libraries -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(pander)
+library(DT)
+library(tidyverse)
+```
+
+
+<!-- L1: Notes -->
+# Notes
+
+## {.tabset .tabset-pills .tabset-fade}
+
+### Hide
+
+### Show
+
+<!-- L2: Hypothesis Test Errors -->
+#### Hypothesis Test Errors
+
+<!-- L3: Type 1 Error -->
+<span style="background-color: yellow;"><u>Type 1 Error:</u></span>
+<!-- L3: Explanation -->
+<span style="color: red; font-weight: bold;"> Shouldn't</span> reject the null hypothesis but <span style="color: green; font-weight: bold;">did</span>.
+
+<!-- * Ex. **Shouldn't** convict but **did**. -->
+
+<!-- L3: Type 2 Error -->
+<span style="background-color: yellow;"><u>Type 2 Error:</u></span>
+<!-- L3: Explanation -->
+<span style="color: green; font-weight: bold;"> Should</span> reject the null hypothesis but <span style="color: red; font-weight: bold;">didn't</span>.
+
+<!-- * Ex. **Should** convict but **didn't**. -->
+
+<!-- L3: Components -->
+<u>Components:</u>
+</BR>
+When performing a hypothesis test there are two types of errors which are possible. The components comprising either error are:
+ 
+* "should" / "shouldn't"
+* "did" / "didn't"
+
+<!-- L3: Example -->
+<u>Example:</u>
+</BR>
+In the American justice system we begin with the presumption of innocence (null hypothesis). Therefore, court proceedings are thus to provide sufficient or insufficient evidence to **reject** or **fail to reject** this presumption (null hypothesis) respectively.
+
+##
+
+---
+
+
+
+
+
+
+
+
+<!-- L1: Requirements -->
+
+# Requirements
+
+## {.tabset .tabset-pills .tabset-fade}
+
+### Hide
+
+### Show
+
+<u>Requirements:</u>
+</BR>
+
+1. I have successfully located the "Making Inference" page of my Statistics Notebook.
+2. I have added some notes to my Statistics Notebook "Table of Contents" page about what each of the logos (images) represent on that page.
+3. I can define "inference" in my own words. Further, I see why inference is needed when I have a sample of data, and why it is not needed when I have census data.
+4. I know where to find the four parametric distributions we will learn about this semester in my Statistics Notebook.
+5. I understand how a distribution shows which values are likely to occur and which are not. 
+6. I think I understand how to perform t Tests in R.
+
+##
+
+---
+
+
+
+
+
+
+
+
+<!-- L1: Questions -->
+# Questions
+
+### Q1.
+> _I have successfully located the "Making Inference" page of my Statistics Notebook._
+
+Yes, I have.
+
+
+
+
+
+### Q2.
+> _I have added some notes to my Statistics Notebook "Table of Contents" page about what each of the logos (images) represent on that page._
+
+Yes, there are <u>nine types</u> of variable combinations listed:
+
+1. One Quantitative Response Variable Y
+2. Quantitative Y | Categorical X (2 Groups)
+3. Quantitative Y | Categorical X (3+ Groups)
+4. Quantitative Y | Multiple Categorical X
+5. Quantitative Y | Quantitative X
+6. Quantitative Y | Multiple X
+7. Binomial Y | Quantitative X
+8. Binomial Y | Multiple X
+9. Categorical Y | Categorical X
+
+
+
+
+
+### Q3.
+> _I can define "inference" in my own words. Further, I see why inference is needed when I have a sample of data, and why it is not needed when I have census data._
+
+Inference is the process of drawing conclusions about a larger population based on a sample of data. It is needed when working with a sample because we do not have access to data for the entire population, so we use statistical methods to estimate and generalize our findings. However, inference is not necessary when we have census data because a census includes every individual in the population, eliminating the need for estimation or generalization.
+
+
+
+
+
+### Q4.
+> _I know where to find the four parametric distributions we will learn about this semester in my Statistics Notebook._
+
+Yes, they can be located by going to the navigation bar and clicking "Marking Inference" followed by "Making Inference" (first option) just below the header. Scroll down a little bit and we see these four parametric distributions listed:
+
+1. __The Normal Distribution__
+  * One of the most important distributions in statistics is the normal distribution. It is a theoretical distribution that approximates the distributions of many real life data distributions, like heights of people, heights of corn plants, baseball batting averages, lengths of gestational periods for many species including humans, and so on.
+
+$$
+  f(x | \mu,\sigma) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+$$
+
+
+
+2. __The Chi Squared Distribution__
+  * The chi squared distribution only allows for values that are greater than or equal to zero. While it has a few real life applications, by far its greatest use is theoretical.
+
+$$
+  f(x|p) = \frac{1}{\Gamma(p/2)2^{p/2}}x^{(p/2)-1}e^{-x/2}
+$$
+
+
+
+3. __The t Distribution__
+  * A close friend of the normal distribution is the t distribution. Although the t distribution is seldom used to model real life data, the distribution is used extensively in hypothesis testing. For example, it is the sampling distribution of the one sample t statistic. It also shows up in many other places, like in regression, in the independent samples t test, and in the paired samples t test.
+
+$$
+  f(x|p) = \frac{\Gamma\left(\frac{p+1}{2}\right)}{\Gamma\left(\frac{p}{2}\right)}\frac{1}{\sqrt{p\pi}}\frac{1}{\left(1 + \left(\frac{x^2}{p}\right)\right)^{(p+1)/2}}
+$$
+
+
+
+4. __The F Distribution__
+  * Another commonly used distribution for test statistics, like in ANOVA and regression, is the F distribution. Technically speaking, the F distribution is the ratio of two chi squared random variables that are each divided by their respective degrees of freedom.
+
+$$
+  f(x|p_1,p_2) = \frac{\Gamma\left(\frac{p_1+p_2}{2}\right)}{\Gamma\left(\frac{p_1}{2}\right)\Gamma\left(\frac{p_2}{2}\right)}\frac{\left(\frac{p_1}{p_2}\right)^{p_1/2}x^{(p_1-2)/2}}{\left(1+\left(\frac{p_1}{p_2}\right)x\right)^{(p_1+p_2)/2}}
+$$
+
+
+
+
+
+### Q5.
+> _I understand how a distribution shows which values are likely to occur and which are not._
+
+A distribution represents the possible values a variable can take and the likelihood of each occurring. The shape of the distribution helps us determine which values are common (high probability) and which are rare (low probability). For example, in a normal distribution, values near the mean are most likely, while extreme values are less common.
+
+
+
+
+
+### Q6.
+> _I think I understand how to perform t Tests in R._
+
+Yes, here are the results of an example t-test:
+
+```{r}
+# a. running a t-test in r
+df <- na.omit(airquality)  # Remove NA values
+df_subset <- df[df$Month %in% c(5, 6), ]  # Filter for months May (5) and June (6)
+
+t.test(Temp ~ as.factor(Month), data = df_subset)  # Perform t-test
+```
+
+
+
+

@@ -1,0 +1,346 @@
+---
+title: "Stephanie's Housing Request"
+subtitle: "W02 Analysis"
+author: "Andrew Seaman"
+date: "Jan 21, 2025"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, clean = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(mosaic)
+library(tidyverse)
+library(pander)
+library(DT)
+library(rlist)
+library(tidyr)
+
+rent <- read_csv("../Data/Rent.csv")
+```
+
+## Background
+
+**Who is Stephanie?**
+
+Stephanie[^1] is a student that will be starting school at BYU-Idaho next semester. Suppose she sent you the following email.
+
+**Letter From Stephanie**
+
+"Hi. My name is Stephanie. I would like to learn about what housing options I have for living at BYU-Idaho[^2] next semester. It will be my first semester there, so I would like to find something that is close to campus and around $300 a month in rent. I'm not too picky on roommates, but I would like somewhere that has a lot of people around so I can get to know as many people as possible. Thanks in advance!"
+
+----
+
+<!-- Write your response to Stephanie below. Use the "rent" data set, good statistical analysis, and clear writing to make some well supported suggestions to her about apartments that meet her stated criteria. You are free to use other criterion that you think she might find more meaningful as well. -->
+
+## Response
+
+*Dear Stephanie,*
+
+<BR />
+
+Exciting times are ahead for you at BYU—Idaho! 
+
+To recap your housing criteria: 
+
+* BYUI Approved Women’s Housing
+* Close to campus
+* Affordable housing at approximately $300/month ($1,200/semester).
+* A social environment with a high number of residents.
+
+Two quick notes about rent and residents:
+
+- **Rent Payment Structure**: most apartment complexes in Rexburg require full payment for the semester (≈ four months, 14 weeks) upfront. Some, however, offer monthly or installment options with a small additional fee. In this analysis, rent will be listed per semester.
+- **Housing Terminology:** If an apartment complex name includes “- WOMEN,” that means it has both men’s and women’s housing in separate, often adjacent, buildings. If it does not, then it is women-only housing.
+
+The most suitable housing option for Stephanie will be a BYU–Idaho-approved women’s housing complex that is below $1,200 per semester and has more residents than the average housing complex, as a larger resident count will provide a stronger social environment.
+
+If housing options that meet these conditions also have a positive public description about social engagement, then this hypothesis will be supported.
+
+To filter out men’s housing and find housing that essentially costs less than $300/month is simple enough. The first level of complexity is deciding how one identifies a "good social environment". The numerical factors available for consideration include total resident count, gender of demographic, distance to campus, and perhaps some more abstract factors. Certain assumptions must be made to make these factors meaningful however. We could choose to say high resident count means high social contact. Further, we might posit complexes with only female tenants aren't as socially conducive as one where both male and female tenants are housed as dating is a big component of the typical college experience. This too would allow for smoother co-ed friend group formation. Lastly, many freshman don't have cars and therefore value living relatively close to campus. This consideration could allow us to identify freshman preferred housing options which would place you living with peers in your same cohort of experience.
+
+Lastly, it's worth noting if the sequence of filters reduce the options too much the later mentioned factors may be dropped entirely from consideration. Alternatively, the first-applied filters can be loosened. For example, we might up the desired rent maximum to allow for a better overall search outcome.
+
+----
+
+## Analysis
+
+<!-- Hint, you should probably subset the rent data set to only show the "Approved Women’s Housing" since Stephanie won't be interested in Male Housing options. Notice how this text in green doesn't show up in the HTML output because we used the HTML comment tags around this text. --> 
+
+```{r}
+# DF 1: Apply no criteria (base data)
+## Count the rows: # of housing options
+opt1 <- nrow(rent)
+
+# DF 2: Apply the 1st and 2nd criteria (gender/rent)
+rent2 <- rent %>% filter(
+    Gender == "F",                       # Approved Women’s Housing
+    AvgFloorPlanCost <= 1200             # ≈ $300/month (or $1,200/semester)
+  )
+
+opt2 <- nrow(rent2) # Count the rows: # of housing options remaining
+
+# Average Residents
+avgResidents <- mean(rent$Residents)
+round_avgResidents <- ceiling(avgResidents)
+
+# DF 3.1: Apply the 3rd criteria (resident count)
+rent3.1 <- rent2 %>% filter(
+  Residents >= avgResidents   # Social environment (more residents than the mean)  
+  )
+  
+opt3 <- nrow(rent3.1) # Count the rows: # of housing options remaining
+
+
+```
+
+Starting with __`r opt1`__ complexes, after filtering out men's housing and where rent is greater than $1200/semester only __`r opt2`__ housing options remain. Applying the third criteria, or where total residents is greater than the _average residents_ (__`r round_avgResidents`__) of all complexes __`r opt3`__ options remain.
+
+```{r}
+# DF 3.2: Select columns
+rent3.2 <- rent3.1 %>%
+  select(
+    Name, 
+    AvgFloorPlanCost, 
+    MaxFloorPlanCost, 
+    Residents
+  )
+
+datatable(rent3.2, caption = "Prime Housing Options", options = list(
+          dom = "t"
+  ))
+
+# rent3_Select_Melt <- rent3_Select %>% 
+#     # Melt and transform the data
+#     pivot_longer(
+#       cols = -Name,                        # All columns except 'Name'
+#       names_to = "Details",                # New column for melted data
+#       values_to = "Value"                  # Values in a single column
+#     ) %>%
+#       pivot_wider(
+#         names_from = Name,                   # Apartment names become column headers
+#         values_from = Value                  # Values fill the new columns
+#       )
+
+# Display table (DF_2): melted subset data
+# datatable(
+#   rent3_Select_Melt, 
+#   options = list(
+#     lengthMenu = c(4),
+#     scrollX = TRUE,        # Enable horizontal scrolling
+#     fixedColumns = TRUE,   # Enable fixed columns
+#     columnDefs = list(
+#       list(className = 'dt-left', targets = 0) # Align the first column to the left
+#     )
+#   )
+# )
+```
+
+<BR />
+Here, Stephanie, you can use these three graphics to visually compare these numbers. Pay attention to the y-axis with the dollar values as the graphic to the far right varies from the others.
+
+```{r}
+# Define custom labels for each facet
+facet_labels <- c(
+  AvgFloorPlanCost = "Avg Floor Plan Cost (Per Semester)",
+  MaxFloorPlanCost = "Max Floor Plan Cost (Per Semester)",
+  Residents = "Number of Residents"
+)
+
+# DF 3.2_Long
+rent3.2_long <- rent3.2 %>%
+  pivot_longer(cols = AvgFloorPlanCost:Residents,
+               names_to = "Detail",
+               values_to = "Value")
+
+# Plot with facet-specific labels
+ggplot(rent3.2_long, aes(x = Name, y = Value)) +
+  geom_bar(stat = "identity", aes(fill = Name), show.legend = TRUE) +
+  facet_wrap(~ Detail,
+             scales = "free_y",
+             labeller = labeller(Detail = function(x) str_wrap(x, width = 20))) +  # Wrap text
+  labs(title = "Three Key Details of Four Qualifying Complexes", 
+       x = "Apartment Complex Name", 
+       y = "Value (USD $)") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(
+      face = "bold",
+      size = 15,
+      hjust = 0.5,
+      color = "black"
+    ),
+    strip.text = element_text(  # Apply text wrapping for facet titles
+      size = 10,
+      face = "bold",
+      color = "black",
+      lineheight = 1.2  # Adjust line spacing for better readability
+    ),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    legend.position = "bottom"
+  ) +
+  guides(fill = guide_legend(nrow = 2, byrow = TRUE))
+```
+
+<BR />
+If these four options aren't suitable you can instead browse the entire select of BYU—Idaho Approved Women’s and slightly adjusting your housing criteria to find the right fit.
+
+<BR />
+In this complete list, all data collected is shown including pricing, parking spaces, even website links.
+
+```{r}
+# DF 4: Display subset data for Approved Women’s Housing
+rent %>%
+  filter(Gender == "F") %>%
+  datatable(
+    caption = "All Women's Housing Options",
+    options = list(
+      lengthMenu = list(
+        c(1, 5, 15, 30, -1),  # -1 represents "All"
+        c(1, 5, 15, 30, "All") # Labels for each option
+      )
+    ),
+    extensions = "Responsive"
+  )
+```
+
+```{r}
+# DF 4: Get the public description for each qualifying complex (4)
+rent4 <- rent3.1 %>% 
+  select(
+    Name,
+    PublicDescription,
+    WebAddress
+  )
+
+name <- rent4$Name
+description <- rent4$PublicDescription
+link <- rent4$WebAddress
+
+pfx_1 <- "http://"
+pfx_2 <- paste0("www.", pfx_1)
+
+for (i in seq_along(link)) {
+  if (!startsWith(link[i], "http")) {
+    link[i] <- paste0(pfx_1, link[i])
+  } else if (!startsWith(link[i], "www")) {
+    link[i] <- paste0(pfx_2, link[i])
+  } else {
+    link[i] <- "WebAddress not valid"
+  }
+}
+```
+
+Below you will find the public descriptions for each qualifying complex (4).
+
+1. __[`r name[1]`]( `r link[1]` )__: `r description[1]`
+2. __[`r name[2]`]( `r link[2]` )__: `r description[2]`
+3. __[`r name[3]`]( `r link[3]` )__: `r description[3]`
+4. __[`r name[4]`]( `r link[4]` )__: `r description[4]`
+
+<BR />
+
+I wish you the best of luck finding your first apartment! I remember mine warmly to this day.
+
+<BR />
+<BR />
+<div style="margin-left: 40px;">
+<p style="font-style: italic";>See you around, Andrew Seaman</p>
+</div>
+
+<BR />
+
+[^1]: Note that Stephanie is a fictional character who is based on real experiences of many faculty and staff here at BYU-Idaho.
+[^2]: [BYU-Idaho](https://www.byui.edu) is a 4-year university located in southeastern Idaho owned and sponsored by [The Church of Jesus Christ of Latter Day Saints](https://www.churchofjesuschrist.org/?lang=eng).
+
+
+
+
+
+
+<!-- ====================================================== -->
+<!-- FEEDBACK -->
+<!-- ====================================================== -->
+
+<!-- 
+
+Jan 28 at 3:07pm
+
+Excellent work Andrew.
+
+I would like to see titles for each of your tables. You could use datatable(..., caption="A nice title") or you could use ### A Nice Title on a line prior to the R-chunk.
+
+Label the first one as something like "Your Top 4 Picks" and the last one something like "All Apartment Options". Those headers are like a main title of a graph and just make it easier to quickly connect with what the table is showing. I really like how you organized and presented those tables though with one change request...
+
+Please include the website in your Top 4 Table for each apartment. Or make the "Details" name become a link that navigates to each apartment's website. Then you're all set.
+
+The document reads very well.
+
+
+  - Garrett Saunders
+  
+-->
+
+
+
+
+
+
+
+<!-- ====================================================== -->
+<!-- TRYING TO UNDERSTAND HOW TO PERFORM AN ANALYSIS -->
+<!-- ====================================================== -->
+
+  <!-- Column names -->
+  <!-- ———————————————————————————————————————————————————— -->
+  <!--
+    [01] "Name"                 "Gender"
+    [03] "Address"              "Phone"
+    [05] "AvgFloorPlanCost"     "MaxFloorPlanCost"
+    [07] "Residents"            "ParkingSpaces"
+    [09] "Deposit"              "FloorPlanNumber"
+    [11] "WebAddress"           "Latitude"
+    [13] "Longitude"            "PublicDescription"
+    [15] "CrowFlyMetersToMC"    "CrowFlyMetersToRicks"
+  -->
+  
+  <!-- A hypothesis typically follows the format: -->
+  <!-- ———————————————————————————————————————————————————— -->
+    <!-- 
+    “If [independent variable], then [dependent variable], because [rationale].” 
+    -->
+
+  <!-- Independent Variables (Potential predictors) -->
+  <!-- ———————————————————————————————————————————————————— -->
+    <!-- These are variables that could influence or determine dependent variables: -->
+    <!--
+    	•	Gender → Determines if the housing is for men or women.
+    	•	Address → The location may influence rent, demand, and social environment.
+    	•	ParkingSpaces → Could impact the desirability of housing for students with vehicles.
+    	•	Deposit → Might influence affordability considerations.
+    	•	FloorPlanNumber → Could affect the cost or availability of housing.
+    	•	WebAddress → Not a numeric variable but provides information about each complex.
+    	•	Latitude / Longitude → Determines the physical location, which affects proximity to campus.
+    	•	PublicDescription → Descriptive but not necessarily numerical; could contain features influencing decisions.
+    	•	CrowFlyMetersToMC / CrowFlyMetersToRicks → Distance to campus, influencing convenience.
+    -->
+    
+  <!-- Dependent Variables (Potential outcomes) -->
+  <!-- ———————————————————————————————————————————————————— -->
+    <!-- These are variables that could be influenced by the independent variables: -->
+    <!--
+    	•	AvgFloorPlanCost → rent might be affected by location, amenities, and demand.
+    	•	MaxFloorPlanCost → Similar to average cost, dependent on features and location.
+    	•	Residents → The number of residents might be influenced by affordability, location, and desirability.
+    -->	
+
+
+

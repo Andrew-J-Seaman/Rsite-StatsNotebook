@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R Cheat Sheets &amp; Notes</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.33/datatables.js"></script>
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; text-decoration: underline; } /* Error */
+code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img src='Images/snlogo.png' alt='Statistics Notebook Logo' style='height: 30px; margin: -5px 0px'></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    R Help
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RCheatSheetsAndNotes.html">R Notes &amp; My Work</a>
+    </li>
+    <li>
+      <a href="RCommands.html">R Commands</a>
+    </li>
+    <li>
+      <a href="RMarkdownHints.html">R Markdown Hints</a>
+    </li>
+    <li>
+      <a href="DataSources.html">Data Sources</a>
+    </li>
+    <li>
+      <a href="External-Links.html">External Links</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Analyses/StudentHousing.html">Good Example Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/StudentHousingPOOR.html">Poor Example Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/Rent.html">1) Rent</a>
+    </li>
+    <li>
+      <a href="./Analyses/Stephanie.html">2) Stephanie</a>
+    </li>
+    <li>
+      <a href="./Analyses/t Tests/HighSchoolSeniors.html">3) High School Seniors</a>
+    </li>
+    <li>
+      <a href="./Analyses/Wilcoxon Tests/RecallingWords.html">4) Recalling Words</a>
+    </li>
+    <li>
+      <a href="./Analyses/Kruskal-Wallis Test/Food.html">5) Food</a>
+    </li>
+    <li>
+      <a href="./Analyses/ANOVA/MyTwoWayANOVA.html">6) My Two-way ANOVA</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/MySimpleLinearRegression.html">7) My Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/CarPrices.html">8) Car Prices</a>
+    </li>
+    <li>
+      <a href="./Analyses/Logistic Regression/MyLogisticRegression.html">9) My Logistic Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Chi Squared Tests/MyChiSquaredTest.html">10) My Chi-sqaured Test</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Describing Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GraphicalSummaries.html">Graphical Summaries</a>
+    </li>
+    <li>
+      <a href="NumericalSummaries.html">Numerical Summaries</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Making Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="MakingInference.html">Making Inference</a>
+    </li>
+    <li>
+      <a href="tTests.html">t Tests</a>
+    </li>
+    <li>
+      <a href="WilcoxonTests.html">Wilcoxon Tests</a>
+    </li>
+    <li>
+      <a href="Kruskal.html">Kruskal-Wallis Test</a>
+    </li>
+    <li>
+      <a href="ANOVA.html">ANOVA</a>
+    </li>
+    <li>
+      <a href="LinearRegression.html">Linear Regression</a>
+    </li>
+    <li>
+      <a href="LogisticRegression.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="ChiSquaredTests.html">Chi Squared Tests</a>
+    </li>
+    <li>
+      <a href="PermutationTests.html">Randomization</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">R Cheat Sheets &amp; Notes</h1>
+
+</div>
+
+
+<p><BR /></p>
+<div id="cheat-sheets" class="section level2">
+<h2>Cheat Sheets</h2>
+</div>
+<div id="section"
+class="section level1 tabset tabset-pills tabset-fade">
+<h1 class="tabset tabset-pills tabset-fade"></h1>
+<div id="hide" class="section level2">
+<h2>Hide</h2>
+<hr />
+<p>These links are provided by Brother Saunders and serve as good
+sources to reference on occasion.</p>
+</div>
+<div id="links" class="section level2">
+<h2>Links</h2>
+<hr />
+<ul>
+<li><p><a href="http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf">R
+Colors</a></p></li>
+<li><p><a href="https://www.rstudio.com/resources/cheatsheets/">RStudio
+Cheat Sheets</a></p></li>
+<li><p><a
+href="https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf">R
+Base Commands Cheat Sheet</a></p></li>
+<li><p><a
+href="https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts">Keyboard
+Shortcuts</a></p></li>
+</ul>
+</div>
+</div>
+<div id="section-1" class="section level1">
+<h1></h1>
+<p><BR /></p>
+<!-- ====================================================================== -->
+<!-- Notes -->
+<!-- ====================================================================== -->
+<div id="my-work" class="section level2">
+<h2>My Work</h2>
+<!-- ====================================================================== -->
+<!-- TABSET: 'R Commands', 'Skills Quizes', 'Class Activities', 'Assessment Quizzes' -->
+<!-- ====================================================================== -->
+</div>
+</div>
+<div id="section-2"
+class="section level1 tabset tabset-pills tabset-fade">
+<h1 class="tabset tabset-pills tabset-fade"></h1>
+<!-- ====================================================================== -->
+<!-- Hide -->
+<!-- ====================================================================== -->
+<div id="hide-1" class="section level2">
+<h2>Hide</h2>
+<hr />
+<p>My personal work is categorized by common assignment categories.</p>
+<!-- ====================================================================== -->
+<!-- R Commands -->
+<!-- ====================================================================== -->
+</div>
+<div id="r-commands" class="section level2">
+<h2>R Commands</h2>
+<hr />
+<div id="learned-functions" class="section level5">
+<h5>Learned Functions</h5>
+<table style="width:47%;">
+<colgroup>
+<col width="16%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Aggregate</th>
+<th align="center">String Manipulation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">mean()</td>
+<td align="center">print()</td>
+</tr>
+<tr class="even">
+<td align="center">sum()</td>
+<td align="center">cat()</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center">toupper()</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="w01" class="section level5">
+<h5>W01</h5>
+<ul>
+<li><a href="./MyWork/W01/RC_Getting-Started.html">Getting
+Started</a></li>
+</ul>
+<!-- ##### W02 -->
+<!-- - [link_text](./MyWork/W02/RC_) -->
+<!-- ##### W03 -->
+<!-- - [link_text](./MyWork/W03/RC_) -->
+<!-- ##### W04 -->
+<!-- - [link_text](./MyWork/W04/RC_) -->
+<!-- ##### W05 -->
+<!-- - [link_text](./MyWork/W05/RC_) -->
+<!-- ##### W06 -->
+<!-- - [link_text](./MyWork/W06/RC_) -->
+<!-- ##### W07 -->
+<!-- - [link_text](./MyWork/W07/RC_) -->
+<!-- ##### W08 -->
+<!-- - [link_text](./MyWork/W08/RC_) -->
+<!-- ##### W09 -->
+<!-- - [link_text](./MyWork/W09/RC_) -->
+<!-- ##### W10 -->
+<!-- - [link_text](./MyWork/W10/RC_) -->
+<!-- End -->
+<!-- ====================================================================== -->
+<!-- SKILLS QUIZ -->
+<!-- ====================================================================== -->
+</div>
+</div>
+<div id="skills-quizzes" class="section level2">
+<h2>Skills Quizzes</h2>
+<hr />
+<div id="w01-1" class="section level5">
+<h5>W01</h5>
+<ul>
+<li><a href="./MyWork/W01/Skills-Quiz_Intro-to-R.html">Intro to
+R</a></li>
+</ul>
+</div>
+<div id="w02" class="section level5">
+<h5>W02</h5>
+<ul>
+<li><a
+href="./MyWork/W02/Skills-Quiz_Describing-Data-with-R.html">Describing
+Data with R</a></li>
+</ul>
+</div>
+<div id="w03" class="section level5">
+<h5>W03</h5>
+<ul>
+<li><a
+href="./MyWork/W03/Skills-Quiz_Data-Wrangling-and-Visualization.html">Data
+Wrangling &amp; Visualization</a></li>
+</ul>
+</div>
+<div id="w04" class="section level5">
+<h5>W04</h5>
+<ul>
+<li><a href="./MyWork/W04/SQ_t-Tests.html">t-Tests</a></li>
+</ul>
+</div>
+<div id="w05" class="section level5">
+<h5>W05</h5>
+<ul>
+<li><a href="./MyWork/W05/SQ_Wilcoxson-Tests.html">Wilcoxson
+Tests</a></li>
+</ul>
+</div>
+<div id="w06" class="section level5">
+<h5>W06</h5>
+<ul>
+<li><a href="./MyWork/W06/SQ_Kruskal-Wallis-Test.html">Kruskal-Wallis
+Test</a></li>
+</ul>
+</div>
+<div id="w07" class="section level5">
+<h5>W07</h5>
+<ul>
+<li><a href="./MyWork/W07/SQ_ANOVA.html">ANOVA</a></li>
+</ul>
+</div>
+<div id="w08" class="section level5">
+<h5>W08</h5>
+<ul>
+<li><a href="./MyWork/W08/SQ_Simple-Linear-Regression">Simple Linear
+Regression</a></li>
+</ul>
+</div>
+<div id="w09" class="section level5">
+<h5>W09</h5>
+<ul>
+<li><a href="./MyWork/W09/SQ_Multiple-Linear-Regression.html">Multiple
+Linear Regression</a></li>
+</ul>
+</div>
+<div id="w10" class="section level5">
+<h5>W10</h5>
+<ul>
+<li><a href="./MyWork/W10/SQ_Logistic-Regression.html">Logistic
+Regression</a></li>
+</ul>
+</div>
+<div id="w11" class="section level5">
+<h5>W11</h5>
+<ul>
+<li><a
+href="./MyWork/W11/SQ_Optional-Practice-Final-Exam.html">(Optional)
+Practice Final Exam</a></li>
+</ul>
+</div>
+<div id="w12" class="section level5">
+<h5>W12</h5>
+<ul>
+<li><a href="./MyWork/W12/SQ_Chi-Squared-Test.html">Chi Squared
+Test</a></li>
+</ul>
+</div>
+<div id="w13" class="section level5">
+<h5>W13</h5>
+<ul>
+<li><a href="./MyWork/W13/SQ_Randomization-Testing.html">Randomization
+Testing</a></li>
+</ul>
+</div>
+<div id="w14" class="section level5">
+<h5>W14</h5>
+<ul>
+<li><a href="./MyWork/W14/SQ_Practice-Final-Exam.html">Practice Final
+Exam</a></li>
+</ul>
+<!-- End -->
+<!-- ====================================================================== -->
+<!-- CLASS ACTIVITY -->
+<!-- ====================================================================== -->
+</div>
+</div>
+<div id="class-activities" class="section level2">
+<h2>Class Activities</h2>
+<hr />
+<div id="w01-2" class="section level5">
+<h5>W01</h5>
+<ul>
+<li><a href="./MyWork/W01/CA_Working-with-Data-in-R.html">Working with
+Data in R</a></li>
+</ul>
+</div>
+<div id="w02-1" class="section level5">
+<h5>W02</h5>
+<ul>
+<li><a href="./MyWork/W02/CA_Good-Peer-Reviewing.html">Good Peer
+Reviewing</a></li>
+<li><a
+href="./MyWork/W02/CA_Principles-of-Good-Graphics.html">Principles of
+Good Graphics</a></li>
+</ul>
+</div>
+<div id="w03-1" class="section level5">
+<h5>W03</h5>
+<ul>
+<li><a
+href="./MyWork/W03/CA_Types-of-Data-R-Commands-and-Graphics.html">Types
+of Data, R Commands, and Graphics</a></li>
+</ul>
+</div>
+<div id="w04-1" class="section level5">
+<h5>W04</h5>
+<ul>
+<li><a href="./MyWork/W04/CA_Making-Inference.html">Making
+Inference</a></li>
+<li><a href="./MyWork/W04/CA_t-Tests.html">t-Tests</a></li>
+</ul>
+</div>
+<div id="w05-1" class="section level5">
+<h5>W05</h5>
+<ul>
+<li><a href="./MyWork/W05/CA_Wilcoxon-Tests.html">Wilcoxon
+Tests</a></li>
+<li><a
+href="./MyWork/W05/CA_Wilcoxon-Tests_Boxplots_P-values.html">Wilcoxon
+Tests, Boxplots, and P-Values</a></li>
+</ul>
+</div>
+<div id="w06-1" class="section level5">
+<h5>W06</h5>
+<ul>
+<li><a
+href="./MyWork/W06/CA_Approval-for-W11-Consulting-Opportunity-or-Research-Project.html">Idea
+Approval for the Week 11 “Consulting Opportunity or Research
+Project”</a></li>
+<li><a href="./MyWork/W06/CA_Kruskal-Wallis-Test.html">Kruskal-Wallis
+Test</a></li>
+</ul>
+</div>
+<div id="w07-1" class="section level5">
+<h5>W07</h5>
+<ul>
+<li><a href="./MyWork/W07/CA_One-Way-ANOVA.html">One-Way ANOVA</a></li>
+<li><a href="./MyWork/W07/CA_Two-Way-ANOVA.html">Two-Way ANOVA</a></li>
+</ul>
+</div>
+<div id="w08-1" class="section level5">
+<h5>W08</h5>
+<ul>
+<li><a href="./MyWork/W08/CA_Simple-Linear-Regression-Pt1.html">Simple
+Linear Regression (Part 1)</a></li>
+<li><a href="./MyWork/W08/CA_Simple-Linear-Regression-Pt2.html">Simple
+Linear Regression (Part 2)</a></li>
+</ul>
+</div>
+<div id="w09-1" class="section level5">
+<h5>W09</h5>
+<ul>
+<li><a
+href="./MyWork/W09/CA_Multiple-Linear-Regression-Pt1.html">Multiple
+Linear Regression (Part 1)</a></li>
+<li><a
+href="./MyWork/W09/CA_Multiple-Linear-Regression-Pt2.html">Multiple
+Linear Regression (Part 2)</a></li>
+</ul>
+</div>
+<div id="w10-1" class="section level5">
+<h5>W10</h5>
+<ul>
+<li><a href="./MyWork/W10/CA_Simple-Logistic-Regression-Pt1.html">Simple
+Logistic Regression (Part 1)</a></li>
+<li><a href="./MyWork/W10/CA_Simple-Logistic-Regression-Pt2.html">Simple
+Logistic Regression (Part 2)</a></li>
+</ul>
+</div>
+<div id="w11-1" class="section level5">
+<h5>W11</h5>
+<ul>
+<li><a href="./MyWork/W11/CA_Presenting-Your-Findings.html">Presenting
+your Findings</a></li>
+</ul>
+</div>
+<div id="w12-1" class="section level5">
+<h5>W12</h5>
+<ul>
+<li><a href="./MyWork/W12/CA_Chi-Squared-Test.html">Chi Squared
+Test</a></li>
+<li><a href="./MyWork/W12/CA_Chi-Squared-Survey-Results.html">Chi
+Squared Survey Results</a></li>
+</ul>
+</div>
+<div id="w13-1" class="section level5">
+<h5>W13</h5>
+<ul>
+<li><a href="./MyWork/W13/CA_Permutation-Testing-Pt1.html">Permutation
+Testing (Part 1)</a></li>
+<li><a href="./MyWork/W13/CA_Permutation-Testing-Pt2.html">Permutation
+Testing (Part 2)</a></li>
+</ul>
+</div>
+<div id="w14-1" class="section level5">
+<h5>W14</h5>
+<ul>
+<li><a href="./MyWork/W14/CA_Final-Workshop-Day.html">Final Workshop
+Day</a></li>
+</ul>
+<!-- End -->
+<!-- ====================================================================== -->
+<!-- ASSESSMENT QUIZ -->
+<!-- ====================================================================== -->
+</div>
+</div>
+<div id="assessment-quizzes" class="section level2">
+<h2>Assessment Quizzes</h2>
+<hr />
+<div id="w01-3" class="section level5">
+<h5>W01</h5>
+<ul>
+<li>NA</li>
+</ul>
+</div>
+<div id="w02-2" class="section level5">
+<h5>W02</h5>
+<ul>
+<li><a href="./MyWork/W02/AQ_Describing-Data-with-R.html">Describing
+Data with R</a></li>
+</ul>
+</div>
+<div id="w03-2" class="section level5">
+<h5>W03</h5>
+<ul>
+<li><a
+href="./MyWork/W03/AQ_Intro-to-Data-Wrangling-&amp;-Visualization.html">Intro
+to Data Wrangling &amp; Visualization</a></li>
+</ul>
+</div>
+<div id="w04-2" class="section level5">
+<h5>W04</h5>
+<ul>
+<li><a href="./MyWork/W04/AQ_t-Tests.html">link_text</a></li>
+</ul>
+</div>
+<div id="w05-2" class="section level5">
+<h5>W05</h5>
+<ul>
+<li><a href="./MyWork/W05/AQ_Wilcoxon-Tests.html">Wilcoxson
+Tests</a></li>
+</ul>
+</div>
+<div id="w06-2" class="section level5">
+<h5>W06</h5>
+<ul>
+<li><a href="./MyWork/W06/AQ_Kruskal-Wallis-Test.html">Kruskal-Wallis
+Test</a></li>
+</ul>
+</div>
+<div id="w07-2" class="section level5">
+<h5>W07</h5>
+<ul>
+<li><a href="./MyWork/W07/AQ_ANOVA.html">ANOVA</a></li>
+</ul>
+</div>
+<div id="w08-2" class="section level5">
+<h5>W08</h5>
+<ul>
+<li><a href="./MyWork/W08/AQ_Simple-Linear-Regression">Simple Linear
+Regression</a></li>
+</ul>
+</div>
+<div id="w09-2" class="section level5">
+<h5>W09</h5>
+<ul>
+<li><a href="./MyWork/W09/AQ_Multiple-Linear-Regression.html">Multiple
+Linear Regression</a></li>
+</ul>
+</div>
+<div id="w10-2" class="section level5">
+<h5>W10</h5>
+<ul>
+<li><a href="./MyWork/W10/AQ_Logistic-Regression.html">Logistic
+Regression</a></li>
+</ul>
+</div>
+<div id="w11-2" class="section level5">
+<h5>W11</h5>
+<ul>
+<li>NA</li>
+</ul>
+</div>
+<div id="w12-2" class="section level5">
+<h5>W12</h5>
+<ul>
+<li><a href="./MyWork/W12/AQ_Chi-Squared-Test.html">Chi Squared
+Test</a></li>
+</ul>
+</div>
+<div id="w13-2" class="section level5">
+<h5>W13</h5>
+<ul>
+<li><a href="./MyWork/W13/AQ_Randomization-Testing.html">Randomization
+Testing</a></li>
+</ul>
+</div>
+<div id="w14-2" class="section level5">
+<h5>W14</h5>
+<ul>
+<li>NA</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="section-3" class="section level1">
+<h1></h1>
+<p><BR /></p>
+<!-- End -->
+<!-- ====================================================================== -->
+<!-- Additional -->
+<!-- ====================================================================== -->
+<div id="additional" class="section level2">
+<h2>Additional</h2>
+</div>
+</div>
+<div id="section-4"
+class="section level1 tabset tabset-pills tabset-fade">
+<h1 class="tabset tabset-pills tabset-fade"></h1>
+<!-- Tabset Pill: Hide -->
+<div id="hide-2" class="section level2">
+<h2>Hide</h2>
+<hr />
+<p>Consider this section the miscellaneous grouping of examples,
+subjects, and more.</p>
+<!-- Tabset Pill: Scrollable Table Example -->
+</div>
+<div id="scrollable-table" class="section level2">
+<h2>Scrollable Table</h2>
+<hr />
+<div id="scrollable-table-1" class="section level3">
+<h3>Scrollable Table</h3>
+<p>The argument flow is <code>datatable()</code> &gt;
+<code>options = list()</code> &gt; <code>scrollX = TRUE</code>.</p>
+<p><BR /></p>
+<div id="example" class="section level5">
+<h5>Example:</h5>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Import data</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>Rent <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/Rent.csv&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Rename data frame</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>scrollable_table_example_df <span class="ot">&lt;-</span> Rent <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>PublicDescription)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># Display table</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">datatable</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  scrollable_table_example_df, </span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>    <span class="at">lengthMenu =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">10</span>,<span class="dv">30</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>    <span class="at">scrollX =</span> <span class="cn">TRUE</span>,        <span class="co"># Enable horizontal scrolling</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>    <span class="at">fixedColumns =</span> <span class="cn">TRUE</span>,   <span class="co"># Enable fixed columns</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>    <span class="at">columnDefs =</span> <span class="fu">list</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">className =</span> <span class="st">&#39;dt-left&#39;</span>, <span class="at">targets =</span> <span class="dv">0</span>) <span class="co"># Align the first column to the left</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>    )</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>  )</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>)</span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-6381ed4d132a6e992bc0" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-6381ed4d132a6e992bc0">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110"],["ABBY LANE MANOR","ABRI APARTMENTS - MEN","ABRI APARTMENTS - WOMEN","ALLDREDGE HOUSE","ALLEN'S SUNRISE VILLAGE - MEN","ALLEN'S SUNRISE VILLAGE - WOMEN","ALPINE CHALET","AMERICAN AVENUE - MEN","AMERICAN AVENUE - WOMEN","ARCADIA APARTMENTS","AT THE GROVE","AUTUMN WINDS - MEN","AUTUMN WINDS - WOMEN","AVONLEA - MEN","AVONLEA - WOMEN","BAYSIDE MANOR","BIRCH PLAZA - MEN","BIRCH PLAZA - WOMEN","BIRCH WOOD I","BIRCH WOOD II","BLUE DOOR, THE - MEN","BLUE DOOR, THE - WOMEN","BOUNTIFUL PLACE","BRIARWOOD APARTMENTS","BRIGHTON APARTMENTS - MEN","BRIGHTON APARTMENTS - WOMEN","BROOKLYN APARTMENTS","BROOKSIDE VILLAGE - MEN","BROOKSIDE VILLAGE - WOMEN","BUENA VISTA","BUNKHOUSE","CAMDEN APARTMENTS - MEN","CAMDEN APARTMENTS - WOMEN","CARRIAGE HOUSE","CARRIAGE HOUSE TOWNHOUSE","CEDARS, THE - MEN","CEDARS, THE - WOMEN","CENTRE SQUARE - MEN","CENTRE SQUARE - WOMEN","CHAPMAN HOUSE","CLARKE APARTMENTS","COLLEGE AVENUE APARTMENTS","COLONIAL HEIGHTS TOWNHOUSES","COLONIAL HOUSE - MEN","COLONIAL HOUSE - WOMEN","COTTONWOOD - MEN","COTTONWOOD - WOMEN","COVE, THE - MEN","COVE, THE - WOMEN","CREEKSIDE COTTAGES - MEN","CREEKSIDE COTTAGES - WOMEN","CRESTWOOD APARTMENTS","CRESTWOOD COTTAGE","CRESTWOOD HOUSE","DAVENPORT APARTMENTS","DELTA PHI APARTMENTS","GATES, THE - MEN","GATES, THE - WOMEN","GEORGETOWN APARTMENTS","GREENBRIER - MEN","GREENBRIER - WOMEN","GREENBRIER HOUSE","HERITAGE - MEN","HERITAGE - WOMEN","HILLCREST TOWNHOUSES - MEN","HILLCREST TOWNHOUSES - WOMEN","HILL'S COLLEGE AVE APTS","JACOB'S HOUSE","JORDAN RIDGE","KENSINGTON MANOR - MEN","KENSINGTON MANOR - WOMEN","LA JOLLA - MEN","LA JOLLA - WOMEN","LANDING, THE - MEN","LANDING, THE - WOMEN","LEGACY RIDGE","LODGE, THE - MEN","LODGE, THE - WOMEN","MILANO FLATS - MEN","MILANO FLATS - WOMEN","MOUNTAIN CREST","NAUVOO HOUSE I","NAUVOO HOUSE II","NORTHPOINT - MEN","NORTHPOINT - WOMEN","PARK VIEW APTS - MEN","PARK VIEW APTS - WOMEN","PINCOCK HOUSE","PINES, THE - MEN","PINES, THE - WOMEN","PINNACLE POINT","RED DOOR, THE","RIVIERA APARTMENTS","ROCKLAND APARTMENTS","ROYAL CREST","SHELBOURNE APARTMENTS","SNOWVIEW APARTMENTS","SOMERSET APARTMENTS - MEN","SOMERSET APARTMENTS - WOMEN","SPORI VILLA","SUNDANCE - MEN","SUNDANCE - WOMEN","SUNSET HALL","TOWERS I","TOWERS II","UNIVERSITY VIEW - MEN","UNIVERSITY VIEW - WOMEN","WHITFIELD HOUSE","WINDSOR MANOR - MEN","WINDSOR MANOR - WOMEN"],["F","M","F","M","M","F","M","M","F","M","F","M","F","M","F","F","M","F","F","F","M","F","M","M","M","F","F","M","F","F","M","M","F","F","F","M","F","M","F","F","M","F","M","M","F","M","F","M","F","M","F","M","F","M","F","M","M","F","M","M","F","M","M","F","M","F","F","M","M","M","F","M","F","M","F","F","M","F","M","F","M","M","F","M","F","M","F","M","M","F","M","M","F","M","F","M","F","M","F","M","M","F","F","M","F","M","F","F","M","F"],["437 S 4TH W","220 E 1ST S","220 E 1ST S","243 S 1ST E","48 W 2ND S","48 W 2ND S","460 S 2ND W","151 S 1ST E","151 S 1ST E","138 W 4th S","349 HARVARD AVE","160 W 5TH S","160 W 5TH S","175 W 3RD S","175 W 3RD S","248 1/2 CORNELL AVE","236 S 1ST W","236 S 1ST W","253 S 2ND W","253 S 2ND W","123 PRINCETON CT","123 PRINCETON CT","345 W 5TH S","163 E 2ND S","242 W 6TH S","225 W 6th S #9","345 S 2ND W","487 S 3RD W","487 S 3RD W","406 S 3RD E","156 W 4TH S","225 W 5TH S","225 W 5TH S","246 S 1ST W","246 S 1 W APT 114","120 W 2ND S","155 W 2nd S","650 S 1ST W","650 S 1ST W","179 E 2ND S","156 S CENTER ST","150 COLLEGE AVE","251 E 4TH S","151 W 4TH S","151 W 4TH S","42 S 1ST W","42 S 1ST W","220 S 2ND W","220 S 2ND W","276 STEINER AVE","276 STEINER AVE","235 S 1ST E","221 S 1ST E","235 S 1ST E","145 W 3RD S","139 VIKING DR","370 W 7TH S","350 W 6TH S","236 W 3RD S","129 PRINCETON CT","129 PRINCETON CT","129 PRINCETON CT","129 W 4TH S","129 W 4TH S","465 S 2ND E","465 S 2ND E","136 COLLEGE AVE","149 E 2ND S","291 E 7TH S","345 S 2ND E","345 S 2ND E","65 S 1ST W","65 S 1ST W","359 W 4TH S","359 W 4TH S","667 S 2ND E","538 S 2ND W","538 S 2ND W","440 S 2ND W","440 S 2ND W","132 S 3RD W","175 W 5TH S","175 W 5TH S","141 S 1ST W","141 S 1ST W","154 S 3RD W","154 S 3RD W #1101","163 E 2ND S","140 W 2ND S","140 W 2ND S","51 S 1ST E","135 S 1st E","245 S 1ST E","235 W 4TH S","340 S 1ST W","570 S 2ND W","12 W 2ND S","480 S 1ST W","480 S 1ST W","174 COLLEGE AVE","266 W 3RD S","266 W 3RD S","175 W 3RD S","333 W 6TH S","335 W 5TH S","649 S 2ND W","649 S 2ND W","175 E 2ND S","125 E 2ND S","125 E 2ND S"],["(208) 643-3731","(208) 417-7223","(208) 417-7223","986-231-8518","208-356-3995","208-356-3995","(208) 356-9282","208-356-5097","208-356-5097","208-881-2935","512-363-2396","(208) 356-0821","(208) 356-0821","208-359-0920","(208) 359-0920","208-794-0652","(208) 359-8200","(208) 359-8200","(208) 359-8200","(208) 359-8200","(208) 356-3001","(208) 356-3001","(208) 351-7080","208-356-3001","208-356-9693","208-356-9693","208-356-9500","(208) 356-0788","(208) 356-0788","208-359-9681","208-356-7419","208-656-9611","208-656-9611","208-356-4361","208-356-4361","208-356-0222","208-346-7006","208-496-9220","208-496-9220","208-356-3001","(208) 356-6660","208-313-8182","208-356-6752","208-359-2848","208-359-2848","208-356-9576","(208) 356-9576","208-701-4212","208-701-4212","(208) 270-3207","(208) 270-3207","208-274-3828","208-274-3828","208-274-3828","208-356-3216","208-359-8015","208-356-6686","208-356-6686","208-359-3191","208-356-3001","208-356-3001","208-356-3001","208-356-7952","208-356-7952","208-356-7211","208-356-7211","3565786/3136745","208-356-3001","208-359-2221","208-356-4473","208-356-4473","(208) 359-1985","(208) 359-1985","208-356-9560","208-356-9560","208-359-2211","208-356-5638","208-356-5638","(208) 356-3480","208-356-3480","(208) 359-4193","(208)356-7756","208-356-7756","208-681-9542","208-681-9542","208 356-3697","208-356-3697","208-356-3001","208-356-5605","208-356-5605","208-360-2845","208-356-3001","208-360-6790","(208) 356-0923","208-356-7778","208-656-0746","(208) 359-5517","(208) 356-7699","(208) 356-7699","(208) 351-8072","208-881-4685","208-360-0097","208-359-0920","208-359-5965","208-390-3706","208-356-6556","(208) 356-6556","208-356-3001","208-356-6789","208-356-6789"],[1200,1660,1660,1045,1181.67,1225,1030,1505,1225,995,1250,1725,1725,1177,1398.33,985,1301.67,1352.5,1370,1425,1025,997.5,1099,1057.5,1325,1400,995,1650,1650,900,995,1575,1616.67,1256.67,1285,1595,1695,1449,1449,1435,1025,1200,900,1405,1415,995,995,1668,1599,1400,1366.67,995,995,895,895,1145,1752.5,1752.5,1145,1115,1216.67,1320,1300,1300,1425,1425,880,1220,1574,1175,1300,1179,1179,1640,1640,1574,1536.5,1675.67,1790,1790,1120,1450,1450,1642.33,1599,1300,1333.33,1625,892,894.33,1250,1045,975,1127.5,995,1295,1345,1200,1200,1045,1645,1645,1027.5,1550,1645,1375,1350,1432.5,1749,1749],[1350,1670,1670,1095,1225,1225,1085,1695,1225,995,1250,1725,1725,1290,1725,985,1505,1505,1505,1545,1025,1075,1099,1120,1375,1425,995,1650,1650,900,995,1575,1650,1260,1285,1595,1695,1499,1499,1625,1025,1350,900,1405,1415,995,995,1725,1649,1500,1500,995,995,895,895,1195,1820,1820,1145,1115,1625,1320,1300,1300,1625,1625,880,1220,1649,1175,1325,1179,1179,1640,1640,1649,1609,1809,1820,1820,1145,1450,1450,1774,1739,1600,1600,1625,899,899,1250,1045,975,1260,995,1375,1445,1200,1200,1045,1675,1675,1060,1550,1695,1375,1375,1625,1749,1749],[42,132,144,8,138,144,162,86,138,41,6,24,96,76,66,8,98,173,65,24,24,24,130,24,108,60,144,60,86,21,324,24,53,234,8,354,444,304,546,7,42,8,64,144,192,60,84,224,342,10,24,50,10,11,71,60,282,300,72,48,92,6,180,192,64,76,8,11,360,108,108,72,210,148,166,288,474,550,142,142,42,288,338,476,548,51,40,7,200,126,140,48,82,160,342,168,64,108,180,9,156,152,14,168,248,264,450,7,136,208],[35,204,204,8,133,133,111,110,110,30,6,150,150,31,54,8,60,100,20,20,25,25,85,50,165,165,45,98,96,7,195,65,70,85,85,300,230,100,200,50,36,8,40,199,199,100,100,450,450,10,28,30,10,10,31,44,206,224,51,40,40,40,145,145,60,60,0,50,350,95,95,200,200,82,82,288,575,575,240,240,42,310,310,389,389,61,0,50,200,173,84,25,38,150,135,118,31,80,105,13,100,100,10,168,248,50,100,50,87,87],[75,150,150,150,150,150,150,150,150,100,150,150,150,80,80,90,150,150,150,150,80,80,75,80,150,150,150,150,150,50,150,150,150,80,80,125,125,75,75,80,100,100,100,150,150,150,150,100,100,100,100,75,75,75,100,150,150,150,150,80,80,80,150,150,150,150,70,80,150,125,125,150,150,100,100,150,100,100,150,150,100,150,150,100,100,100,100,80,150,150,100,80,200,150,150,100,100,150,150,200,100,75,80,100,100,150,150,80,300,300],[3,3,3,3,6,3,6,7,3,6,1,1,1,15,6,1,6,3,3,3,2,3,5,3,10,3,3,1,5,6,6,1,6,5,1,1,1,6,12,3,6,3,1,1,1,1,1,10,10,3,6,3,3,3,3,3,3,3,1,1,9,1,1,1,3,3,1,1,3,1,3,1,1,2,2,3,10,21,3,3,3,1,1,36,34,10,6,1,3,6,10,1,3,21,3,3,3,1,1,1,6,6,3,1,3,2,5,3,11,11],["www.abbylaneapartments.com","www.liveabri.com","liveabri.com",null,"www.sunrisevillageapts.com","www.sunrisevillageapts.com","www.rexburghousing.com/alpine-chalet","www.myamericanavenue.com","myamericanavenue.com","www.arcadiarexburg.com","atthegroveapts.com","www.rexburghousing.com/autumn-winds","www.rexburghousing.com/autumn-winds","www.rexburgstudenthousing.com/new/property/14","www.rexburgstudenthousing.com/new/property/13","baysidemanor.blogspot.com","www.rexburghousing.com/birch-plaza","www.rexburghousing.com/birch-plaza","www.rexburghousing.com/birch-plaza","www.rexburghousing.com/birch-plaza","www.rexburgstudenthousing.com/new/property/1","www.rexburgstudenthousing.com/new/property/1","www.bountifulplace.com","www.rexburgstudenthousing.com/new/property/3","www.brightonhousing.net","www.brightonhousing.net","craiglandhousing.com/new/property/1","www.rexburghousing.com/brookside-village","www.rexburghousing.com/brookside-village","buenavistaapartments.blogspot.com/p/home.html","bunkhouseapts.com","www.camdenrexburg.com/","www.camdenapts.net","www.rexburgstudenthousing.com/new/property/10","www.rexburgstudenthousing.com/new/property/11","Cedarshousing.com","Cedarshousing.com","www.byui.edu/housing/centre-square","www.byui.edu/housing/centre-square","www.rexburgstudenthousing.com/new/property/7","www.clarkeapartments.com",null,"WWW.COLONIALHEIGHTSTOWNHOUSES.COM","www.colonial-house.com","https://www.the-colonial-house.com/","www.cottonwoodstudentapartments.com","www.cottonwoodstudentapartments.com","rexburgcove.com","rexburgcove.com","creeksidemensbyui.blogspot.com","creeksidewomenbyui.blogspot.com","crestwoodrexburg.managebuilding.com/Resident/public/home","crestwoodrexburg.managebuilding.com/Resident/public/home","crestwoodrexburg.managebuilding.com/Resident/public/home","davenportapartments.net","www.deltaphiapts.com","www.thegatesatrexburg.com","www.thegatesatrexburg.com","rexburghousing.com/georgetown","www.rexburgstudenthousing.com/new/property/8","www.rexburgstudenthousing.com/new/property/8","www.rexburgstudenthousing.com/new/property/9","HeritageRexburg.com","HeritageRexburg.com","www.hillcrest-townhouses.com","www.hillcrest-townhouses.com",null,"www.rexburgstudenthousing.com/new/property/4","www.meet-me-at-the-ridge.com","www.kensingtonmanorrexburg.com","www.kensingtonmanorrexburg.com","www.LaJollaRexburg.com","www.LaJollaRexburg.com","thelandingrexburg.com","thelandingrexburg.com","www.meet-me-at-the-ridge.com","www.rexburglodge.com","www.rexburglodge.com","www.milanoflats.com/","www.milanoflats.com/","www.mntcrestapts.com","WWW.NAUVOOHOUSE.COM","WWW.NAUVOOHOUSE.COM","www.NorthPointRexburg.com","www.NorthPointRexburg.com","www.parkviewrexburg.com","www.parkviewrexburg.com","www.rexburgstudenthousing.com/new/property/5","pineshousing.com","pineshousing.com","www.rexburgpinnacle.com","www.rexburgstudenthousing.com/new/property/2","WWW.RIVIERA-APTS.COM","rocklandrexburg.com/","WWW.ROYALCRESTAPARTMENTS.COM","www.shelbourneapts.com","www.snowviewapts.com","www.rexburghousing.com/somerset","www.rexburghousing.com/somerset",null,"www.sundancerexburg.com","sundancerexburg.com","www.rexburgstudenthousing.com/new/property/15","thetowersrexburg.com","thetowerstwo.com","Universityviewrexburg.com","Universityviewrexburg.com","www.rexburgstudenthousing.com/new/property/6","www.windsormanor.net","www.windsormanor.net"],[43.81710724,43.82340456,43.82340456,43.82074947,43.82275434,43.82275434,43.81603117,43.8227079,43.8227079,43.81813297,43.81865937,43.81599246,43.81599246,43.820138,43.81944123,43.82065271,43.82093525,43.82093525,43.8203779,43.8203779,43.82347422,43.82347422,43.81474992,43.82235957,43.8129693,43.8129693,43.81866711,43.81582215,43.81582215,43.8174285,43.8184852,43.81539249,43.81539249,43.8207456,43.8207848,43.82246407,43.82142293,43.81262865,43.81176154,43.822054,43.82252986,43.82300204,43.81789299,43.81713046,43.81713046,43.82469723,43.82469723,43.82126811,43.82126811,43.81998311,43.81998311,43.82107459,43.82124102,43.82093912,43.81930189,43.81708401,43.81406091,43.81406091,43.82025017,43.82296721,43.82296721,43.82296721,43.8170066,43.8170066,43.81597311,43.81597311,43.82271564,43.82206542,43.8120309,43.81843488,43.81843488,43.82439535,43.82439535,43.817429,43.817429,43.81212542,43.8146067,43.8146067,43.81698337,43.81698337,43.82296721,43.81437058,43.81437058,43.82217379,43.82217379,43.82278143,43.82278143,43.822094,43.82246794,43.82246794,43.82454242,43.82312977,43.82015341,43.81721949,43.81913933,43.81358865,43.82217379,43.81633696,43.81633696,43.82230538,43.82002955,43.82002955,43.8200102,43.81314349,43.81508282,43.81259768,43.81259768,43.822083,43.82215444,43.82215444],[-111.7949519,-111.7774263,-111.7774263,-111.7806074,-111.7857894,-111.7857894,-111.790199,-111.779674,-111.779674,-111.7880264,-111.7763239,-111.7884877,-111.7884877,-111.788876,-111.789228,-111.7798457,-111.78819,-111.78819,-111.7891556,-111.7891556,-111.7792019,-111.7792019,-111.793769,-111.778923,-111.7904967,-111.7904967,-111.7890135,-111.7916045,-111.7916045,-111.7754656,-111.7876616,-111.7901078,-111.7901078,-111.7874953,-111.7867195,-111.7871144,-111.7872673,-111.7871064,-111.787675,-111.778304,-111.7841747,-111.7827103,-111.7762595,-111.7891958,-111.7891958,-111.7871091,-111.7871091,-111.7907327,-111.7907327,-111.7942867,-111.7942867,-111.7804787,-111.7806664,-111.7805055,-111.7882195,-111.7880532,-111.7939299,-111.7939299,-111.7905852,-111.7790142,-111.7790142,-111.7790142,-111.7877421,-111.7877421,-111.7773619,-111.7773619,-111.7826513,-111.7792341,-111.7758519,-111.7776436,-111.7776436,-111.7863473,-111.7863473,-111.79445,-111.79445,-111.7772037,-111.7914328,-111.7914328,-111.7899147,-111.7899147,-111.7928276,-111.7887694,-111.7887694,-111.7862615,-111.7862615,-111.7928329,-111.7928329,-111.778896,-111.7876455,-111.7876455,-111.7803338,-111.7802373,-111.7805055,-111.7907837,-111.7877153,-111.7902285,-111.784341,-111.7875221,-111.7875221,-111.7826727,-111.7920283,-111.7920283,-111.7883,-111.7925915,-111.7934042,-111.788308,-111.788308,-111.778657,-111.780645,-111.780645],[1013.45250687716,685.719421907855,685.719421907855,297.964284614959,547.940773576173,547.940773576173,675.4892137671681,525.534995518202,525.534995518202,446.711060732614,496.662577261209,553.882039925135,553.882039925135,547.29462568831,553.367426583124,325.111325094436,535.8538130106911,535.8538130106911,577.855024805305,577.855024805305,618.738598100049,618.738598100049,995.753434232336,521.539346190561,885.6798349555499,885.6798349555499,525.4233030210059,788.862393385202,788.862393385202,576.187247268527,416.087301304241,700.188093407084,700.188093407084,477.250211826919,428.544438868439,581.641885971619,507.495836221702,744.890498245162,851.255801756818,524.064845736675,474.199541680674,507.192255414825,504.919605296119,558.766575457424,558.766575457424,788.30661937543,788.30661937543,733.796578138373,733.796578138373,964.399691792414,964.399691792414,334.469344698158,344.062650278601,320.298498707401,470.779833827707,472.244598718941,1041.07202554385,1041.07202554385,681.601590550795,575.507063329259,575.507063329259,575.507063329259,451.556764205632,451.556764205632,495.315707803812,495.315707803812,475.238158241528,480.487403770837,890.124791036949,389.895119413494,389.895119413494,730.83881238873,730.83881238873,968.729390996583,968.729390996583,820.447999895428,836.089378161292,836.089378161292,618.864505658937,618.864505658937,971.922866135374,677.983676769396,677.983676769396,513.968057427802,513.968057427802,961.772050084546,961.772050084546,498.422511786697,610.169907357065,610.169907357065,699.868252654092,551.688796029644,248.457548925814,680.879205566113,427.495715680784,823.510094958183,440.771999660585,467.435959788573,467.435959788573,429.728908212684,787.411919231805,787.411919231805,498.90872832443,1003.39832086909,954.020627276615,800.296466066773,800.296466066773,508.843804686461,438.585475146646,438.585475146646],[1122.73892409909,998.114322610954,998.114322610954,654.806992347697,945.30118183435,945.30118183435,724.130933091984,880.014318150109,880.014318150109,648.084981884298,582.402605528998,588.197656526296,588.197656526296,841.950273917512,812.134986535789,652.567329437239,869.682528230362,869.682528230362,876.649964289811,876.649964289811,970.261374130021,970.261374130021,1000.08261940615,853.490665619805,766.69348622103,766.69348622103,747.115309486096,832.433625873093,832.433625873093,550.949555324834,647.394213821256,707.706171298213,707.706171298213,818.512176268549,785.9634678804759,962.224977082974,869.417117197419,527.083911045759,616.315193161396,833.67573602705,880.028294448539,909.137870835277,528.337575507706,679.6924511200619,679.6924511200619,1185.41311840504,1185.41311840504,1036.71986239614,1036.71986239614,1185.91179398811,1185.91179398811,691.752015212337,708.839151798465,676.560152159905,740.078212899237,593.024613304489,1017.00939631583,1017.00939631583,953.542135249068,917.833982803505,917.833982803505,917.833982803505,566.683286662714,566.683286662714,342.325476518983,342.325476518983,876.976015676684,816.141039258834,543.306540831569,494.414593170941,494.414593170941,1131.3822797142,1131.3822797142,1092.10690297389,1092.10690297389,452.131901205791,812.587196055967,812.587196055967,728.376932057699,728.376932057699,1288.99461227934,600.40990680124,600.40990680124,901.95295385179,901.95295385179,1275.00132601062,1275.00132601062,825.301794493018,983.933481108113,983.933481108113,1076.62652029606,920.904106967979,589.755463721867,803.0145852784771,697.881252950276,729.384824129177,845.602092741564,523.0564489065709,523.0564489065709,831.961773274788,1032.8507760918,1032.8507760918,799.029578839572,925.587164128912,970.886973727478,615.307061521102,615.307061521102,828.91258522539,810.185215247577,810.185215247577]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Name<\/th>\n      <th>Gender<\/th>\n      <th>Address<\/th>\n      <th>Phone<\/th>\n      <th>AvgFloorPlanCost<\/th>\n      <th>MaxFloorPlanCost<\/th>\n      <th>Residents<\/th>\n      <th>ParkingSpaces<\/th>\n      <th>Deposit<\/th>\n      <th>FloorPlanNumber<\/th>\n      <th>WebAddress<\/th>\n      <th>Latitude<\/th>\n      <th>Longitude<\/th>\n      <th>CrowFlyMetersToMC<\/th>\n      <th>CrowFlyMetersToRicks<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":[3,10,30],"scrollX":true,"fixedColumns":true,"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[5,6,7,8,9,10,12,13,14,15]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Name","targets":1},{"name":"Gender","targets":2},{"name":"Address","targets":3},{"name":"Phone","targets":4},{"name":"AvgFloorPlanCost","targets":5},{"name":"MaxFloorPlanCost","targets":6},{"name":"Residents","targets":7},{"name":"ParkingSpaces","targets":8},{"name":"Deposit","targets":9},{"name":"FloorPlanNumber","targets":10},{"name":"WebAddress","targets":11},{"name":"Latitude","targets":12},{"name":"Longitude","targets":13},{"name":"CrowFlyMetersToMC","targets":14},{"name":"CrowFlyMetersToRicks","targets":15}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<!-- Tabset Pill: Parametric vs. Nonparametric Distributions -->
+</div>
+</div>
+</div>
+<div id="parametric-vs.-nonparametric" class="section level2">
+<h2>Parametric vs. Nonparametric</h2>
+<hr />
+<div id="parametric-distributions-mean" class="section level4">
+<h4>Parametric distributions mean:</h4>
+<p>You assume the data follows a known shape (e.g., <u>normal
+distribution</u>), which allows you to:</p>
+<ul>
+<li>Use a small set of parameters (like <u>mean &amp; standard
+deviation</u>) to describe the entire population.</li>
+<li>Make specific statistical inferences (e.g., <u>t-tests, confidence
+intervals, p-values</u>) based on that shape.</li>
+</ul>
+<p>It’s like saying, “I know the rules of this game, so I can make
+powerful plays with just a little info.”</p>
+<p></BR></p>
+</div>
+<div id="non-parametric-distributions-mean" class="section level4">
+<h4>Non-parametric distributions mean:</h4>
+<p>You don’t assume any specific shape of the data distribution.</p>
+<ul>
+<li>You avoid relying on parameters like the mean or standard
+deviation.</li>
+<li>You use <u>rankings, medians, or resampling</u> instead.</li>
+<li>You sacrifice some statistical power in exchange for robustness and
+flexibility.</li>
+</ul>
+<p>It’s more like saying, “I don’t trust the game’s rules, so I’ll play
+safe and improvise with what I see.”</p>
+<p></BR></p>
+</div>
+<div id="in-context-of-parametric-vs-non-parametric"
+class="section level4">
+<h4>In context of parametric vs non-parametric:</h4>
+<p>When we say “parametric” in statistics, we’re not just talking about
+any parameter — we’re referring to parameters of a specific assumed
+distribution (usually the normal distribution).</p>
+<p>For example:</p>
+<ul>
+<li><strong>Parametric</strong>: Assumes the data is normal → uses mean
+and standard deviation.</li>
+<li><strong>Non-parametric</strong>: Makes no assumption about the
+distribution → uses stats like the median because it works even when the
+data is not symmetric or normal.</li>
+</ul>
+<hr />
+</div>
+</div>
+</div>
+<div id="section-5" class="section level1">
+<h1></h1>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+---
+title: "Describing Data with R"
+subtitle: "Skills Quiz"
+author: "Andrew Seaman"
+date: "2025-01-19"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(tidyverse)
+library(DT)
+library(pander)
+```
+
+## Qestion 3:
+
+### Recreate: Scatter Plot
+```{r}
+# a. Type in the console
+# ?airquality
+# View(airquality)
+
+# b. Five-Number Summary
+pander(favstats(~Wind, data=airquality))
+
+# c.
+df <- airquality
+
+ggplot(df, aes(x = Temp, y = Wind)) +
+  geom_point(color = "gray", pch = 19, size = 2) +
+  coord_fixed(ratio = 1) +  # Sets a square aspect ratio
+  labs(
+    title = "La Guardia Airport \n Warmer Weather Shows Less Wind",
+    x = "Daily Average Temperature",
+    y = "Daily Average Wind Speed"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),                      # Remove grid lines
+    panel.background = element_rect(fill = "white"),   # White background
+    axis.ticks = element_line(color = "black"),        # Black tick marks
+    axis.ticks.length = unit(0.3, "cm"),               # Length of outward ticks
+    axis.ticks.direction = NULL,                       # Outward-facing ticks
+    plot.title = element_text(
+      face = "bold",
+      hjust = 0.5,
+      size = 12,
+      color = "black"
+    ),
+    axis.title.x = element_text(
+      size = 14,
+      margin = margin(t = 20)
+    ),
+    axis.title.y = element_text(
+      size = 14,
+      margin = margin(r = 20)
+    ),
+    axis.text = element_text(
+      color = "black",
+      size = 14),
+    axis.text.y = element_text(
+      angle = 90,
+      vjust = 0.5,
+      hjust = 0.5
+    )
+  )
+```
+
+### Recreate: Histogram
+```{r}
+# a.
+df <- airquality %>%
+  filter(!is.na(Solar.R))
+
+# Create the histogram
+ggplot(df, aes(x = Solar.R)) +
+  geom_histogram(
+    binwidth = 50,             # Bin width of 50
+    fill = "orange",           # Fill color is orange
+    color = "black",           # Black borders for the bars
+    boundary = 0               # Align bins with 0
+  ) +
+  scale_x_continuous(
+    limits = c(0, NA),        # Ensure x-axis range is 0 to 350
+    breaks = seq(0, 350, 50)   # X-axis breaks at intervals of 50
+  ) +
+  scale_y_continuous(
+    limits = c(0, NA),         # Y-axis range is 0 to 35
+    breaks = seq(0, 35, 5)     # Y-axis breaks at intervals of 5
+  ) +
+  labs(
+    title = "Central Park, NYC \n Daily Average Radiation", # Two-line title
+    x = "Daily Mean Radiation in Langleys (from 0800 to 1200 hours)", # X-axis label
+    y = "Frequency"           # Y-axis label
+  ) +
+  theme_classic() +            # Classic theme for no gridlines
+  theme(
+    plot.title = element_text(
+      face = "bold",           # Bold title
+      size = 20,               # Title font size
+      hjust = 0.5              # Center-align the title
+    ),
+    axis.title.x = element_text(
+      size = 14,               # X-axis label font size
+      margin = margin(t = 10)  # Add space above the label
+    ),
+    axis.title.y = element_text(
+      size = 14,               # Y-axis label font size
+      margin = margin(r = 10)  # Add space to the right of the label
+    ),
+    axis.text = element_text(
+      size = 14,               # Axis tick label font size
+      color = "black"          # Axis tick label color
+    ),
+    axis.ticks = element_line(
+      color = "black"          # Black tick marks
+    ),
+    axis.ticks.length = unit(0.3, "cm"), # Length of the tick marks
+    axis.text.y = element_text(
+      angle = 90,
+      vjust = 0.5,
+      hjust = 0.5
+    )
+    
+  )
+```
+
+### Recreate: Boxplot
+```{r}
+# a.
+df = airquality %>% 
+  filter(!is.na(Solar.R))
+
+ggplot(df, aes(x = factor(Month), y = Solar.R, fill = factor(Month))) +
+  geom_boxplot(
+    color = "black",
+    outlier.shape = 21, 
+    outlier.fill = "white",
+    outlier.color = "black"             
+  ) +
+  scale_fill_manual(
+    values = c(
+      "5" = "gray",
+      "6" = "gray",
+      "7" = "orangered",
+      "8" = "gray",
+      "9" = "gray"
+    )
+  ) +
+  labs(
+    title = "Central Park, NYC \n Daily Mean Radiation High in July",
+    x = "Month of the Year",
+    y = "Radiation in Langleys (Averaged from 0800 to 1200 hours)"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    panel.grid = element_blank(),                      # Remove grid lines
+    panel.background = element_rect(fill = "white"),   # White background
+    axis.ticks = element_line(color = "black"),        # Black tick marks
+    axis.ticks.length = unit(0.3, "cm"),               # Length of outward ticks
+    axis.ticks.direction = NULL,                       # Outward-facing ticks
+    plot.title = element_text(
+      face = "bold",           # Bold title
+      size = 20,               # Title font size
+      hjust = 0.5              # Center-align the title
+    ),
+    axis.title.x = element_text(
+      size = 14,               # X-axis label font size
+      margin = margin(t = 10)  # Add space above the label
+    ),
+    axis.title.y = element_text(
+      size = 14,               # Y-axis label font size
+      margin = margin(r = 10)
+    ),
+    axis.text = element_text(
+      size = 14,               # Axis tick label font size
+      color = "black"          # Axis tick label color
+    ),
+    axis.text.y = element_text(
+      angle = 90,
+      vjust = 0.5,
+      hjust = 0.5
+    )
+  )
+
+
+```
+
+

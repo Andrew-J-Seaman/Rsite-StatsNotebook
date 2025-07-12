@@ -1,0 +1,255 @@
+---
+title: "t-Tests"
+subtitle: "Skills Quiz"
+author: "Andrew Seaman"
+date: "2025-[m]-[d]"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+<!-- --------------------------------- -->
+<!--          TOPICAL STUDY            -->
+<!-- --------------------------------- -->
+
+<!-- . -->
+
+<!-- CHUNK #1 -->
+<!-- Format knit output -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- CHUNK #1 -->
+<!-- Libraries and Data -->
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(tidyverse)
+library(DT)
+library(pander)
+library(car)
+
+mtcars = mtcars
+```
+
+
+
+# Topical Study
+
+<!-- --------------------------------- -->
+<!--          TOPICAL STUDY            -->
+<!-- --------------------------------- -->
+
+<!-- . -->
+
+<!-- CHUNK #1 -->
+<!-- One Sample t-Test -->
+```{r}
+# One Sample t-Test
+# output <- t.test(mtcars$mpg, mu = 20, alternative = "two.sided", conf.level = 0.95)    
+# pander(output)
+# 
+# qqPlot(mtcars$mpg)
+```
+
+<!-- CHUNK #2 -->
+
+<!-- CHUNK #2 -->
+<!-- Two Samples t-Test -->
+```{r}
+#
+
+```
+
+<!-- CHUNK #3 -->
+<!-- Independent samples t Test -->
+```{r, echo=FALSE}
+#
+
+```
+
+
+<!-- SECTION END: DATA EXPLORATION -->
+<!-- ............................. -->
+
+
+
+
+# Skills Quiz Questions 
+
+<!-- --------------------------------- -->
+<!--      SKILLS QUIZ QUESTIONS        -->
+<!-- --------------------------------- -->
+
+<!-- . -->
+
+## Q1.
+<!-- Study t tests and take notes -->
+> _Study t tests (one sampel, paired sample, and independent sample).
+
+* I have done this and all other requirements for quesion 1.
+
+
+## Q2.
+
+> _The following questions are to help you verify that you studied all of the material in the Making Inference portion of the Statistics Notebook. Remember, real learning only happens as you take time to study the material._
+
+1. __True or False. Inference is the process of deciding whether patterns and trends in a sample of data from a population can be assumed to be true for the full population.__
+    * TRUE
+
+</BR>
+
+2. __True of False. A pattern can appear one way in a sample of data, but be completely different for the full population. That is why we use statistical inference to decide when it is safe (and when it is not) to conclude that a pattern in a sample holds in the full population.__
+    * TRUE
+
+</BR>
+
+3. __True or False. If a researcher was using a signficance level of 0.05 and obtained a p-value of 0.419, they can safely conclude that the null hypothesis is false and that the alternative hypothesis is the truth.__
+    * FALSE
+
+</BR>
+
+4. __True of False. In a typical U.S. Court of Law, the null hypothesis is that the person on trial is innocent.__
+    * TRUE
+
+5. __Thus, convicting an innocent man of a crime would be an example of__
+    * A Type I Error.
+
+</BR>
+
+6. __And letting a guilty man go free would be an example of__
+    * A Type II Error.
+
+</BR>
+
+7. __The p-value is the most commonly used method of deciding when to reject a null hypothesis. The things needed to compute a p-value are:__
+    * A test statistic.
+    * A probability distribution of the test statistics that would be possible if the null hypothesis were true.
+
+    
+</BR>
+
+8. __The parametric distributions this course will teach you about are:__
+    1. The Normal Distribution
+    2. The t Distribution
+    3. The F Distribution
+    4. The Chi-squared Distribution
+
+</BR>
+
+9. __In which distribution would an observation of x=5 be the most likely to occur? Copy and paste the following R Codes in your Console for a graph that goes along with this question:__
+    * A chi-squared distribution with  p=8
+
+```{r}
+# COPIED R CODE:
+curve(dnorm(x,-5,2), -12, 20, col="skyblue", lwd=2, ylab="", n=1000, ylim=c(0,.81))
+curve(dchisq(x,5), from=0, add=TRUE, col="firebrick", lwd=2, n=1000)
+curve(dt(x,5), add=TRUE, col="skyblue4", lwd=2, n=1000)
+curve(df(x,10,10), from=0, add=TRUE, col="salmon", lwd=2, n=1000)
+legend("topright", legend=c("Normal(-5,2)","Chi-squared(8)","t(5)","f(2,5)"), lwd=2, lty=1, col=c("skyblue","firebrick","skyblue4","salmon"), bty='n')
+```
+
+</BR>
+
+10. __In your R Console, copy and paste the commands:__
+> curve(dnorm(x, -5, 2), from=-12, to=2, lwd=2, col="skyblue", ylab="Normal Distribution with Mean of -5 and Standard Deviation of 2")
+> abline(h=0, v=-5, lty=2)
+
+10.1 __Which of the following set of sample values are most likely to be obtained if a sample of n = 5 observations is sampled from the normal distribution drawn by the above code in R?__
+    
+  * -8, 0, -5, -6, -3
+
+
+## Q3.
+<!-- . -->
+
+1. Match the t-test with the null/alternative hypothesis
+    * Done.
+    
+</BR>
+
+2. Which t Test requires that the sampling distribution of the sample mean of the differences is normally distributed?
+    * Paired Samples t Test
+    
+</BR>
+
+3.Use a subset of the CO2 dataset in R to answer the following questions. Filter the dataset so that you are considering only the chilled plants where conc = 250. (Hint: Treatment == "chilled" & conc == 250)
+> ?CO2
+> View(CO2)
+
+3.1 __What are the mean uptake values for each Type of plant (Quebec and Mississippi) for plants that are chilled at a concentration of 250?__
+```{r}
+# Standardize dataset name
+df <- CO2
+
+# Filter dataset
+CO2.chilled.250 <- filter(df, Treatment == "chilled" & conc == 250)
+
+# Standardize and abbreviate species names
+Types <- unique(CO2.chilled.250$Type)
+
+# Loop to get the mean uptake for each unique type of plant
+for (t in Types) {
+  result <- round(mean(filter(CO2.chilled.250, Type == t)$uptake),2)
+  print(paste(t, "mean uptake:", result))
+}
+```
+
+3.2 __Recreate one of these dot plots in R using either Base or ggplot2 graphics.__
+```{r, message=FALSE}
+(
+  ggplot(CO2.chilled.250, aes(x = uptake, fill = Type))
+    + geom_dotplot(color="black")
+    + labs(
+      title = "Quebec shows higher uptake values than Mississippi \nwhen plants are chilled at an ambient CO2 of 250",
+    )
+)
+```
+
+3.3 __Report the test statistic, the parametric distribution being used for the test statistic (including degrees of freedom if appropriate), and p-value of the test.__
+$$
+ H_0: \mu_{Miss} - \mu_{Queb} = 0 
+$$
+$$
+ H_a: \mu_{Miss} - \mu_{Queb} \neq 0 
+$$
+
+```{r}
+# Plant types
+types <- c("Quebec", "Mississippi")
+
+# Subset the data by type
+Quebec <- CO2.chilled.250$uptake[CO2.chilled.250$Type == types[1]]
+Mississippi <- CO2.chilled.250$uptake[CO2.chilled.250$Type == types[2]]
+
+# t test (independent samples)
+output <- t.test(Quebec, Mississippi, mu = 0, alternative = "two.sided", conf.level = 0.95)
+
+# Normal output
+cat("Original output:")
+output
+
+# Clean output
+cat("Clean output:")
+pander(output)
+```
+3.4 __How many plants of each Type (Mississippi and Quebec) are in the sample of data?__
+```{r}
+CO2.chilled.250 %>%
+  count(Type)
+```
+
+3.5
+```{r}
+# qqplots for both subsets
+qqPlot(uptake ~ Type, data = CO2.chilled.250)
+```
+
+
+
+
+<!-- QUIZ END -->

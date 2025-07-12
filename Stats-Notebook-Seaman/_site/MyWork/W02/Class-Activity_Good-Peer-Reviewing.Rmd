@@ -1,0 +1,68 @@
+---
+title: "Class Activity - Good Peer Reviewing"
+author: "Andrew Seaman"
+date: "2025-01-13"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+# Load Libraries and View Data
+
+library(mosaic)
+library(tidyverse)
+library(pander)
+```
+
+## Boxplot
+Create a side-by-side boxplot where the y-axis shows the length of KidsFeet and the x-axis shows the gender of the child.
+```{r}
+boxplot(length ~ sex, 
+  data=KidsFeet)
+```
+
+## Five-number Summary
+Create a five-number summary table in support of the box plot.
+```{r}
+KidsFeet %>%
+  group_by(sex) %>%
+  summarise(            # Five-Number Summary:
+    min=min(length),            # Min
+    Q1=quantile(length, 0.25),  # Q1
+    median=median(length),      # Median
+    Q3=quantile(length, 0.75),  # Q3
+    max=max(length)             # Max
+  ) %>% 
+  pander()
+```
+
+# Bar Plot
+Create a bar plot that shows how many boys and how many girls are in the KidsFeet data set.
+```{r}
+barplot(table(KidsFeet$sex))
+```
+
+## Table of Counts
+Create a supporting table of counts for the bar plot.
+```{r}
+table(KidsFeet$sex)
+```
+
+# Scatter plot
+Create a scatter plot showing the Y-axis as length of `KidsFeet` and the X-axis as the width of `KidsFeet`.
+```{r}
+plot(length ~ width, data=KidsFeet)
+```
+
+## Correlation
+Compute the correlation of the scatter plot.
+```{r}
+KidsFeet %>%
+  summarise(Correlation = cor(width, length))
+```
+

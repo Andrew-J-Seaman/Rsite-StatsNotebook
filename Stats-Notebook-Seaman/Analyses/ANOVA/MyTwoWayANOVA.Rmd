@@ -1,0 +1,146 @@
+---
+title: "My Two-way ANOVA"
+subtitle: "W06 Analysis"
+author: "Andrew Seaman"
+date: "15-FEB-2025"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(mosaic)
+library(DT)
+library(pander)
+library(car)
+library(ggplot2)
+library(tidyverse)
+
+# Record your data from your own mini experiment in Excel.
+# Save the data as a .csv file in the Data folder of the Statistics-Notebook.
+
+# Read in the data
+data <- read.csv("../../Data/StudyHours/StudyHours_with_zeros.csv")
+
+StudyHours <- data %>% 
+  select(-Index, -Notes, -Hex_Code)
+
+Color_Guide <- data %>% 
+  select(Course, Hex_Code) %>% 
+  slice_head(n = 5)
+  
+```
+
+<!-- Instructions:
+
+Perform your own mini experiment using two factors that each have at least two levels. Analyze your data using a two-way ANOVA.
+
+Studying reaction time is recommended because the data is quickly collected.
+
+While you should use the warpbreaks example analyses as your guide on how to properly complete this analysis, you should also be creative in your final delivery of this analysis. If you copy the format and approach of the example analyses, be sure to give credit in your document to these example analyses. You could write something like, "This work is modeled after the [warpbreaks](https://byuistats.github.io/Statistics-Notebook/Analyses/ANOVA/Examples/warpbreaksTwoWayANOVA.html) analysis." Whatever you do, DO NOT use any of the written statements from the example analyses in your analysis unless you quote them directly and give credit. Using someone else's writing as your own without giving credit to the original author is plagiarism and is an Honor Code Violation. So do your own work. Plus, the more you try to write things in your own words, the more you will learn. Also, note that there aren't really any "rules" about exactly how your document should be organized. So be creative and organize your file in a way that makes sense to you, but still has all important elements.
+
+-->
+
+<BR />
+
+## Statistical Summary of Study Hours
+```{r, warning=FALSE}
+# Generate summary
+summary_studyHours <- StudyHours %>%
+  group_by(Course) %>%
+  summarise(
+    # Compute TOTAL study hours
+    total_hr = sum(Hours, na.rm = TRUE),
+    # Compute MEAN study hours
+    mean_hr = mean(Hours, na.rm = TRUE),
+    # Compute MAX study hours
+    max_hr = max(Hours, na.rm = TRUE),
+    # Compute MIN non-zero study hours
+    min.nonzero_hr = min(Hours[Hours != 0], na.rm = TRUE),
+    # Compute ST.DEV study hours
+    st.dev_hr = sd(Hours, na.rm = TRUE)
+  )
+
+# Print table with alignment settings
+pander(summary_studyHours,
+       justify = c("left", "right", "right", "right", "right", "right"))
+```
+
+Graphic 1
+```{r}
+# df <- summary_studyHours
+# 
+# ggplot(data=mean_studyHours, aes(x=Course, y=mean_hours)) +
+#   geom_bar(stat = "identity")
+```
+
+
+# Code Test Chunks
+
+Graphic T1
+```{r}
+summary_studyHours %>%
+  pivot_longer(cols = c(total_hr, mean_hr, max_hr, min.nonzero_hr, st.dev_hr),
+               names_to = "Metric", values_to = "Value") %>%
+  ggplot(aes(x = Course, y = Value, fill = Metric)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Study Hours by Course and Metric",
+       x = "Course",
+       y = "Hours") +
+  theme_minimal()
+```
+
+Graphic T2
+```{r}
+summary_studyHours %>%
+  pivot_longer(cols = c(total_hr, mean_hr, max_hr, min.nonzero_hr, st.dev_hr),
+               names_to = "Metric", values_to = "Value") %>%
+  ggplot(aes(x = Metric, y = Value, fill = Metric)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~ Course, scales = "free_y") +
+  labs(title = "Study Hours Metrics by Course",
+       x = "Metric",
+       y = "Hours") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Graphic T3
+
+
+```{r}
+# Join Color Guide to summary_studyHours
+summary_studyHours <- summary_studyHours %>%
+  left_join(Color_Guide, by = "Course")
+
+# Create faceted bar plot with color mapping and labeled axes
+summary_studyHours %>%
+  pivot_longer(cols = c(total_hr, mean_hr, max_hr, min.nonzero_hr, st.dev_hr),
+               names_to = "Metric", values_to = "Value") %>%
+  ggplot(aes(x = Course, y = Value, fill = Course)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~ Metric, scales = "free_y", labeller = label_both) +  # Add labels to each facet
+  scale_fill_manual(values = setNames(summary_studyHours$Hex_Code, summary_studyHours$Course)) +
+  labs(title = "Study Hours by Metric Across Courses",
+       x = "Course",
+       y = "Hours") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),  # Ensure x-axis labels appear
+        plot.title = element_text(face = "bold", size = 15, hjust = .5),
+        axis.title.x = element_text(face = "bold", size = 15),
+        axis.title.y = element_text(face = "bold", size = 15),
+        strip.text = element_text(size = 12, face = "bold"),
+        panel.grid.major.x = element_blank(),
+        legend.position = "top",
+        legend.title = element_blank()) +  
+  scale_x_discrete(drop = FALSE)  # Ensure all x-axis labels are displayed
+```
+
+
+
+

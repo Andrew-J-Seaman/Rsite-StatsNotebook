@@ -1,0 +1,115 @@
+---
+title: "Class Activity - Working with Data in R"
+author: "Andrew Seaman"
+date: "2025-01-10"
+output: 
+  html_document: 
+    css: ../../styles.css
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(plotly)
+```
+
+### table()
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+### filter()
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+### select()
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+### %>% The Pipe Operator
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+### summarize() and group_by()
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+### mutate()
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```

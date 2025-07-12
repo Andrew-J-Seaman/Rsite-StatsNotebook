@@ -1,0 +1,151 @@
+---
+title: "Kruskal-Wallis"
+subtitle: "Assesment Quiz"
+author: "Andrew Seaman"
+date: "2025-Jun-27"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+<!-- ------ -->
+<!-- SETUP: -->
+<!-- ------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(DT)
+library(pander)
+library(tidyverse)
+library(car)
+```
+
+<!-- Data -->
+```{r}
+salaries <- Salaries
+```
+
+<!-- Setup End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ---------- -->
+<!-- QUESTIONS: -->
+<!-- ---------- -->
+
+## 1.
+> _[Question]_
+
+[Response]
+
+```{r}
+# a.
+salaries %>% 
+  kruskal.test(salary ~ rank, data = .)
+  pander()
+```
+```{r}
+salaries %>% 
+boxplot(salary ~ rank, data = .)
+```
+```{r}
+salaries %>% 
+  favstats(price ~ fuel, data = .) %>% 
+  pander()
+```
+
+
+<!-- Q1. End -->
+
+
+
+
+
+
+
+
+
+
+## 2.
+> _[Question]_
+
+[Response]
+
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q2. End -->
+
+
+
+
+
+
+
+
+
+
+## 3.
+> _[Question]_
+
+[Response]
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q3. End -->
+
+
+
+
+
+
+
+
+
+<!-- Questions End -->
+
+
+
+
+<!-- -------- -->
+<!-- FILE END -->
+<!-- -------- -->

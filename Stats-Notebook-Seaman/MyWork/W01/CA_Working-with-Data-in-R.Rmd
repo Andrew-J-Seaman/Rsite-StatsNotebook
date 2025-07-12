@@ -1,0 +1,294 @@
+---
+title: "Working with Data in R"
+subtitle: "Class Activity"
+author: "Andrew Seaman"
+date: "2025-01-10"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(mosaic)
+library(tidyverse)
+library(DT)
+```
+
+
+
+### table()
+```{r}
+# a.
+speedCounts <-  table(cars$speed)
+speedCounts
+
+# b.
+birthdays <- table(KidsFeet$sex, KidsFeet$birthmonth)
+birthdays 
+```
+
+</br>
+
+### filter()
+> **Equals one “thing”**
+
+```{r}
+# a1. Equals one “thing”
+kids87 <- filter(KidsFeet, birthyear == 87)
+
+datatable(kids87, options = list(scrollX = TRUE, pageLength = 2))
+```
+
+```{r}
+# a2. Equals one “thing”
+KidsBoys <- filter(KidsFeet, sex == "B")
+
+datatable(KidsBoys, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Equals Any of Several “things”**
+
+```{r}
+# b. Equals Any of Several “things”
+KidsSummer <- filter(KidsFeet, birthmonth %in% c(6, 7, 8))
+
+datatable(KidsSummer, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Does not equal one thing**
+
+```{r}
+# c. Does not equal one thing
+KidsNotJosh <- filter(KidsFeet, name != "Josh")
+
+datatable(KidsNotJosh, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Less than**
+
+```{r}
+# d. Less than
+KidsLength24 <- filter(KidsFeet, length < 24)
+
+datatable(KidsLength24, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Less than or equal to**
+
+```{r}
+# e. Less than or equal to
+KidsLessEq24 <- filter(KidsFeet, length <= 24)
+
+datatable(KidsLessEq24, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Greater than…**
+
+```{r}
+# f. Greater than…
+KidsWider9 <- filter(KidsFeet, width > 9)
+
+datatable(KidsWider9, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Greater than or equal to**
+
+```{r}
+# g. Greater than or equal to
+KidsWiderEq9 <- filter(KidsFeet, width >= 9)
+
+datatable(KidsWiderEq9, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **The “and” statement**
+
+```{r}
+# h. The “and” statement
+GirlsWide9 <- filter(KidsFeet, sex == "G" & width > 9)
+
+datatable(GirlsWide9, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **The "or" statement**
+
+```{r}
+# i. The "or" statement
+KidsWinter <- filter(KidsFeet, birthmonth <= 2 | birthmonth >= 11)
+
+datatable(KidsWinter, options = list(scrollX = TRUE, pageLength = 2))
+```
+
+</br>
+
+### select()
+```{r}
+# a.
+KidsNameBirth <- select(KidsFeet, c(name, birthyear, birthmonth))
+
+datatable(KidsNameBirth, options = list(scrollX = TRUE, pageLength = 3))
+
+# b.
+KidsBigLength <- select(KidsFeet, c(biggerfoot, length))
+
+datatable(KidsBigLength, options = list(scrollX = TRUE, pageLength = 3))
+```
+
+</br>
+
+### %>% The Pipe Operator
+```{r}
+# a. shortcut: Ctr + Shift + M
+Kids2 <- KidsFeet %>% 
+  filter(birthyear == 87) %>% 
+  select(c(name, birthyear, length))
+
+datatable(Kids2, options = list(scrollX = TRUE, pageLength = 3))
+```
+
+</br>
+
+### summarize() and group_by()
+```{r}
+# a.
+KidsFeet %>% 
+  summarise(aveLength = mean(length))
+
+# b.
+KidsFeet %>% 
+  summarise(aveLength = mean(length),
+            sdLength = sd(length),
+            sampleSize = n())
+  
+# c.
+KidsFeet %>% 
+  group_by(sex) %>% 
+  summarise(aveLength = mean(length),
+            sdLength = sd(length),
+            sampleSize = n())
+```
+
+</br>
+
+### mutate()
+> **mtcars2**
+
+```{r}
+# a.
+mtcars2 <- mtcars %>% 
+  mutate(
+    cyl_factor = as.factor(cyl),
+    weight = wt * 1000
+  )
+
+datatable(mtcars2, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Kids3**
+
+```{r}
+# b.
+Kids3 <- KidsFeet %>% 
+  mutate(
+    season = case_when(
+      birthmonth %in% c(12, 1, 2) ~ "Winter",
+      birthmonth %in% c(3, 4, 5) ~ "Spring",
+      birthmonth %in% c(6, 7, 8) ~ "Summer",
+      birthmonth %in% c(9, 10, 11) ~ "Fall"
+    )
+  )
+
+datatable(Kids3, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Kids4**
+
+```{r}
+# c.
+Kids4 <- KidsFeet %>% 
+  mutate(
+    lengthIN = length / 2.54,
+    widthIN = width / 2.54,
+    lengthSplit = ifelse(length < median(length),
+      "Under 50th Percentile",
+      "50th Percentile or Greater"),
+    gender = case_when(
+      sex == "B" ~ "Boy",
+      sex == "G" ~ "Girl"
+    )
+  )
+
+datatable(Kids4, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **airquality2**
+
+```{r}
+# d.
+airquality2 <- airquality %>% 
+  mutate(Month_Full = month(Month, label = TRUE, abbr = FALSE))
+
+datatable(airquality2, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Other case_when( ) Uses**
+
+```{r}
+# e. Other case_when( ) Uses
+Kids5 <- KidsFeet %>% 
+  mutate(
+    labels = case_when(length > 25 & width > 9 ~ "Long and Wide",
+      length < 25 & width > 9 ~ "Short and Wide",
+      length > 25 & width < 9 ~ "Long and Thin",
+      length < 25 & width < 9 ~ "Short and Thin"
+  )
+)
+
+datatable(Kids5, options = list(scrollX = TRUE, pageLength = 2))
+```
+</br>
+
+> **Further examples of Mutate**
+
+```{r, include=TRUE, echo=TRUE, eval=FALSE}
+# f. replace_na( ) Function
+newDataName <- dataName %>%
+  mutate(newColumnName = replace_na(columnName, value))
+
+# g. as.numeric( ) Function
+newDataName <- dataName %>%
+  mutate(newColumnName = as.numeric(columnName))
+
+# h. as.character( ) Function
+newDataName <- dataName %>%
+  mutate(newColumnName = as.character(columnName))
+
+# i. as.factor( ) Function
+newDataName <- dataName %>%
+  mutate(newColumnName = as.factor(columnName))
+
+# j. Pull Out Numbers Only with parse_number(…)
+newDataName <- dataName %>%
+  mutate(newColumnName = parse_number(columnName))
+
+# So stuff like c("500+", "20", "80 ", "15a") would become
+# just c(500, 20, 80, 15). That's nice!
+```
+

@@ -1,0 +1,346 @@
+---
+title: "ANOVA"
+subtitle: "Assesment Quiz"
+author: "Andrew Seaman"
+date: "2025-MM-DD"
+output: 
+  html_document:
+    theme: journal
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+<!-- ------ -->
+<!-- SETUP: -->
+<!-- ------ -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+# Load libraries
+library(mosaic)
+library(DT)
+library(pander)
+library(tidyverse)
+```
+
+<!-- Setup End -->
+
+
+
+
+
+
+
+
+
+
+<!-- ---------- -->
+<!-- QUESTIONS: -->
+<!-- ---------- -->
+
+## 1.
+> _[Question]_
+
+[Response]
+
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q1. End -->
+
+
+
+
+
+
+
+
+
+
+## 2.
+> _[Question]_
+
+[Response]
+
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q2. End -->
+
+
+
+
+
+
+
+
+
+
+## 3.
+> _[Question]_
+
+[Response]
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q3. End -->
+
+
+
+
+
+
+
+
+
+
+## 4.
+> _[Question]_
+
+[Response]
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q4. End -->
+
+
+
+
+
+
+
+
+
+
+## 5.
+> _[Question]_
+
+[Response]
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q5. End -->
+
+
+
+
+
+
+
+
+
+
+## 6.
+> _[Question]_
+
+[Response]
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q6. End -->
+
+
+
+
+
+
+
+
+
+
+## 7.
+> _[Question]_
+
+[Response]
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q7. End -->
+
+
+
+
+
+
+
+
+
+
+## 8.
+> _[Question]_
+
+[Response]
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q8. End -->
+
+
+
+
+
+
+
+
+
+
+## 9.
+> _[Question]_
+
+[Response]
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q9. End -->
+
+
+
+
+
+
+
+
+
+
+## 10.
+> _[Question]_
+
+[Response]
+```{r}
+# a.
+
+
+# b.
+
+
+# c.
+
+
+# d.
+
+
+```
+
+<!-- Q10. End -->
+
+
+<!-- Questions End -->
+
+
+
+
+<!-- -------- -->
+<!-- FILE END -->
+<!-- -------- -->
