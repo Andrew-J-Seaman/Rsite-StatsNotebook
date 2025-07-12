@@ -1,0 +1,512 @@
+mutate(
+`Month New` = paste0(Month, " (", month.name[Month], ")"),  # Use paste0() instead of cat()
+`Mean Temp` = mean(Temp, na.rm = TRUE)
+) %>%
+ungroup() %>%  # Move ungroup() earlier with a proper pipe
+select(
+Month = `Month New`,  # Rename columns correctly
+`Mean Temperature at La Guardia Airport (degrees Fahrenheit)` = `Mean Temp`
+) %>%
+arrange(Month) %>%  # Arrange by Month correctly
+pander()
+# a.
+airquality %>%
+group_by(Month) %>%
+mutate(
+`Month New` = paste0(Month, " (", month.abb[Month], ")"),  # Use paste0() instead of cat()
+`Mean Temp` = mean(Temp, na.rm = TRUE)
+) %>%
+ungroup() %>%  # Move ungroup() earlier with a proper pipe
+select(
+Month = `Month New`,  # Rename columns correctly
+`Mean Temperature at La Guardia Airport (degrees Fahrenheit)` = `Mean Temp`
+) %>%
+arrange(Month) %>%  # Arrange by Month correctly
+pander()
+# a.
+airquality %>%
+group_by(Month) %>%
+mutate(
+`Month New` = paste0(Month, " (", month.abb[Month], ")"),  # Use paste0() instead of cat()
+`Mean Temp` = mean(Temp, na.rm = TRUE)
+) %>%
+ungroup() %>%  # Move ungroup() earlier with a proper pipe
+select(
+Month = first(`Month New`),  # Rename columns correctly
+`Mean Temperature at La Guardia Airport (degrees Fahrenheit)` = `Mean Temp`
+) %>%
+arrange(Month) %>%  # Arrange by Month correctly
+pander()
+# a.
+airquality %>%
+group_by(Month) %>%
+summarise(
+"Month Number" = first(Month),  # Get the first value of the group
+"Month Name" = first(month.name[Month]),  # Get the first occurrence of the month name
+"Mean Temp" = mean(Temp, na.rm = TRUE)  # Compute the mean temperature
+) %>%
+ungroup() %>%  # Remove grouping for final processing
+select(
+Month = paste0(`Month Number`, " (", month.abb[`Month Number`], ")"),  # Rename column properly
+`Mean Temperature at La Guardia Airport (degrees Fahrenheit)` = `Mean Temp`
+) %>%
+arrange(Month) %>%  # Sort correctly by month number
+pander()
+# a.
+airquality %>%
+group_by(Month) %>%
+mutate(
+`Month Number` = first(Month),
+`Month New` = paste0(Month, " (", month.abb[Month], ")"),  # Use paste0() instead of cat()
+`Mean Temp` = mean(Temp, na.rm = TRUE)
+) %>%
+ungroup() %>%  # Move ungroup() earlier with a proper pipe
+select(
+Month = `Month New`,  # Rename columns correctly
+`Mean Temperature at La Guardia Airport (degrees Fahrenheit)` = `Mean Temp`
+) %>%
+arrange(Month) %>%  # Arrange by Month correctly
+pander()
+# a.
+airquality %>%
+group_by(Month) %>%
+mutate(
+`Month Number` = first(Month),
+`Month New` = first(paste0(Month, " (", month.abb[Month], ")")),  # Use paste0() instead of cat()
+`Mean Temp` = mean(Temp, na.rm = TRUE)
+) %>%
+ungroup() %>%  # Move ungroup() earlier with a proper pipe
+select(
+Month = `Month New`,  # Rename columns correctly
+`Mean Temperature at La Guardia Airport (degrees Fahrenheit)` = `Mean Temp`
+) %>%
+arrange(Month) %>%  # Arrange by Month correctly
+pander()
+# a.
+airquality %>%
+group_by(Month) %>%
+mutate(
+`Month Number` = first(Month),
+`Month New` = first(paste0(Month, " (", month.abb[Month], ")")),  # Use paste0() instead of cat()
+`Mean Temp` = first(mean(Temp, na.rm = TRUE))
+) %>%
+ungroup() %>%  # Move ungroup() earlier with a proper pipe
+select(
+Month = `Month New`,  # Rename columns correctly
+`Mean Temperature at La Guardia Airport (degrees Fahrenheit)` = `Mean Temp`
+) %>%
+arrange(Month) %>%  # Arrange by Month correctly
+pander()
+# a.
+airquality %>%
+group_by(Month) %>%
+mutate(
+`Month Number` = first(Month),  # Ensure single row per group
+`Month New` = first(paste0(Month, " (", month.abb[Month], ")")),  # Format month name
+`Mean Temp` = first(mean(Temp, na.rm = TRUE))  # Compute mean once per group
+) %>%
+ungroup() %>%
+distinct(`Month New`, .keep_all = TRUE) %>%  # Keep only one row per group
+select(
+Month = `Month New`,  # Rename for final output
+`Mean Temperature at La Guardia Airport (degrees Fahrenheit)` = `Mean Temp`
+) %>%
+arrange(`Month`) %>%  # Arrange correctly
+pander()
+View(Rider)
+library(mosaicData)
+View(Rider)
+View(Riders)
+?Riders
+# a.
+Riders %>%
+group_by(day) %>%
+summarise(
+`Day of the Week` = first(day),
+`Total Number of Riders Observed` = first(sum(riders))
+) %>%
+ungroup() %>%
+pander()
+# a.
+Riders %>%
+group_by(day) %>%
+summarise(
+`Day of the Week` = first(day),
+`Total Number of Riders Observed` = first(sum(riders))
+) %>%
+ungroup() %>%
+select(
+`Day of the Week`,
+`Total Number of Riders Observed`
+)
+pander()
+# a.
+Riders %>%
+group_by(day) %>%
+summarise(
+`Day of the Week` = first(day),
+`Total Number of Riders Observed` = first(sum(riders))
+) %>%
+ungroup() %>%
+select(
+`Day of the Week`,
+`Total Number of Riders Observed`
+) %>%
+pander()
+# a.
+Riders %>%
+group_by(day) %>%
+summarise(
+`Day of the Week` = first(day),
+`Total Number of Riders Observed` = first(sum(riders))
+) %>%
+ungroup() %>%
+distinct(`Day of the Week`, .keep_all = TRUE) %>%
+select(
+`Day of the Week`,
+`Total Number of Riders Observed`
+) %>%
+pander()
+# a.
+Riders %>%
+group_by(day) %>%
+summarise(
+`Day of the Week` = first(day),
+`Total Number of Riders Observed` = first(sum(riders))
+) %>%
+ungroup() %>%
+distinct(`Day of the Week`, .keep_all = TRUE) %>%
+mutate(`Day of the Week` = factor(`Day of the Week`, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))) %>%  # Set order
+arrange(`Day of the Week`) %>%  # Ensure sorting respects new order
+select(
+`Day of the Week`,
+`Total Number of Riders Observed`
+) %>%
+pander()
+# a.
+Riders %>%
+group_by(day) %>%
+summarise(
+`Day of the Week` = first(day),
+`Total Number of Riders Observed` = first(sum(riders))
+) %>%
+ungroup() %>%
+distinct(`Day of the Week`, .keep_all = TRUE) %>%
+mutate(
+`Day of the Week` = factor(
+paste0(`Day of the Week`, "s"),  # Append "s" to each day
+levels = paste0(c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"), "s")  # Maintain correct order
+)
+) %>%
+arrange(`Day of the Week`) %>%  # Ensure sorting respects new order
+select(
+`Day of the Week`,
+`Total Number of Riders Observed`
+) %>%
+pander()
+View(mtcars)
+?mtcars
+# a.
+cat("It contains data from the 1974 Motor Trend US magazine.")
+# b.
+count(var(mtcars))
+# b.
+mtcars %>% summarise(n_variables = ncol(.))
+# c.
+record_count <- length(mtcars)  # Count number of columns
+cat(var_record)
+# c.
+record_count <- length(mtcars)  # Count number of columns
+cat(record_count)
+# c.
+record_count <- height(mtcars)  # Count number of columns
+# c.
+record_count <- nrow(mtcars)  # Count number of columns
+cat(record_count)
+# d.
+mtcars %>%
+filter(cyl %in% c(4, 6, 8)) %>%
+table()
+# d.
+mtcars %>%
+filter(cyl %in% c(4, 6, 8)) %>%
+summarise(
+`Cylinders` = cyl,
+`Number of Vehicles in the Dataset` = sum(cyl)
+) %>%
+table()
+# d.
+mtcars %>%
+filter(cyl %in% c(4, 6, 8)) %>%
+summarise(
+`Cylinders` = cyl,
+`Number of Vehicles in the Dataset` = sum(cyl)
+) %>%
+table() %>%
+pander()
+# d.
+mtcars %>%
+filter(cyl %in% c(4, 6, 8)) %>%
+group_by(cyl) %>%
+summarise(
+`Cylinders` = first(cyl),
+`Number of Vehicles in the Dataset` = first(sum(cyl))
+) %>%
+ungroup() %>%
+table() %>%
+pander()
+# d.
+mtcars %>%
+filter(cyl %in% c(4, 6, 8)) %>%
+summarise(
+`Cylinders` = first(cyl),
+`Number of Vehicles in the Dataset` = first(sum(cyl))
+) %>%
+table() %>%
+pander()
+# d.
+mtcars %>%
+filter(cyl %in% c(4, 6, 8)) %>%
+summarise(
+`Cylinders` = cyl,
+`Number of Vehicles in the Dataset` = sum(cyl)
+) %>%
+table() %>%
+pander()
+# d.
+mtcars %>%
+filter(cyl %in% c(4, 6, 8)) %>%
+group_by(cyl) %>%  # Group by cylinder type
+summarise(
+`Cylinders` = first(cyl),  # Keep only one row per group
+`Number of Vehicles in the Dataset` = n()  # Count vehicles per cylinder group
+) %>%
+ungroup() %>%
+pander()
+# d.
+mtcars %>%
+filter(cyl %in% c(4, 6, 8)) %>%
+group_by(cyl) %>%  # Group by cylinder type
+summarise(
+`Cylinders` = first(cyl),  # Keep only one row per group
+`Number of Vehicles in the Dataset` = n()  # Count vehicles per cylinder group
+) %>%
+ungroup() %>%
+select(`Cylinders`, `Number of Vehicles in the Dataset`) %>%
+pander()
+# e.
+mtcars %>%
+select(mpg, am) %>%
+pander()
+# e.
+mtcars %>%
+select(mpg, am) %>%
+mutate(
+`Transmission` = ifelse(am== 0, "Automatic", "Manual")
+) %>%
+pander()
+# e.
+mtcars %>%
+mutate(
+`Transmission` = ifelse(am== 0, "Automatic", "Manual")
+) %>%
+select(`Transmission`, mpg) %>%
+pander()
+# e.
+mtcars %>%
+mutate(
+`Transmission` = ifelse(am== 0, "Automatic", "Manual")
+) %>%
+select(`Transmission`, mpg) %>%
+pander()
+# e.
+mtcars %>%
+group_by(am) %>%
+summarise(
+`Transmission` = first(ifelse(am== 0, "Automatic", "Manual")),
+`Mean Gas Mileage for 4 Cylinder mtcars Vehicles (mpg)` = first(mean(mpg, na.rm = TRUE))
+) %>%
+ungroup() %>%
+select(`Transmission`, mpg) %>%
+pander()
+# e.
+mtcars %>%
+group_by(am) %>%
+summarise(
+`Transmission` = first(ifelse(am== 0, "Automatic", "Manual")),
+`Mean Gas Mileage for 4 Cylinder mtcars Vehicles (mpg)` = first(mean(mpg, na.rm = TRUE))
+) %>%
+ungroup() %>%
+#select(`Transmission`, mpg) %>%
+pander()
+# e.
+mtcars %>%
+group_by(am) %>%
+summarise(
+`Transmission` = first(ifelse(am== 0, "Automatic", "Manual")),
+`Mean Gas Mileage for 4 Cylinder mtcars Vehicles (mpg)` = first(mean(mpg, na.rm = TRUE))
+) %>%
+ungroup() %>%
+select(`Transmission`, `Mean Gas Mileage for 4 Cylinder mtcars Vehicles (mpg)`) %>%
+pander()
+# f.
+mtcars %>%
+filter(cyl == 8) %>%
+group_by(am) %>%
+summarise(
+`Transmission` = first(ifelse(am== 0, "Automatic", "Manual")),
+`Mean Quarter Mile Time for 8 Cylinder mtcars Vehicles (sec)` = first(mean(qsec, na.rm = TRUE))
+) %>%
+ungroup() %>%
+select(`Mean Quarter Mile Time for 8 Cylinder mtcars Vehicles (sec)`) %>%
+pander()
+# f.
+mtcars %>%
+filter(cyl == 8) %>%
+group_by(am) %>%
+summarise(
+`Transmission` = first(ifelse(am== 0, "Automatic", "Manual")),
+`Mean Quarter Mile Time for 8 Cylinder mtcars Vehicles (sec)` = first(mean(qsec, na.rm = TRUE))
+) %>%
+ungroup() %>%
+select(`Mean Quarter Mile Time for 8 Cylinder mtcars Vehicles (sec)`) %>%
+pander()
+# f.
+mtcars %>%
+filter(cyl == 8) %>%
+group_by(am) %>%
+summarise(
+`Transmission` = first(ifelse(am== 0, "Automatic", "Manual")),
+`Mean Quarter Mile Time for 8 Cylinder mtcars Vehicles (sec)` = first(mean(qsec, na.rm = TRUE))
+) %>%
+ungroup() %>%
+select(`Transmission`, `Mean Quarter Mile Time for 8 Cylinder mtcars Vehicles (sec)`) %>%
+pander()
+# g.
+mtcars %>%
+filter(
+cyl = 6,
+am = 0
+) %>%
+max() %>%
+pull(wt) %>%
+# g.
+mtcars %>%
+filter(
+cyl = 6,
+am = 0
+) %>%
+max() %>%
+pull(wt)
+# g.
+mtcars %>%
+filter(
+cyl = 6,
+am = 0
+) %>%
+max(wt) %>%
+pull(wt)
+# g.
+mtcars %>%
+filter(
+cyl == 6,
+am == 0
+) %>%
+max(wt) %>%
+pull(wt)
+# g.
+mtcars %>%
+filter(
+cyl == 6,
+am == 0
+) %>%
+max() %>%
+pull(wt)
+# g.
+mtcars %>%
+filter(cyl == 6, am == 0) %>%
+max()
+# g.
+mtcars %>%
+filter(cyl == 6, am == 0) %>%
+max(wt)
+# g.
+mtcars %>%
+filter(cyl == 6, am == 0) %>%
+pull(wt) %>%
+max(na.rm = TRUE)
+# g.
+mtcars %>%
+filter(cyl == 6, am == 0) %>%
+pull(wt) %>%
+max(na.rm = TRUE) * 1000
+# g.
+mtcars %>%
+filter(cyl == 6, am == 0) %>%
+pull(wt) %>%
+max(na.rm = TRUE)
+# g.
+mtcars %>%
+filter(cyl == 6, am == 0) %>%
+pull(wt) %>%
+round(max(na.rm = TRUE), 1)
+# g.
+mtcars %>%
+filter(cyl == 6, am == 0) %>%
+pull(wt) %>%
+max(na.rm = TRUE) %>%
+round(,1)
+# g.
+mtcars %>%
+filter(cyl == 6, am == 0) %>%
+pull(wt) %>%
+max(na.rm = TRUE) %>%
+round(1)
+# g.
+lbs <- mtcars %>%
+filter(cyl == 6, am == 0) %>%
+pull(wt) %>%
+max(na.rm = TRUE) %>%
+round(1)
+cat(lbs, "k lbs")
+# g.
+auto_lbs <- mtcars %>%
+filter(cyl == 6, am == 0) %>%
+pull(wt) %>%
+max(na.rm = TRUE) %>%
+round(1)
+cat(lbs, "k lbs")
+# g.
+auto_lbs <- mtcars %>%
+filter(cyl == 6, am == 0) %>%
+pull(wt) %>%
+max(na.rm = TRUE)
+round_auto_lbs <- round(auto_lbs, 1)
+cat(round_auto_lbs, "k lbs")
+# h.
+manual_lbs <- mtcars %>%
+filter(cyl == 6, am == 1) %>%
+pull(wt) %>%
+max(na.rm = TRUE) %>%
+diff <- auto_lbs - manual_lbs
+# h.
+manual_lbs <- mtcars %>%
+filter(cyl == 6, am == 1) %>%
+pull(wt) %>%
+max(na.rm = TRUE)
+diff <- auto_lbs - manual_lbs
+round_manual_lbs <- round(diff, 1)
+cat(round_manual_lbs, "k lbs")
+# c. Which birth month is most common among these sampled children?
+KidsFeet %>%
+mutate("Birth Month" = first(month.abb[birthmonth])) %>%
+table() %>%
+pander()
+# Load libraries
+library(tidyverse)
+library(mosaic)
+library(mosaicData)
+library(DT)
+library(pander)
+library(dplyr)
+rstudioapi::restartSession()

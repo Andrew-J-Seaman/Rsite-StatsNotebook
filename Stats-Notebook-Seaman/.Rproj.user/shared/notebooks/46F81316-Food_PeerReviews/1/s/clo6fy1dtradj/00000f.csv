@@ -1,0 +1,6 @@
+"0","# Data import: source file variables for later construction"
+"0","file_name <- ""food.csv"""
+"0","file_path <- ""/Users/andrewseaman/Desktop/Semester/MATH325/Stats-Notebook-Seaman/Data/"""
+"0",""
+"0","# Data import: construct the full file path and import the data"
+"0","food <- read_csv(file.path(file_path, file_name)) "

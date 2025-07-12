@@ -1,0 +1,32 @@
+{
+    "id": "DEB0BFF3",
+    "path": "~/Desktop/Semester/MATH325/Stats-Notebook-Seaman/Analyses/Kruskal-Wallis Test/Food.Rmd",
+    "project_path": "Analyses/Kruskal-Wallis Test/Food.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1751316707970.0,
+    "source_on_save": true,
+    "relative_order": 6,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "10,16",
+        "scrollLine": "0",
+        "last_setup_crc32": "",
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "docOutlineVisible": "0",
+        "rmdVisualModeLocation": "246:0",
+        "rmdVisualCollapsedChunks": ""
+    },
+    "folds": "681|6|683|0|\n691|6|693|0|\n701|6|703|0|\n759|6|762|0|\n844|18|852|0|\n858|18|862|0|\n866|18|870|0|\n874|18|878|0|\n1246|63|1319|0|\n",
+    "lastKnownWriteTime": 1752101725,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1752101725199,
+    "read_only": false,
+    "read_only_alternatives": []
+}

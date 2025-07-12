@@ -1,0 +1,4 @@
+"0","# Clean the data"
+"0","food <- food %>%"
+"0","  filter(!is.na(GPA)) %>% # Remove nulls"
+"0","  mutate(GPA = as.numeric(as.character(GPA))) # Convert GPA to numeric"

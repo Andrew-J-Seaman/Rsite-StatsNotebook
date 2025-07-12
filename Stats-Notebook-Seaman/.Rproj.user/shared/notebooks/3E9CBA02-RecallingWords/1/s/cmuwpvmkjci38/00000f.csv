@@ -1,0 +1,5 @@
+"0","# SUBSETTING"
+"0","# ————————————————————————————————————————————————————————————————————————————————————"
+"0","# Subset data (meshed vs. before)"
+"0","Friendly2 <- Friendly %>% "
+"0","  filter(condition %in% c(""Meshed"", ""Before""))"

@@ -1,0 +1,6 @@
+"0","# Utility: copy today's date to clipboard, only when editing"
+"0","if (interactive()) {"
+"0","  clipr::write_clip(Sys.Date()) # Date format: 'yyyy-mm-dd'"
+"0","}"
+"0",""
+"0","# Next, paste after 'LAST UPDATED' above"

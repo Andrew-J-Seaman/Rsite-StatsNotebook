@@ -1,0 +1,111 @@
+name: "statistics-notebook"
+navbar:
+  title: "<img src='Images/snlogo.png' alt='Statistics Notebook Logo' style='height: 30px; margin: -5px 0px'>"
+  left:
+    - text: "R Help" # ........................................................ Section 1
+      menu:
+        - text: "R Notes & My Work"
+          href: RCheatSheetsAndNotes.html
+        - text: "R Commands"
+          href: RCommands.html
+        - text: "R Markdown Hints"
+          href: RMarkdownHints.html
+        - text: "Data Sources"
+          href: DataSources.html
+        - text: "External Links"
+          href: External-Links.html
+    - text: "Analyses" # ...................................................... Section 2
+      menu:
+        - text: "Good Example Analysis"
+          href: ./Analyses/StudentHousing.html
+        - text: "Poor Example Analysis"
+          href: ./Analyses/StudentHousingPOOR.html
+        - text: "1) Rent"
+          href: ./Analyses/Rent.html
+        - text: "2) Stephanie"
+          href: ./Analyses/Stephanie.html
+        - text: "3) High School Seniors"
+          href: ./Analyses/t Tests/HighSchoolSeniors.html
+        - text: "4) Recalling Words"
+          href: ./Analyses/Wilcoxon Tests/RecallingWords.html
+        - text: "5) Food"
+          href: ./Analyses/Kruskal-Wallis Test/Food.html
+        - text: "6) My Two-way ANOVA"
+          href: ./Analyses/ANOVA/MyTwoWayANOVA.html
+        - text: "7) My Simple Linear Regression"
+          href: ./Analyses/Linear Regression/MySimpleLinearRegression.html
+        - text: "8) Car Prices"
+          href: ./Analyses/Linear Regression/CarPrices.html
+        - text: "9) My Logistic Regression"
+          href: ./Analyses/Logistic Regression/MyLogisticRegression.html
+        - text: "10) My Chi-sqaured Test"
+          href: ./Analyses/Chi Squared Tests/MyChiSquaredTest.html
+    - text: "Describing Data" # ............................................... Section 3
+      menu:
+        - text: "Graphical Summaries"
+          href: GraphicalSummaries.html
+        - text: "Numerical Summaries"
+          href: NumericalSummaries.html
+    - text: "Making Inference" # .............................................. Section 4
+      menu:
+        - text: "Making Inference"
+          href: MakingInference.html
+        - text: "t Tests"
+          href: tTests.html
+        - text: "Wilcoxon Tests"
+          href: WilcoxonTests.html
+        - text: "Kruskal-Wallis Test"
+          href: Kruskal.html
+        - text: "ANOVA"
+          href: ANOVA.html
+        - text: "Linear Regression"
+          href: LinearRegression.html
+        - text: "Logistic Regression"
+          href: LogisticRegression.html
+        - text: "Chi Squared Tests"
+          href: ChiSquaredTests.html
+        - text: "Randomization"
+          href: PermutationTests.html
+          
+output_dir: '.'
+
+
+# THEMES
+# —————————————————————————————————————————————————————
+
+# Defaults (html_document)
+  # 1 default         <--- Navbar: 
+  # 2 cerulean        <--- Navbar: 
+  #                   <------------------- Preffered: Brother Saunders (stats notebook)
+  # 3 journal         <--- Navbar: 
+  #                   <------------------- Preffered: Andrew Seaman ("MyWork" subdirectory)
+  # 4 flatly          <--- Navbar: 
+  # 5 readable        <--- Navbar: 
+  # 6 spacelab        <--- Navbar: grey (faint)
+  # 7 united          <--- Navbar: 
+  # 8 cosmo           <--- Navbar: 
+  # 9 lumen           <--- Navbar: 
+  # 10 paper          <--- Navbar: 
+  # 11 sandstone      <--- Navbar: 
+  # 12 simplex        <--- Navbar: 
+  # 13 yeti           <--- Navbar: 
+  
+# Prettydoc (html_pretty)
+  # 1 pygments
+  # 2 tango           <------------------- Preffered: Brother Saunders (stats notebook)
+  # 3 espresso
+  # 4 zenburn
+  # 5 kate
+  # 6 monochrome
+  # 7 breezedark      <------------------- Attempting: Andrew Seaman 6/6/25
+  # 8 haddock
+  # 9 haddock-gray
+  # 10 haddock-blue
+  # 11 bsl      
+output: 
+  html_document:
+    theme: default
+    css: styles.css
+    highlight: breezedark
+    include:
+      in-header: /header.html

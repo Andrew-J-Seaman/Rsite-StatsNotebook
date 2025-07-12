@@ -1,0 +1,40 @@
+"0","# ————————————————————————————————————————————————————————————————————————————"
+"0","#              Create the 'Code Table of Contents' (Code Toc)"
+"0","# ————————————————————————————————————————————————————————————————————————————"
+"0","# Libraries"
+"0","library(pander)"
+"0",""
+"0","# Lists (****MANUAL EDITING REQUIRED****)"
+"0","sections <- c(""SETUP"", ""INSTRUCTIONS"", ""BACKGROUND"", ""EXPLORATION"", ""ANALYSIS"")"
+"0","start_line <- c(92, 166, 594, 687, 875) # Rough start of section"
+"0","end_line <- c(155, 568, 576, 864, 1113)    # Rough end of section"
+"0",""
+"0","# Dataframe"
+"0","code_toc <- data.frame("
+"0","  Section = sections,"
+"0","  Start = start_line,"
+"0","  End = end_line"
+"0",")"
+"0",""
+"0","# Markdown formatted dataframe"
+"0","formatted_code_toc <- pander(code_toc)"
+"1","
+-----------------------------
+   Section      Start   End  
+-------------- ------- ------
+    SETUP        92     155  
+
+ INSTRUCTIONS    166    568  
+
+  BACKGROUND     594    576  
+
+ EXPLORATION     687    864  
+
+   ANALYSIS      875    1113 
+-----------------------------
+
+"
+"0","# Copy markdown formatted dataframe (paste below)"
+"0","if (interactive()) {"
+"0","  clipr::write_clip(formatted_code_toc)"
+"0","}"
